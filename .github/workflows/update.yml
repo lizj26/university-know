@@ -1,0 +1,72 @@
+# 定时更新站点数据：抓取四校 → 重建 index.html → 提交回 main 分支
+# → GitHub Pages 检测到 main 推送自动发布（免费、不限部署次数）。
+#
+# 托管说明：
+# - 当前托管在 GitHub Pages（Settings → Pages → Deploy from a branch → main / root）。
+# - netlify.toml 保留在仓库里：以后要切回 Netlify，连接仓库即可，无需改代码
+#   （注意 Netlify 生产部署 15 积分/次，免费档 300 积分/月只够每天 1 次不到）。
+#
+# 注意：
+# - GitHub 的 cron 使用 UTC，下面两个时刻 = 北京时间 08:00 / 20:00；
+#   GitHub 在高峰期可能延迟几分钟到十几分钟触发，属正常现象。
+# - 整轮抓取约 60~75 分钟（浙大需慢速单跑），timeout 给了 120 分钟的余量。
+# - 抓取脚本自带写入保护：某轮抓得不完整时会保留旧数据，
+#   不会因为一轮网络故障把 data/*.json 写坏。
+# - 运行器在境外（Azure），若高校站点对境外 IP 限制导致某轮失败，
+#   下一轮会自动重试；持续失败再考虑切回本机定时任务。
+
+name: 定时更新站点数据
+
+on:
+  schedule:
+    - cron: "0 0 * * *"    # 北京时间 08:00
+    - cron: "0 12 * * *"   # 北京时间 20:00
+  workflow_dispatch:        # 允许在 Actions 页面手动触发
+
+# 同一时刻只允许一个更新任务在跑，避免定时与手动触发撞车
+concurrency:
+  group: site-update
+  cancel-in-progress: false
+
+permissions:
+  contents: write           # 允许把更新后的数据提交回仓库
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"   # 官网链路仅用标准库，无需安装任何依赖
+
+      - name: 抓取清华（pkuknow.cn 聚合接口）
+        run: python cloud_update.py --skip-campus
+
+      - name: 抓取上交 / 西交（两校无限速问题，正常并发）
+        run: python fetch_campus.py --campus sjtu,xjtu
+
+      # 浙大站群 WAF 按来源 IP 对**整个 zju.edu.cn 域名**累计限流：
+      #   --workers 1 / --delay 2.5 / --domain-delay 1.0 / --rotate / --max-per-source 10
+      - name: 抓取浙大（单并发慢速 + 域名级限速 + 顺序轮换）
+        run: python fetch_campus.py --campus zju --workers 1 --delay 2.5 --domain-delay 1.0 --rotate --max-per-source 10
+
+      - name: 统一重建 index.html
+        if: always()
+        run: python refresh.py --build-only
+
+      - name: 提交更新（有变化才提交）
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html data/*.json _work/registry-*.json
+          if git diff --cached --quiet; then
+            echo "本轮无内容变化，跳过提交"
+            exit 0
+          fi
+          git commit -m "chore: 定时更新 $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git pull --rebase
+          git push
