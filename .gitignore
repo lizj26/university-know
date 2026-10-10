@@ -1,0 +1,30 @@
+data/*.bak
+build/reports/
+_work/items-*.json
+_work/run.log
+
+# ---- 敏感凭据：绝对不要提交 ----
+_work/wechat/wxmp-cookie-header*.txt
+_work/wechat/wxmp-cookies*.json
+_work/wechat/wxmp-token*.txt
+_work/wechat/.cache/
+
+# ---- 打包产物 ----
+deploy/serverless/dist/
+deploy/edgeone/dist/
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# ---- 编辑器 / 系统 ----
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# ---- 本地助手工作区 ----
+.workbuddy/
