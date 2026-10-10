@@ -1,0 +1,23 @@
+# Netlify 部署配置（备用方案，当前主用 GitHub Pages）
+# 本站是纯静态单文件站点：index.html 内嵌全部数据，无需任何构建步骤。
+# GitHub Actions 定时抓取后直接提交新的 index.html 回 main 分支。
+#
+# 注意：Netlify 自 2025 年起积分制计费，生产部署 15 积分/次、
+# 免费档 300 积分/月 —— 每天 2 次自动更新（60 部署 ≈ 900 积分）会超额。
+# 若要切回 Netlify：升级 Personal（$9/月，1000 积分）或把更新降频到每两天一次，
+# 然后直接在 Netlify 连接本仓库即可，本文件无需修改。
+
+[build]
+  publish = "."
+  command = ""
+
+# index.html 每轮更新整体替换，告诉 CDN 不要长缓存，保证访客及时看到新数据
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
