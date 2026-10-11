@@ -1,3 +1,7 @@
+# ---- 生成物（删掉不会损坏项目，跑一次 refresh.py / fetch_campus.py 就能重建）----
+# 注意：index.html 与 _work/registry-*.json **需要提交**——
+# GitHub Pages 直接发布仓库里的 index.html（无构建步骤），
+# registry 记录来源状态历史，提交后 GitHub Actions 每轮才能延续状态。
 data/*.bak
 build/reports/
 _work/items-*.json
@@ -26,5 +30,10 @@ venv/
 .DS_Store
 Thumbs.db
 
-# ---- 本地助手工作区 ----
+# ---- 本地助手工作区（个人记忆与配置，不进公开仓库）----
 .workbuddy/
+
+# ---- 临时整理目录（手动上传用的中转文件夹）----
+_upload_fix/
+_upload_scripts/
+_forcopy/
