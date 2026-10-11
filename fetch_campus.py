@@ -48,6 +48,16 @@ import zlib
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(HERE, "data")
 WORK_DIR = os.path.join(HERE, "_work")
+
+# 统一用北京时间：不能用 time.strftime / datetime.now() —— 它们取运行机器的本地时区，
+# GitHub Actions 运行器是 UTC，会把 UTC 时间贴上 +08:00 标签（页面显示差 8 小时）。
+CST = datetime.timezone(datetime.timedelta(hours=8))    # 中国无夏令时，固定 +08:00
+
+
+def now_iso_cst():
+    """当前北京时间，形如 2026-10-11T12:34:56+08:00。"""
+    return datetime.datetime.now(CST).isoformat(timespec="seconds")
+
 READ_LIMIT = 6 * 1024 * 1024     # 单页读取上限(超过则截断,gzip 用 decompressobj 容错)
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -820,7 +830,7 @@ def _one(y, mo, d, hh, mm, year_hint):
         try:
             published = datetime.datetime(int(year_hint), 1, 1)
         except ValueError:
-            published = datetime.datetime.now()
+            published = datetime.datetime.now(CST)
         if not (-60 <= (when - published).days <= 400):
             return ""
     return when.strftime("%Y-%m-%dT%H:%M:%S+08:00")
@@ -1020,7 +1030,7 @@ def fetch_wechat(url, delay):
     ct = wechat_var(html, "ct")
     published = ""
     if ct.isdigit():
-        published = datetime.datetime.fromtimestamp(int(ct)).strftime("%Y-%m-%dT%H:%M:%S+08:00")
+        published = datetime.datetime.fromtimestamp(int(ct), CST).strftime("%Y-%m-%dT%H:%M:%S+08:00")
     m = re.search(r'(?is)id=["\']js_content["\'][^>]*>(.{0,300000})', html)
     body = ""
     if m:
@@ -1137,7 +1147,7 @@ def crawl_campus(campus, args):
     stats = {}
     known = previous_ids(campus)
     registry = load_registry(campus)
-    now = time.strftime("%Y-%m-%dT%H:%M:%S+08:00")
+    now = now_iso_cst()
     print(f"· [{campus}] 本轮信息源 {len(sources)} 个"
           f"（内置 {len(SOURCES.get(campus) or [])} + 补充 "
           f"{len(load_extra_sources(campus))}）")
@@ -1147,7 +1157,7 @@ def crawl_campus(campus, args):
         # (2026-10-10 实测:zju 两轮失败的都是配置顺序中段的同一批学院)。
         # 每轮按一年中的第几天轮换抓取起点,让封锁窗口每轮落在不同来源上,
         # 即使仍触发 WAF,所有来源也能在几天内轮流抓到,不会饿死固定一批。
-        shift = datetime.datetime.now().timetuple().tm_yday % len(sources)
+        shift = datetime.datetime.now(CST).timetuple().tm_yday % len(sources)
         if shift:
             sources = sources[shift:] + sources[:shift]
         print(f"· [{campus}] 来源顺序已轮换（起点 +{shift}，规避 WAF 窗口固定打在同一批来源上）")

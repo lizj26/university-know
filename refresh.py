@@ -40,7 +40,17 @@ import time
 import urllib.error
 import urllib.request
 import http.cookiejar
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
+
+# 统一用北京时间：不能用 time.strftime / datetime.now() —— 它们取运行机器的本地时区，
+# GitHub Actions 运行器是 UTC，会把 UTC 时间贴上 +08:00 标签（页面显示差 8 小时）。
+CST = timezone(timedelta(hours=8))          # 中国无夏令时，固定 +08:00
+
+
+def now_iso_cst():
+    """当前北京时间，形如 2026-10-11T12:34:56+08:00。"""
+    return datetime.now(CST).isoformat(timespec="seconds")
+
 
 BASE = "https://pkuknow.cn"
 PAGE_SIZE = 30            # 上游服务端硬上限
@@ -436,7 +446,7 @@ def import_items(campus, path, replace=False):
         f"由 {os.path.basename(path)} 导入：新增 {added} 条 / 更新 {updated} 条 / 现有 {len(final)} 条"
         + ("（整校区替换）" if replace else ""))
 
-    now = time.strftime("%Y-%m-%dT%H:%M:%S+08:00")
+    now = now_iso_cst()
     accounts = raw.get("wechat_accounts") if isinstance(raw, dict) else None
     incoming = raw.get("source_registry") if isinstance(raw, dict) else None
 
@@ -631,7 +641,7 @@ def scrape_campus(campus, limit, workers, with_details=True, allow_partial=False
         entry["count"] += 1
         if it["i"] not in previous_items:
             entry["new"] += 1
-    now_iso = time.strftime("%Y-%m-%dT%H:%M:%S+08:00")
+    now_iso = now_iso_cst()
     for entry in registry.values():
         entry["status"] = "ok" if entry["new"] else "no_recent"
         entry["last_checked"] = now_iso
@@ -718,7 +728,7 @@ def build():
     # 页脚展示「页面生成于」，让用户能一眼确认云端这轮有没有真的跑过。
     # 只替换第一次出现（<script> 赋值处）；后面 JS 里读的是 window.__BUILD_TIME__，
     # 变量名不能跟着被换掉。
-    build_iso = datetime.now().astimezone().isoformat(timespec="seconds")
+    build_iso = datetime.now(CST).isoformat(timespec="seconds")
     html = html.replace("__BUILD_TIME__", build_iso, 1)
 
     # 标题跟随默认校区

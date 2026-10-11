@@ -103,6 +103,15 @@ import time
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(HERE, "data")
 WORK_DIR = os.path.join(HERE, "_work")
+
+# 统一用北京时间：不能用 time.strftime / datetime.now() —— 它们取运行机器的本地时区，
+# 云端（UTC）机器上会把 UTC 时间贴上 +08:00 标签（页面显示差 8 小时）。
+CST = datetime.timezone(datetime.timedelta(hours=8))    # 中国无夏令时，固定 +08:00
+
+
+def now_iso_cst():
+    """当前北京时间，形如 2026-10-11T12:34:56+08:00。"""
+    return datetime.datetime.now(CST).isoformat(timespec="seconds")
 # 公众号专属工作目录：官网链路（refresh.py / fetch_campus.py）的产物放在 _work/ 根下，
 # 本脚本的 cookies / token / 名单 / fakeid 缓存 / 中间结果全部收在 _work/wechat/ 里。
 # 这样「稳定的官网链路」与「不稳定的公众号链路」在磁盘上就是两堆文件，
@@ -570,7 +579,7 @@ def ts_to_iso(value):
     if value <= 0:
         return ""
     try:
-        return datetime.datetime.fromtimestamp(value).strftime("%Y-%m-%dT%H:%M:%S+08:00")
+        return datetime.datetime.fromtimestamp(value, CST).strftime("%Y-%m-%dT%H:%M:%S+08:00")
     except (OverflowError, OSError, ValueError):
         return ""
 
@@ -823,7 +832,7 @@ def crawl_public_seed(campus, args):
         print(f"· [{campus}] 没有公开种子链接（_work/wechat/wechat-{campus}.txt 为空）")
         return [], {}
     links = links[: args.public_max]
-    now = time.strftime("%Y-%m-%dT%H:%M:%S+08:00")
+    now = now_iso_cst()
     workers = max(1, min(getattr(args, "workers", 6), len(links) or 1))
     print(f"· [{campus}] 公开链接种子 {len(links)} 篇（无 cookies，并发 {workers} 抓正文）")
 
@@ -888,7 +897,7 @@ def crawl_wechat(campus, api, args):
     cfg = WECHAT_CONFIG[campus]
     filter_re = re.compile(cfg.get("filter") or r".+")
     items, registry = [], {}
-    now = time.strftime("%Y-%m-%dT%H:%M:%S+08:00")
+    now = now_iso_cst()
     accounts = load_accounts(campus)
     fake_cache = load_fakeid_cache()
     consecutive_zero = 0
@@ -972,7 +981,7 @@ def append_seed_fallback(campus, items, registry, args):
     workers = max(1, min(getattr(args, "workers", 6) or 6, len(pending)))
     with cf.ThreadPoolExecutor(max_workers=workers) as pool:
         fetched = list(pool.map(lambda u: (u, fetch_article(u, timeout=15)), pending))
-    now = time.strftime("%Y-%m-%dT%H:%M:%S+08:00")
+    now = now_iso_cst()
     added = 0
     for url, (title, account, published, body) in fetched:
         if not title:
@@ -1052,7 +1061,7 @@ def merge_into_data(campus, items, registry, refresh):
 
     accounts = sorted({a["name"] for a in WECHAT_CONFIG[campus]["accounts"]}
                       | set(old.get("wechat_accounts") or []))
-    now = time.strftime("%Y-%m-%dT%H:%M:%S+08:00")
+    now = now_iso_cst()
     added = len(final) - before
     # last_import 与 refresh.py / fetch_campus.py 保持**同一种结构**(dict),
     # 否则页面与 cloud_update.py 的摘要读不出「新增/更新」两列(早期版本写的是字符串)。
