@@ -1,0 +1,46 @@
+# 手动触发：只用仓库里现有的 data/*.json 重新生成 index.html 并提交。
+#
+# 用途：改了模板 / 脚本里的显示逻辑（比如时间格式）之后，不必重跑 2 小时的抓取，
+# 点一下这个工作流就能把页面立刻刷新到「最新数据 + 最新版式」，约 1 分钟完成。
+#
+# 用法：仓库 → Actions → 左侧选「重建页面」→ Run workflow。
+# 与「定时更新站点数据」共用同一个 concurrency 组，不会互相撞车。
+
+name: 重建页面
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: site-update
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 用现有数据重建 index.html
+        run: python refresh.py --build-only
+
+      - name: 提交（有变化才提交）
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "无内容变化，跳过提交"
+            exit 0
+          fi
+          git commit -m "chore: 按最新脚本重建页面 $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git pull --rebase --autostash
+          git push
