@@ -42,31 +42,46 @@ jobs:
         with:
           python-version: "3.12"   # 官网链路仅用标准库，无需安装任何依赖
 
+      # 三个抓取步骤都加 if: always()：任一校区失败也不跳过其余校区，
+      # 保证"能抓到的校区照常更新"，同时失败的步骤仍会让整轮标红（便于收邮件告警）。
       - name: 抓取清华（pkuknow.cn 聚合接口）
+        if: always()
         run: python cloud_update.py --skip-campus
 
       - name: 抓取上交 / 西交（两校无限速问题，正常并发）
+        if: always()
         run: python fetch_campus.py --campus sjtu,xjtu
 
-      # 浙大站群 WAF 按来源 IP 对**整个 zju.edu.cn 域名**累计限流：
-      #   --workers 1 / --delay 2.5 / --domain-delay 1.0 / --rotate / --max-per-source 10
+      # 浙大站群 WAF 按来源 IP 对**整个 zju.edu.cn 域名**累计限流（2026-10-10 两轮实测：
+      # 并发 4 路 34 源 403、单并发也有 25 源 403，且两轮被封的都是抓取顺序中段的同一批学院）。
+      # 对策（fetch_campus.py 已内置）：
+      #   --workers 1         单并发，压低总速率
+      #   --delay 2.5         同主机间隔 2.5s
+      #   --domain-delay 1.0  全 zju.edu.cn 子域聚合间隔 1s（WAF 计的是这个）
+      #   --rotate            每轮按日期轮换抓取起点，即使仍触发封锁，
+      #                       被封窗口每轮落在不同学院身上，几天内全部轮得到
+      #   --max-per-source 10 日更频率下每源 10 条足够，少抓详情页 = 少触发限流
+      # 耗时约 35~50 分钟。
       - name: 抓取浙大（单并发慢速 + 域名级限速 + 顺序轮换）
+        if: always()
         run: python fetch_campus.py --campus zju --workers 1 --delay 2.5 --domain-delay 1.0 --rotate --max-per-source 10
 
       - name: 统一重建 index.html
-        if: always()
+        if: always()   # 即使某个校区抓取不完整，也用已有数据重建页面
         run: python refresh.py --build-only
 
       - name: 提交更新（有变化才提交）
-        if: always()
+        if: always()   # 抓取步骤标红（便于收到邮件告警）时也要提交部分成果
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html data/*.json _work/registry-*.json
+          # 用 -A 而不是逐个列路径：注册表文件缺失时 git add 会因 pathspec
+          # 匹配不到而报 128、整轮白跑。.gitignore 已排除 cookies 等敏感文件。
+          git add -A
           if git diff --cached --quiet; then
             echo "本轮无内容变化，跳过提交"
             exit 0
           fi
           git commit -m "chore: 定时更新 $(date -u +'%Y-%m-%d %H:%M UTC')"
-          git pull --rebase
+          git pull --rebase --autostash
           git push
