@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>「清华知道」 THU Know</title>
+<meta name="description" content="聚合清华大学等高校的公开活动、招募、教务与校园通知，查看活动时间、地点和原文。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='2' width='28' height='28' rx='9' fill='%2386539b'/%3E%3Ccircle cx='12' cy='14' r='2.4' fill='%23fff'/%3E%3Ccircle cx='20' cy='14' r='2.4' fill='%23fff'/%3E%3Cpath d='M11.5 20.5c1.4 2 2.9 3 4.5 3s3.1-1 4.5-3' stroke='%23fff' stroke-width='1.9' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+/* ============================================================
+   设计令牌 —— 复刻「清华知道」的 8 色 tone 体系
+   ============================================================ */
+:root{
+  --font-sans:"Geist","Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --font-numbers:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --ease-out:cubic-bezier(.22,.61,.36,1);
+
+  --background:#faf8f6;
+  --foreground:#2b2431;
+  --card:#ffffff;
+  --card-foreground:#2b2431;
+  --muted:#f3efec;
+  --muted-foreground:#6f6575;
+  --border:#e7e1de;
+  --input:#988aa3;
+  --ring:#a779bb;
+  --primary:#86539b;
+  --primary-foreground:#fffaf7;
+  --accent:#efe3f5;
+  --accent-foreground:#613571;
+  --danger:#b3455c;
+  --shadow-sm:0 1px 2px rgba(43,36,49,.05);
+  --shadow-md:0 6px 20px -6px rgba(43,36,49,.14);
+  --shadow-lg:0 26px 60px -18px rgba(43,36,49,.34);
+
+  --tone-water-ink:#405b93;  --tone-water-tint:#dce8fc;  --tone-water-surface:#f0f5ff;  --tone-water-edge:#d4dff1;
+  --tone-lilac-ink:#745093;  --tone-lilac-tint:#eadcf5;  --tone-lilac-surface:#f7f1fc;  --tone-lilac-edge:#e5d8f0;
+  --tone-peach-ink:#905132;  --tone-peach-tint:#ffe2d1;  --tone-peach-surface:#fff4ee;  --tone-peach-edge:#f0ddcf;
+  --tone-amber-ink:#805c30;  --tone-amber-tint:#fbe7c4;  --tone-amber-surface:#fff8e9;  --tone-amber-edge:#eee2c8;
+  --tone-ochre-ink:#806426;  --tone-ochre-tint:#f9edbd;  --tone-ochre-surface:#fffbea;  --tone-ochre-edge:#ebe3c6;
+  --tone-rose-ink:#904768;   --tone-rose-tint:#f8dce9;   --tone-rose-surface:#fff1f7;   --tone-rose-edge:#eed6e3;
+  --tone-iris-ink:#615b94;   --tone-iris-tint:#e3e0fa;   --tone-iris-surface:#f5f3ff;   --tone-iris-edge:#dddaf0;
+  --tone-slate-ink:#456582;  --tone-slate-tint:#dcebf4;  --tone-slate-surface:#f1f7fc;  --tone-slate-edge:#d5e2eb;
+}
+html[data-theme=dark]{
+  --background:#1a171e;
+  --foreground:#f1edf5;
+  --card:#241f2b;
+  --card-foreground:#f1edf5;
+  --muted:#2b2532;
+  --muted-foreground:#a69daf;
+  --border:#352e3d;
+  --input:#aa90bb;
+  --ring:#d9bdef;
+  --primary:#dab7ef;
+  --primary-foreground:#372040;
+  --accent:#503d65;
+  --accent-foreground:#f0ddff;
+  --danger:#f0a0b4;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.4);
+  --shadow-md:0 6px 22px -8px rgba(0,0,0,.6);
+  --shadow-lg:0 26px 60px -18px rgba(0,0,0,.7);
+
+  --tone-water-ink:#c1d8ff;  --tone-water-tint:#415778;  --tone-water-surface:#303b53;  --tone-water-edge:#485b79;
+  --tone-lilac-ink:#e0c0f5;  --tone-lilac-tint:#584669;  --tone-lilac-surface:#3a324b;  --tone-lilac-edge:#635171;
+  --tone-peach-ink:#ffd0b5;  --tone-peach-tint:#6a4d46;  --tone-peach-surface:#45373b;  --tone-peach-edge:#74574e;
+  --tone-amber-ink:#f8d4a7;  --tone-amber-tint:#625343;  --tone-amber-surface:#3f383d;  --tone-amber-edge:#71604d;
+  --tone-ochre-ink:#f7e2a0;  --tone-ochre-tint:#605940;  --tone-ochre-surface:#3d3c3c;  --tone-ochre-edge:#6e674c;
+  --tone-rose-ink:#f9c3db;   --tone-rose-tint:#66445c;   --tone-rose-surface:#423247;   --tone-rose-edge:#75536a;
+  --tone-iris-ink:#d7ceff;   --tone-iris-tint:#514c75;   --tone-iris-surface:#36354f;   --tone-iris-edge:#645d81;
+  --tone-slate-ink:#c5ddeb;  --tone-slate-tint:#475b71;  --tone-slate-surface:#333c4e;  --tone-slate-edge:#566d83;
+}
+[data-tone=water]{--tone-ink:var(--tone-water-ink);--tone-tint:var(--tone-water-tint);--tone-surface:var(--tone-water-surface);--tone-edge:var(--tone-water-edge)}
+[data-tone=lilac]{--tone-ink:var(--tone-lilac-ink);--tone-tint:var(--tone-lilac-tint);--tone-surface:var(--tone-lilac-surface);--tone-edge:var(--tone-lilac-edge)}
+[data-tone=peach]{--tone-ink:var(--tone-peach-ink);--tone-tint:var(--tone-peach-tint);--tone-surface:var(--tone-peach-surface);--tone-edge:var(--tone-peach-edge)}
+[data-tone=amber]{--tone-ink:var(--tone-amber-ink);--tone-tint:var(--tone-amber-tint);--tone-surface:var(--tone-amber-surface);--tone-edge:var(--tone-amber-edge)}
+[data-tone=ochre]{--tone-ink:var(--tone-ochre-ink);--tone-tint:var(--tone-ochre-tint);--tone-surface:var(--tone-ochre-surface);--tone-edge:var(--tone-ochre-edge)}
+[data-tone=rose]{--tone-ink:var(--tone-rose-ink);--tone-tint:var(--tone-rose-tint);--tone-surface:var(--tone-rose-surface);--tone-edge:var(--tone-rose-edge)}
+[data-tone=iris]{--tone-ink:var(--tone-iris-ink);--tone-tint:var(--tone-iris-tint);--tone-surface:var(--tone-iris-surface);--tone-edge:var(--tone-iris-edge)}
+[data-tone=slate]{--tone-ink:var(--tone-slate-ink);--tone-tint:var(--tone-slate-tint);--tone-surface:var(--tone-slate-surface);--tone-edge:var(--tone-slate-edge)}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--background);color:var(--foreground);font-family:var(--font-sans);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0;padding:0}
+a{color:inherit;text-decoration:none}
+svg{display:block;flex:none}
+::selection{background:var(--accent);color:var(--accent-foreground)}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px}
+/* 作者样式的 display 会盖掉浏览器默认的 [hidden]{display:none},这里统一兜底 */
+[hidden]{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip-link{position:absolute;top:-60px;left:14px;z-index:200;padding:10px 16px;border-radius:0 0 12px 12px;background:var(--primary);color:var(--primary-foreground);font-size:13px;transition:top .2s}
+.skip-link:focus{top:0}
+.app-shell{min-height:100dvh;display:flex;flex-direction:column}
+
+/* ============ 顶栏 ============ */
+.masthead{background:var(--card);border-bottom:1px solid var(--border);position:relative;z-index:30}
+.campus-header{display:flex;align-items:center;max-width:1480px;margin:auto;padding-right:28px;gap:8px}
+.campus-switch{display:flex;align-items:center;gap:6px;flex:1;min-width:0;max-width:1480px;margin:0 auto;padding:8px 28px 0}
+.campus-switch a{display:inline-flex;align-items:center;gap:7px;min-height:32px;padding:5px 12px;border:1px solid transparent;border-radius:11px;
+  color:var(--muted-foreground);font-size:13px;font-weight:650;transition:background .16s,color .16s,border-color .16s}
+.campus-switch a span[lang=en]{font-size:11px;letter-spacing:.02em;opacity:.72;font-weight:600}
+.campus-switch a:hover,.campus-switch a[aria-current=page]{color:var(--primary);background:var(--background)}
+.campus-switch a[aria-current=page]{border-color:var(--border)}
+.campus-switch a[data-available=false]{opacity:.5}
+.language-toggle{display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:5px 11px;border:1px solid var(--border);border-radius:11px;
+  background:var(--card);color:var(--muted-foreground);font-size:12px;font-weight:700;transition:.16s}
+.language-toggle:hover{color:var(--primary);border-color:var(--primary);background:var(--accent)}
+.language-toggle svg{width:15px;height:15px}
+.language-toggle[data-on=true]{color:var(--primary);border-color:var(--primary);background:var(--accent)}
+.masthead-inner{display:flex;align-items:center;gap:24px;max-width:1480px;height:76px;margin:auto;padding:0 28px}
+.brand-title{margin:0;min-width:0;flex:none}
+.wordmark{position:relative;display:flex;align-items:center;gap:12px;width:fit-content;max-width:100%}
+.brand-mascot{width:40px;height:40px;transition:transform .18s var(--ease-out)}
+.wordmark:hover .brand-mascot{transform:rotate(-8deg) translateY(-2px)}
+.brand-lettering{display:flex;align-items:center;gap:3px;font-size:24px;font-weight:800;letter-spacing:-.02em;color:var(--foreground);white-space:nowrap}
+.brand-bracket{color:var(--primary);font-weight:500;opacity:.75;font-size:22px}
+.brand-en{font-size:13px;font-weight:650;letter-spacing:.01em;color:var(--muted-foreground);margin-left:8px}
+.search-wrap{align-items:center;min-width:0;flex:1;display:flex;position:relative;max-width:560px}
+.search-wrap>svg{width:18px;height:18px;color:var(--muted-foreground);pointer-events:none;position:absolute;left:15px}
+.search-wrap input{border:1px solid var(--input);background:var(--card);width:100%;height:42px;color:var(--foreground);border-radius:999px;
+  padding:0 40px 0 42px;font-size:14px;transition:border-color .16s,box-shadow .16s;outline:none}
+.search-wrap input::placeholder{color:var(--muted-foreground)}
+.search-wrap input:focus{border-color:var(--primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 18%,transparent)}
+.search-clear{position:absolute;right:9px;width:26px;height:26px;display:grid;place-items:center;border-radius:50%;color:var(--muted-foreground)}
+.search-clear:hover{background:var(--muted);color:var(--foreground)}
+.search-clear svg{width:15px;height:15px}
+.header-actions{display:flex;align-items:center;gap:8px;margin-left:auto}
+.source-link{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:6px 11px;border:1px solid var(--border);border-radius:999px;
+  background:var(--card);color:var(--muted-foreground);font-size:13px;font-weight:650;transition:.16s;white-space:nowrap}
+.source-link svg{width:16px;height:16px}
+.source-link:hover{color:var(--primary);border-color:var(--primary);background:var(--accent)}
+.source-link[data-tone=amber]{color:#805c30;background:#fff8e9;border-color:transparent}
+html[data-theme=dark] .source-link[data-tone=amber]{color:#f8d4a7;background:#3f383d}
+.icon-button{width:36px;height:36px;display:grid;place-items:center;border:1px solid var(--border);border-radius:999px;background:var(--card);
+  color:var(--muted-foreground);transition:.16s}
+.icon-button svg{width:17px;height:17px}
+.icon-button:hover{color:var(--primary);border-color:var(--primary);background:var(--accent)}
+.theme-switch{display:flex;align-items:center;gap:4px}
+.theme-switch .icon-button{background:var(--accent);border-color:transparent;color:var(--primary)}
+html[data-theme=dark] .theme-to-dark{display:none}
+html[data-theme=light] .theme-to-light{display:none}
+
+/* ============ 分类导航(吸顶) ============ */
+.board-main{max-width:1480px;width:100%;margin:0 auto;padding:0 28px 24px;outline:none;flex:1}
+.board-navigation{position:sticky;top:0;z-index:20;padding:14px 0 10px;background:var(--background)}
+.category-directory-layout{display:grid;grid-template-columns:80px minmax(0,1fr);align-items:stretch;gap:8px}
+.category-root-all{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;width:100%;
+  padding:10px 8px;border:1px solid var(--border);border-radius:16px;background:var(--card);color:var(--primary);font-size:13px;font-weight:700}
+.category-root-all svg{width:19px;height:19px}
+.category-root-all:hover{border-color:var(--primary);background:var(--accent)}
+.category-root-all[aria-current=page]{color:var(--primary-foreground);background:var(--primary);border-color:var(--primary)}
+.category-root-all,.category-root-all svg,.notice-block,.section-more svg,.brand-mascot{transition:transform .18s var(--ease-out)}
+.category-root-all:hover:not([aria-current=page]) svg{transform:rotate(-10deg) scale(1.08)}
+.category-root-all:active{transform:scale(.95)}
+.category-clusters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;gap:8px}
+.category-cluster{min-width:0;min-height:0;padding:9px 10px 10px;border:1px solid var(--tone-edge);border-radius:16px;background:var(--tone-surface)}
+.category-cluster-heading{display:flex;align-items:center;gap:8px;min-width:0;margin-bottom:8px;color:var(--tone-ink)}
+.category-cluster-icon svg{width:17px;height:17px}
+.category-cluster-heading strong{display:block;min-width:0;font-size:14px;line-height:1.35;font-weight:750}
+.category-nav{display:flex;flex-wrap:wrap;align-items:center;gap:5px}
+.category-nav a{position:relative;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;gap:5px;min-height:32px;padding:0 9px;
+  border:1px solid transparent;border-radius:10px;background:var(--card);color:var(--tone-ink);font-size:12px;font-weight:650;transition:.16s}
+.category-nav svg{width:14px;height:14px}
+.category-nav a:hover{border-color:var(--tone-ink);background:var(--tone-tint)}
+.category-nav a[aria-current=page]{background:var(--tone-ink);color:var(--card);border-color:var(--tone-ink)}
+.category-nav-all{opacity:.9}
+.cat-label-long{display:none}
+
+/* ============ 工具栏 ============ */
+.board-toolbar{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:12px;margin:0 0 14px;padding:2px 0}
+.board-title{display:flex;align-items:center;min-width:0;gap:9px}
+.board-title h2{margin:0;font-size:22px;font-weight:750;line-height:1.35;letter-spacing:-.025em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.board-total{display:inline-grid;place-items:center;min-width:34px;height:24px;padding:0 9px;border-radius:999px;background:var(--accent);
+  color:var(--accent-foreground);font:700 12px/1 var(--font-numbers)}
+.source-filter{display:flex;align-items:center;gap:6px}
+.source-filter-label{color:var(--muted-foreground);font-size:12px;font-weight:650;margin-right:2px;white-space:nowrap}
+.source-filter-pending{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:6px 11px;border:1px dashed var(--border);
+  border-radius:11px;color:var(--muted-foreground);font-size:13px;font-weight:600;white-space:nowrap}
+.source-choice{position:relative;display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:6px 9px;border-radius:11px;
+  color:var(--muted-foreground);font-size:13px;font-weight:600;white-space:nowrap;cursor:pointer;transition:.16s}
+.source-choice svg{width:15px;height:15px}
+.source-choice[data-selected=true]{color:var(--tone-ink);background:var(--tone-tint)}
+.source-choice input{appearance:none;flex:none;width:16px;height:16px;margin:0;border:1.5px solid var(--muted-foreground);border-radius:5px;
+  background:var(--card);cursor:pointer;transition:.14s;position:relative}
+.source-choice input:checked{background:var(--tone-ink);border-color:var(--tone-ink)}
+.source-choice input:checked::after{content:"";position:absolute;left:4.5px;top:1px;width:4px;height:8px;border:solid var(--card);
+  border-width:0 2px 2px 0;transform:rotate(45deg)}
+.board-tools{display:flex;align-items:center;gap:8px}
+.board-select{position:relative}
+.board-select select{appearance:none;height:40px;padding:0 30px 0 13px;border:1px solid var(--border);border-radius:999px;background:var(--card);
+  color:var(--foreground);font-size:13px;font-weight:600;cursor:pointer;transition:.16s;outline:none}
+.board-select select:hover{border-color:var(--input);background:var(--accent);color:var(--primary)}
+.board-select svg{position:absolute;right:11px;top:50%;transform:translateY(-50%);width:14px;height:14px;pointer-events:none;color:currentColor;opacity:.6}
+.refresh-button{width:40px;height:40px}
+.refresh-button.spinning svg{animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ============ 分区 & 卡片 ============ */
+.board-results{position:relative;min-height:300px;scroll-margin-top:82px;display:flex;flex-direction:column;gap:14px}
+.notice-section{min-width:0;padding:0 10px 10px;border:1px solid var(--tone-edge);border-radius:20px;background:var(--tone-surface)}
+.section-heading{display:flex;align-items:center;gap:10px;min-height:54px;padding:8px 4px;color:var(--tone-ink)}
+.section-icon svg{width:19px;height:19px}
+.section-heading h2{margin:0;font-size:19px;font-weight:750;letter-spacing:.015em;white-space:nowrap}
+.section-count{font:550 12px/1.5 var(--font-numbers);opacity:.95;white-space:nowrap}
+.section-more{display:inline-flex;align-items:center;gap:5px;margin-left:auto;color:var(--tone-ink);font-size:12px;font-weight:650;
+  padding:5px 9px;border-radius:9px;white-space:nowrap;transition:.16s}
+.section-more svg{width:13px;height:13px}
+.section-more:hover{background:var(--tone-tint)}
+.notice-grid{display:grid;grid-template-columns:repeat(var(--cols,4),minmax(0,1fr));gap:7px;margin:0;padding:0;list-style:none}
+.notice-block{position:relative;display:flex;align-items:center;width:100%;height:100%;min-height:74px;padding:10px 12px;border:1px solid transparent;
+  border-radius:12px;background:var(--card);color:var(--foreground);text-align:left;box-shadow:var(--shadow-sm);transition:transform .18s var(--ease-out),border-color .18s}
+.notice-block-copy{display:block;min-width:0;width:100%}
+.notice-block-title{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;font-size:15px;font-weight:600;line-height:1.55;
+  overflow-wrap:anywhere;transition:color .18s}
+.notice-block-meta{display:flex;align-items:center;gap:10px;margin-top:6px;min-width:0;color:var(--muted-foreground);font-size:11.5px;flex-wrap:nowrap;overflow:hidden}
+.notice-block-time,.notice-block-source{display:inline-flex;align-items:center;gap:5px;min-width:0}
+.notice-block-time span,.notice-block-source span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.notice-block-source{flex:1 1 auto}
+.notice-block:hover{border-color:var(--tone-ink);transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.notice-block:hover .notice-block-title{color:var(--tone-ink)}
+.notice-block:active{transform:scale(.985)}
+.notice-block::after{content:"";position:absolute;top:14px;bottom:14px;left:0;width:3px;border-radius:999px;background:var(--tone-ink);opacity:0;transition:opacity .18s}
+.notice-block:hover::after{opacity:.85}
+.notice-block.is-new::before{content:"";position:absolute;top:9px;right:9px;width:6px;height:6px;border-radius:50%;background:var(--primary)}
+.section-empty{padding:20px 8px;color:var(--tone-ink);font-size:13px;opacity:.85}
+.board-empty{display:grid;place-items:center;gap:12px;min-height:320px;padding:40px 20px;text-align:center;color:var(--muted-foreground)}
+.board-empty svg{width:44px;height:44px;opacity:.5}
+.board-empty strong{color:var(--foreground);font-size:17px}
+.board-empty p{margin:0;font-size:14px}
+.filter-chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:4px}
+.filter-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid var(--border);border-radius:999px;
+  background:var(--card);font-size:12.5px;font-weight:600;color:var(--muted-foreground);transition:.16s}
+.filter-chip:hover{border-color:var(--primary);color:var(--primary);background:var(--accent)}
+.board-results[aria-busy=true]::before{content:"";position:absolute;top:-5px;left:12px;right:12px;height:3px;background:var(--primary);
+  border-radius:999px;z-index:1;animation:pulse 1.1s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.3}}
+mark.hit{background:color-mix(in srgb,var(--primary) 26%,transparent);color:inherit;border-radius:3px;padding:0 1px}
+
+/* ============ 页脚 ============ */
+.site-footer{max-width:1480px;width:100%;margin:0 auto;padding:22px 28px 40px;border-top:1px solid var(--border);
+  display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;color:var(--muted-foreground);font-size:12px}
+.site-footer b{color:var(--foreground);font-weight:650}
+.site-footer .dot{width:3px;height:3px;border-radius:50%;background:currentColor;opacity:.5}
+
+/* ============ 弹窗 ============ */
+dialog{border:0;padding:0;background:transparent;max-width:100vw;max-height:100dvh;overflow:visible}
+dialog::backdrop{background:color-mix(in srgb,#191320 62%,transparent);backdrop-filter:blur(3px)}
+dialog[open]{animation:dlg .22s var(--ease-out)}
+@keyframes dlg{from{opacity:0;transform:translateY(14px) scale(.985)}}
+.modal-card{width:min(760px,calc(100vw - 32px));max-height:min(86dvh,900px);display:flex;flex-direction:column;border-radius:20px;
+  background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow-lg);overflow:hidden}
+.detail-card{width:min(780px,calc(100vw - 32px));max-height:min(88dvh,940px);display:flex;flex-direction:column;border-radius:22px;
+  background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow-lg);overflow:hidden;position:relative}
+.detail-card::before{content:"";position:absolute;inset:0 0 auto;height:5px;background:var(--tone-ink);opacity:.9}
+.detail-head{padding:26px 26px 16px;border-bottom:1px solid var(--border);background:var(--tone-surface)}
+.detail-badges{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;padding-right:44px}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:11.5px;font-weight:700}
+.badge.cat{background:var(--tone-tint);color:var(--tone-ink)}
+.badge.src{background:var(--card);color:var(--muted-foreground);border:1px solid var(--border)}
+.badge svg{width:12px;height:12px}
+.detail-title{margin:0;font-size:23px;line-height:1.45;font-weight:760;letter-spacing:-.015em;color:var(--foreground)}
+.detail-en{margin:9px 0 0;font-size:13.5px;line-height:1.6;color:var(--muted-foreground);font-style:italic}
+.detail-close{position:absolute;top:18px;right:18px;z-index:2}
+.modal-close{position:absolute;top:16px;right:16px;z-index:2}
+.detail-body{padding:20px 26px 24px;overflow:auto;display:flex;flex-direction:column;gap:20px}
+.detail-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:0}
+.meta-row{display:flex;align-items:flex-start;gap:9px;padding:11px 13px;border:1px solid var(--border);border-radius:13px;background:var(--muted)}
+.meta-row svg{width:16px;height:16px;margin-top:2px;color:var(--primary);flex:none}
+.meta-row dt{font-size:11px;font-weight:700;color:var(--muted-foreground);letter-spacing:.03em}
+.meta-row dd{margin:1px 0 0;font-size:13.5px;font-weight:600;line-height:1.5;overflow-wrap:anywhere}
+.block-title{display:flex;align-items:center;gap:7px;margin:0 0 9px;font-size:12.5px;font-weight:750;letter-spacing:.05em;color:var(--muted-foreground)}
+.block-title svg{width:15px;height:15px;color:var(--primary)}
+.detail-summary{margin:0;padding:15px 17px;border-radius:14px;background:var(--accent);color:var(--accent-foreground);font-size:14.5px;line-height:1.8}
+.detail-content{margin:0;font-size:14.5px;line-height:1.9;color:var(--foreground);white-space:pre-wrap;overflow-wrap:anywhere}
+.attach-list{display:flex;flex-wrap:wrap;gap:7px;margin:0;padding:0;list-style:none}
+.attach-list li{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border:1px solid var(--border);border-radius:11px;
+  background:var(--muted);font-size:12.5px;color:var(--foreground);max-width:100%}
+.attach-list li span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.attach-list svg{width:14px;height:14px;color:var(--muted-foreground)}
+.detail-foot{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:15px 26px;border-top:1px solid var(--border);background:var(--muted)}
+.detail-hint{font-size:11.5px;color:var(--muted-foreground);flex:1;min-width:180px}
+.detail-actions{display:flex;gap:8px;margin-left:auto}
+.btn{display:inline-flex;align-items:center;gap:7px;min-height:38px;padding:7px 15px;border-radius:999px;font-size:13px;font-weight:650;transition:.16s;border:1px solid transparent}
+.btn svg{width:15px;height:15px}
+.btn.primary{background:var(--primary);color:var(--primary-foreground)}
+.btn.primary:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.btn.ghost{border-color:var(--border);background:var(--card);color:var(--foreground)}
+.btn.ghost:hover{border-color:var(--primary);color:var(--primary);background:var(--accent)}
+.modal-head{display:flex;align-items:center;gap:11px;padding:20px 24px;border-bottom:1px solid var(--border)}
+.modal-head h2{margin:0;font-size:18px;font-weight:750}
+.modal-head svg{width:19px;height:19px;color:var(--primary)}
+.modal-body{padding:20px 24px 24px;overflow:auto;font-size:14px;line-height:1.75}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:0 0 20px}
+.stat-tile{padding:14px 16px;border:1px solid var(--border);border-radius:14px;background:var(--muted)}
+.stat-tile b{display:block;font:750 25px/1.25 var(--font-numbers);color:var(--primary)}
+.stat-tile span{font-size:12px;color:var(--muted-foreground)}
+.bar-row{display:grid;grid-template-columns:96px 1fr 46px;align-items:center;gap:11px;padding:5px 0;font-size:13px}
+.bar-row .bar-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted-foreground);font-weight:600}
+.bar-track{height:9px;border-radius:999px;background:var(--muted);overflow:hidden}
+.bar-fill{height:100%;border-radius:999px;background:var(--tone-ink,var(--primary))}
+.bar-row .bar-val{text-align:right;font:650 12px/1 var(--font-numbers);color:var(--muted-foreground)}
+.src-group{margin-bottom:18px}
+.src-group h3{margin:0 0 9px;font-size:12.5px;font-weight:750;letter-spacing:.04em;color:var(--muted-foreground)}
+.src-chips{display:flex;flex-wrap:wrap;gap:6px}
+.src-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border:1px solid var(--border);border-radius:999px;
+  background:var(--muted);font-size:12.5px;color:var(--foreground);transition:.16s}
+.src-chip:hover{border-color:var(--primary);color:var(--primary);background:var(--accent)}
+.src-chip em{font:650 11px/1 var(--font-numbers);color:var(--muted-foreground);font-style:normal}
+.src-chip.is-pending{border-style:dashed;opacity:.75}
+.src-chip.is-empty{border-style:dashed;opacity:.6}
+.src-status{font-style:normal;font-size:10.5px;font-weight:700;line-height:1.5;padding:1px 6px;border-radius:999px;white-space:nowrap}
+.src-status[data-status=ok]{color:var(--primary);background:var(--accent)}
+.src-status[data-status=idle]{color:var(--muted-foreground);background:var(--muted)}
+.src-status[data-status=bad]{color:var(--danger);background:color-mix(in srgb,var(--danger) 14%,transparent)}
+.src-summary{margin:0 0 14px;font-size:13px;color:var(--muted-foreground);display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.src-summary b{color:var(--foreground)}
+.src-summary .dot{width:3px;height:3px;border-radius:50%;background:currentColor;opacity:.5}
+.notice-list{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.notice-list button{text-align:left;width:100%;padding:11px 13px;border:1px solid var(--border);border-radius:12px;background:var(--muted);transition:.16s}
+.notice-list button:hover{border-color:var(--primary);background:var(--accent)}
+.notice-list b{display:block;font-size:13.5px;font-weight:600;line-height:1.55}
+.notice-list span{display:block;margin-top:4px;font-size:11.5px;color:var(--muted-foreground)}
+.empty-note{padding:26px;text-align:center;color:var(--muted-foreground);font-size:13.5px}
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,26px);z-index:300;padding:11px 18px;border-radius:999px;
+  background:var(--foreground);color:var(--background);font-size:13px;font-weight:600;box-shadow:var(--shadow-lg);opacity:0;
+  pointer-events:none;transition:opacity .22s,transform .22s}
+.toast[data-show=true]{opacity:1;transform:translate(-50%,0)}
+
+/* ============ 响应式 ============ */
+@media (max-width:1240px){
+  .source-link span{display:none}
+  .source-link{padding:6px 9px}
+}
+@media (max-width:1080px){
+  .masthead-inner{display:grid;grid-template-columns:minmax(0,1fr) auto;height:auto;padding:13px 20px;gap:12px 16px}
+  .brand-title{grid-column:1/-1;justify-self:center}
+  .search-wrap{max-width:none;grid-column:1}
+  .header-actions{grid-column:2}
+  .board-main{padding-inline:20px}
+}
+@media (max-width:860px){
+  .campus-switch{padding:8px 14px 0;gap:2px}
+  .campus-switch a{padding:5px 9px;font-size:12px}
+  .campus-switch a span[lang=en]{display:none}
+  .campus-header{padding-right:14px}
+  .masthead-inner{padding:12px 14px;gap:11px 8px}
+  .brand-mascot{width:34px;height:34px}
+  .brand-lettering{font-size:20px}
+  .brand-en{display:none}
+  .board-main{padding:0 12px 18px}
+  .board-navigation{position:static;padding:8px 0 5px}
+  .notice-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  .notice-block{padding:9px 11px;min-height:74px}
+  .notice-block-title{font-size:14px}
+  .notice-block-meta{gap:6px;font-size:11px}
+  .category-directory-layout{grid-template-columns:1fr}
+  .category-root-all{flex-direction:row;gap:5px;min-height:44px;padding:7px 5px;border-radius:12px}
+  .category-root-all svg{width:16px;height:16px}
+  .category-clusters{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .category-cluster{padding:7px 8px 8px}
+  .category-cluster-heading strong{font-size:13px}
+  .category-nav a{min-height:30px;padding:0 8px;font-size:11.5px}
+  .cat-label-long{display:none}
+  .cat-label-short{display:inline}
+  .board-toolbar{grid-template-columns:minmax(0,1fr) auto;gap:8px 10px}
+  .board-title h2{font-size:18px}
+  .source-filter{order:3;grid-column:1/-1}
+  .board-tools{order:2}
+  .board-select select{padding:0 26px 0 11px;font-size:12px;height:38px}
+  .refresh-button{width:38px;height:38px}
+  .site-footer{padding:18px 14px 34px}
+  .detail-head,.detail-body,.detail-foot{padding-left:17px;padding-right:17px}
+  .detail-title{font-size:19px}
+}
+@media (max-width:560px){
+  .category-clusters{grid-template-columns:1fr}
+  .source-filter-label{display:none}
+  .board-select[data-hide-sm]{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms !important;transition-duration:.001ms !important}
+}
+</style>
+</head>
+<body>
+<div class="app-shell" data-campus="thu">
+  <a class="skip-link" href="#notices">跳转至通知列表</a>
+
+  <header class="masthead">
+    <div class="campus-header">
+      <nav class="campus-switch" aria-label="校园切换" id="campus-switch"></nav>
+      <button class="language-toggle" id="lang-toggle" aria-label="Switch to English" title="切换中英文标题">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+        <span>EN</span>
+      </button>
+    </div>
+    <div class="masthead-inner">
+      <h1 class="brand-title">
+        <a class="wordmark" href="#" id="brand-link" aria-label="返回首页">
+          <svg class="brand-mascot" viewBox="0 0 32 32" aria-hidden="true">
+            <defs><linearGradient id="mascotGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#a56ebd"/><stop offset="1" stop-color="#6b3d8c"/>
+            </linearGradient></defs>
+            <rect x="2" y="2" width="28" height="28" rx="9.5" fill="url(#mascotGrad)"/>
+            <circle cx="12" cy="13.6" r="2.5" fill="#fff"/>
+            <circle cx="20" cy="13.6" r="2.5" fill="#fff"/>
+            <circle cx="12.8" cy="14.4" r="1.15" fill="#3a2050"/>
+            <circle cx="20.8" cy="14.4" r="1.15" fill="#3a2050"/>
+            <path d="M11.4 20.4c1.4 2 3 3 4.6 3s3.2-1 4.6-3" stroke="#fff" stroke-width="1.9" fill="none" stroke-linecap="round"/>
+            <path d="M25.2 5.6l.85 2.05 2.05.85-2.05.85-.85 2.05-.85-2.05-2.05-.85 2.05-.85z" fill="#ffd98e"/>
+          </svg>
+          <span class="brand-lettering">
+            <span class="brand-bracket" aria-hidden="true">「</span><span id="brand-name">清华知道</span><span class="brand-en" id="brand-en">THU Know</span><span class="brand-bracket" aria-hidden="true">」</span>
+          </span>
+        </a>
+      </h1>
+      <label class="search-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <span class="sr-only">搜索标题、公众号或发布单位</span>
+        <input id="q" type="search" placeholder="搜索通知" autocomplete="off" spellcheck="false">
+        <button class="search-clear" id="q-clear" type="button" aria-label="清空搜索" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </label>
+      <div class="header-actions board-header-actions">
+        <button class="source-link" data-open="upcoming" type="button" aria-label="近期活动" title="近期活动">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
+          <span>活动日历</span>
+        </button>
+        <button class="source-link" data-tone="amber" data-open="suggest" type="button" aria-label="信息源补充" title="信息源补充">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.9 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0l1.58 6.14a2 2 0 0 0 1.44 1.44l6.14 1.58a.5.5 0 0 1 0 .96l-6.14 1.58a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/></svg>
+          <span>信息源补充</span>
+        </button>
+        <button class="source-link" data-open="sources" type="button" aria-label="信息来源" title="信息来源">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 21a8 8 0 0 0-16 0"/><circle cx="10" cy="8" r="5"/><path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"/></svg>
+          <span>信息来源</span>
+        </button>
+        <button class="icon-button" data-open="stats" type="button" aria-label="数据概览" title="数据概览">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+        </button>
+        <div class="theme-switch">
+          <button class="icon-button theme-to-dark" id="theme-dark" type="button" aria-label="切换到夜间模式" title="切换到夜间模式">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+          </button>
+          <button class="icon-button theme-to-light" id="theme-light" type="button" aria-label="切换到白天模式" title="切换到白天模式">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+          </button>
+        </div>
+        <button class="icon-button" data-open="about" type="button" aria-label="交流群与网站信息" title="交流群与网站信息">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="notices" class="board-main" tabindex="-1">
+    <div class="board-navigation">
+      <nav class="category-directory" aria-label="分类导航">
+        <div class="category-directory-layout">
+          <a class="category-root-all" id="cat-all" href="#" data-scope="all" aria-current="page">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1.5"/><rect width="7" height="7" x="14" y="3" rx="1.5"/><rect width="7" height="7" x="14" y="14" rx="1.5"/><rect width="7" height="7" x="3" y="14" rx="1.5"/></svg>
+            <span>全部</span>
+          </a>
+          <div class="category-clusters" id="clusters"></div>
+        </div>
+      </nav>
+    </div>
+
+    <div class="board-toolbar">
+      <div class="board-title">
+        <h2 id="board-title-text">全部通知</h2>
+        <span class="board-total" id="board-total">0</span>
+      </div>
+      <div class="source-filter" id="source-filter" role="group" aria-label="信息来源筛选"></div>
+      <div class="board-tools">
+        <div class="board-select" data-hide-sm>
+          <select id="range" aria-label="时间范围">
+            <option value="all">全部时间</option>
+            <option value="1">今天</option>
+            <option value="3">近 3 天</option>
+            <option value="7">近 7 天</option>
+            <option value="30">近 30 天</option>
+            <option value="90">近 90 天</option>
+          </select>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="board-select">
+          <select id="sort" aria-label="排序方式">
+            <option value="desc">最新发布</option>
+            <option value="asc">最早发布</option>
+          </select>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="board-select">
+          <select id="cols" aria-label="每行列数">
+            <option value="2">2 列</option>
+            <option value="3">3 列</option>
+            <option value="4" selected>4 列</option>
+            <option value="5">5 列</option>
+          </select>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <button class="icon-button refresh-button" id="refresh" type="button" aria-label="重新渲染当前视图" title="重新渲染">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <p class="sr-only" id="board-status" role="status"></p>
+    <div class="board-results" id="board-results"></div>
+  </main>
+
+  <footer class="site-footer">
+    <span><b id="footer-brand">「清华知道」THU Know</b> · 校园信息聚合演示站</span>
+    <span class="dot"></span>
+    <span>数据聚合自各高校院系 / 社团微信公众号与官方网站的<b>公开信息</b>，版权归原作者所有</span>
+    <span class="dot"></span>
+    <span id="footer-sync">数据同步时间 —</span> · <span id="footer-build">页面生成于 —</span>
+    <span class="dot"></span>
+    <span id="footer-count">— 条通知</span>
+  </footer>
+</div>
+
+<dialog id="detail-dialog" aria-labelledby="detail-title">
+  <article class="detail-card" id="detail-card" data-tone="lilac">
+    <button class="icon-button detail-close" id="detail-close" type="button" aria-label="关闭详情">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+    <header class="detail-head">
+      <div class="detail-badges" id="detail-badges"></div>
+      <h2 class="detail-title" id="detail-title"></h2>
+      <p class="detail-en" id="detail-en" hidden></p>
+    </header>
+    <div class="detail-body" id="detail-body"></div>
+    <footer class="detail-foot">
+      <span class="detail-hint">内容摘自公开渠道，完整信息请以原文为准</span>
+      <div class="detail-actions">
+        <button class="btn ghost" id="detail-copy" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          复制链接
+        </button>
+        <a class="btn primary" id="detail-origin" href="#" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+          阅读原文
+        </a>
+      </div>
+    </footer>
+  </article>
+</dialog>
+
+<dialog id="modal-dialog" aria-labelledby="modal-title">
+  <div class="modal-card">
+    <button class="icon-button modal-close" id="modal-close" type="button" aria-label="关闭">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+    <div class="modal-head" id="modal-head"></div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script id="notice-data" type="application/json">__NOTICE_DATA__</script>
+<script>window["__BUILD_" + "TIME__"] = "__BUILD_TIME__";</script>
+<script>
+/* =====================================================================
+   「清华知道」单文件版
+   数据由 refresh.py 抓取自 pkuknow.cn 公开接口后内嵌，无需联网即可浏览。
+   ===================================================================== */
+(function () {
+  "use strict";
+
+  var PAYLOAD = JSON.parse(document.getElementById("notice-data").textContent);
+
+  /* ---------- 图标 ---------- */
+  var P = {
+    ticket:'<path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/>',
+    users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+    presentation:'<path d="M2 3h20"/><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3"/><path d="m7 21 5-5 5 5"/>',
+    book:'<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
+    briefcase:'<path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/>',
+    plane:'<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>',
+    landmark:'<path d="M3 22h18"/><path d="M6 18v-7"/><path d="M10 18v-7"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="m12 2 8 5H4z"/>',
+    flask:'<path d="M10 2v7.5a2 2 0 0 1-.2.9L4.7 20.5a1 1 0 0 0 .9 1.5h12.8a1 1 0 0 0 .9-1.5L15.2 10.4a2 2 0 0 1-.2-.9V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/>',
+    building:'<path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>',
+    coffee:'<path d="M10 2v2"/><path d="M14 2v2"/><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"/><path d="M6 2v2"/>',
+    cap:'<path d="M21.4 10.9a1 1 0 0 0 0-1.8L12.8 5.2a2 2 0 0 0-1.7 0L2.6 9.1a1 1 0 0 0 0 1.8l8.6 3.9a2 2 0 0 0 1.7 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>',
+    award:'<path d="m15.5 12.9 1.5 8.5a.5.5 0 0 1-.8.5l-3.6-2.7a1 1 0 0 0-1.2 0l-3.6 2.7a.5.5 0 0 1-.8-.5l1.5-8.5"/><circle cx="12" cy="8" r="6"/>',
+    buoy:'<circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 4.3 4.3"/><path d="m14.8 9.2 4.3-4.3"/><path d="m14.8 14.8 4.3 4.3"/><path d="m9.2 14.8-4.3 4.3"/><circle cx="12" cy="12" r="4"/>',
+    party:'<path d="M5.8 11.3 2 22l10.7-3.8"/><path d="M4 3h.01"/><path d="M22 8h.01"/><path d="M15 2h.01"/><path d="M22 20h.01"/><path d="m22 2-2.2.8a2.9 2.9 0 0 0-2 3.1c.1.9-.6 1.6-1.4 1.6h-.4c-.9 0-1.6.6-1.8 1.5L14 10"/><path d="m22 13-.8-.3c-.9-.4-1.8.2-2 1.1-.1.7-.7 1.2-1.4 1.2H17"/><path d="m11 2 .3.8c.4.9-.2 1.8-1.1 2-.7.1-1.2.7-1.2 1.4V7"/><path d="M11 13c1.9 1.9 2.8 4.2 2 5-.8.8-3.1-.1-5-2s-2.8-4.2-2-5c.8-.8 3.1.1 5 2Z"/>',
+    megaphone:'<path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>',
+    clock:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+    pin:'<path d="M20 10c0 5-5.5 10.2-7.4 11.8a1 1 0 0 1-1.2 0C9.5 20.2 4 15 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/>',
+    user:'<circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/>',
+    calclock:'<path d="M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h5"/><path d="M17.5 17.5 16 16.3V14"/><circle cx="16" cy="16" r="6"/>',
+    paperclip:'<path d="m16 6-8.4 8.6a2 2 0 0 0 2.8 2.8l8.4-8.6a4 4 0 1 0-5.7-5.6l-8.4 8.5a6 6 0 1 0 8.5 8.5l8.4-8.5"/>',
+    external:'<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',
+    link:'<path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 1 1 0 10h-2"/><path d="M8 12h8"/>',
+    search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    sparkles:'<path d="M9.9 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0l1.58 6.14a2 2 0 0 0 1.44 1.44l6.14 1.58a.5.5 0 0 1 0 .96l-6.14 1.58a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/>',
+    info:'<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>',
+    wechat:'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+    check:'<path d="M20 6 9 17l-5-5"/>',
+    chevron:'<path d="m6 9 6 6 6-6"/>',
+    arrow:'<path d="m9 18 6-6-6-6"/>',
+    globe:'<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',
+    inbox:'<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>',
+    building2:'<path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/><path d="M9 9v.01"/><path d="M9 12v.01"/><path d="M9 15v.01"/><path d="M9 18v.01"/>'
+  };
+  function ic(name, size) {
+    var s = size || 24;
+    return '<svg viewBox="0 0 24 24" width="' + s + '" height="' + s + '" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (P[name] || "") + "</svg>";
+  }
+
+  /* ---------- 分类配置(顺序 / 色调 / 图标 / 所属分组) ---------- */
+  var CATEGORY_META = [
+    { name:"文体活动", tone:"lilac", icon:"ticket",       group:"activity",    short:"文体" },
+    { name:"社团公益", tone:"peach", icon:"users",        group:"activity",    short:"社团" },
+    { name:"讲座活动", tone:"water", icon:"presentation", group:"activity",    short:"讲座" },
+    { name:"学习成长", tone:"amber", icon:"book",         group:"activity",    short:"学习" },
+    { name:"实习就业", tone:"rose",  icon:"briefcase",    group:"activity",    short:"就业" },
+    { name:"交流访学", tone:"slate", icon:"plane",        group:"activity",    short:"留学" },
+    { name:"校园动态", tone:"amber", icon:"landmark",     group:"information", short:"校园" },
+    { name:"学术科研", tone:"water", icon:"flask",        group:"information", short:"科研" },
+    { name:"院系资讯", tone:"lilac", icon:"building",     group:"information", short:"院系" },
+    { name:"生活资讯", tone:"peach", icon:"coffee",       group:"information", short:"生活" },
+    { name:"学业教务", tone:"iris",  icon:"cap",          group:"information", short:"学业" },
+    { name:"奖助评优", tone:"ochre", icon:"award",        group:"information", short:"奖学金" },
+    { name:"校园服务", tone:"water", icon:"buoy",         group:"information", short:"服务" }
+  ];
+  var META_OF = {};
+  CATEGORY_META.forEach(function (m) { META_OF[m.name] = m; });
+  var TONE_FALLBACK = ["lilac","peach","water","amber","rose","slate","iris","ochre"];
+  function metaOf(cat, idx) {
+    if (META_OF[cat]) return META_OF[cat];
+    return { name:cat, tone:TONE_FALLBACK[idx % 8], icon:"inbox", group:"information", short:cat };
+  }
+
+  var CAMPUS_NAMES = {
+    thu: { zh:"清华知道", en:"THU Know" },
+    zju: { zh:"浙大知道", en:"ZJU Know" },
+    sjtu:{ zh:"上交知道", en:"SJTU Know" },
+    xjtu:{ zh:"西交知道", en:"XJTU Know" }
+  };
+  var CAMPUS_ORDER = ["thu", "zju", "sjtu", "xjtu"];
+  var GROUP_LABEL = { wechat:"微信公众号", official:"清华官方网站", other:"其他来源" };
+
+  // 数据里多出来的校区自动补进切换栏:以后加校区只要放一份 data/<key>.json
+  Object.keys(PAYLOAD.campuses || {}).forEach(function (key) {
+    if (CAMPUS_ORDER.indexOf(key) >= 0) return;
+    CAMPUS_ORDER.push(key);
+    var extra = PAYLOAD.campuses[key] || {};
+    CAMPUS_NAMES[key] = { zh: extra.campus_name || key, en: "" };
+  });
+
+  /* ---------- 数据整理 ---------- */
+  var CAMPUSES = PAYLOAD.campuses || {};
+  var ACTIVE = PAYLOAD.default_campus || Object.keys(CAMPUSES)[0] || "thu";
+  if (!CAMPUSES[ACTIVE]) CAMPUSES[ACTIVE] = { campus:ACTIVE, items:[], sources:[], groups:[] };
+
+  var CATEGORY_ORDER = CATEGORY_META.map(function (m) { return m.name; });
+  var allItems = [];
+
+  // 保留期:发布超过 90 天的内容自动清除(与 refresh.py 的 RETENTION_DAYS 一致)。
+  // 发布时间未知(_ts 为 0)的条目不参与清除,和「时间未知不参与时间筛选」是同一条原则。
+  var RETENTION_DAYS = 90;
+  var RETENTION_CUTOFF = Date.now() - RETENTION_DAYS * 86400000;
+  var PRUNED_OF = {};
+
+  Object.keys(CAMPUSES).forEach(function (key) {
+    var c = CAMPUSES[key];
+    (c.items || []).forEach(function (raw) {
+      var it = Object.assign({}, raw);
+      it._campus = key;
+      // 发布时间缺失时退回活动开始时间;两者都没有才记为 0(未知时间)
+      it._ts = Date.parse(it.d) || Date.parse(it.dt && it.dt.ev && it.dt.ev[0]) || 0;
+      // 超过保留期的历史条目不再进入页面:计数、来源、分类、搜索里都不会出现
+      if (it._ts && it._ts < RETENTION_CUTOFF) {
+        PRUNED_OF[key] = (PRUNED_OF[key] || 0) + 1;
+        return;
+      }
+      it._group = (it.dt && it.dt.sg) || (/^weixinzs_/.test(it.si || "") ? "wechat" : "official");
+      var idx = CATEGORY_ORDER.indexOf(it.c);
+      it._meta = metaOf(it.c, idx < 0 ? 0 : idx);
+      if (idx < 0) CATEGORY_ORDER.push(it.c);
+      it._hay = [it.t, it.s, it.en, it.ens, it.dt && it.dt.su, it.dt && it.dt.tx, it.dt && it.dt.lo, it.dt && it.dt.og]
+        .filter(Boolean).join("\n").toLowerCase();
+      allItems.push(it);
+    });
+  });
+  CATEGORY_ORDER = CATEGORY_ORDER.filter(function (v, i, a) { return a.indexOf(v) === i; });
+
+  var SOURCES_OF = {};
+  var GROUP_STATS = {};
+  Object.keys(CAMPUSES).forEach(function (key) {
+    var c = CAMPUSES[key];
+    SOURCES_OF[key] = c.sources || [];
+    GROUP_STATS[key] = {};
+    (c.groups || []).forEach(function (g) { GROUP_STATS[key][g.id] = g; });
+  });
+
+  function campus() { return CAMPUSES[state.campus] || CAMPUSES[ACTIVE] || {}; }
+  function campusItems() { return campusItemsOf(state.campus); }
+
+  /* ---------- 状态 ---------- */
+  var state = {
+    campus: ACTIVE,
+    q: "",
+    category: null,
+    scope: "all",
+    groups: { wechat:true, official:true, other:true },
+    range: "all",
+    sort: "desc",
+    cols: 4,
+    expanded: {},
+    lang: "zh",
+    view: "board",
+    srcKey: null,      // 按来源筛选(用来源标识,避免同名官网栏目与公众号混淆)
+    srcName: ""
+  };
+  try {
+    var saved = JSON.parse(localStorage.getItem("thu-know-prefs") || "{}");
+    if (saved.cols) state.cols = saved.cols;
+    if (saved.sort) state.sort = saved.sort;
+    if (saved.lang) state.lang = saved.lang;
+  } catch (e) { /* 忽略 */ }
+
+  function savePrefs() {
+    try {
+      localStorage.setItem("thu-know-prefs", JSON.stringify({ cols:state.cols, sort:state.sort, lang:state.lang }));
+    } catch (e) { /* 忽略 */ }
+  }
+
+  /* ---------- DOM ---------- */
+  var $ = function (id) { return document.getElementById(id); };
+  var elResults = $("board-results");
+  var elStatus = $("board-status");
+  var elClusters = $("clusters");
+  var elSourceFilter = $("source-filter");
+  var elTitle = $("board-title-text");
+  var elTotal = $("board-total");
+  var elInput = $("q");
+  var elClear = $("q-clear");
+  var dialogDetail = $("detail-dialog");
+  var dialogModal = $("modal-dialog");
+  var elToast = $("toast");
+  var toastTimer = null;
+
+  function toast(msg) {
+    elToast.textContent = msg;
+    elToast.dataset.show = "true";
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { elToast.dataset.show = "false"; }, 2400);
+  }
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (ch) {
+      return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[ch];
+    });
+  }
+  function fmtDate(iso) {
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return "";
+    var now = new Date();
+    var sameYear = d.getFullYear() === now.getFullYear();
+    var pad = function (n) { return n < 10 ? "0" + n : "" + n; };
+    return (sameYear ? "" : d.getFullYear() + "年") + (d.getMonth() + 1) + "月" + d.getDate() + "日 " + pad(d.getHours()) + ":" + pad(d.getMinutes());
+  }
+  function relative(iso) {
+    var t = Date.parse(iso);
+    if (isNaN(t)) return "";
+    var diff = Date.now() - t;
+    if (diff < 0) return "刚刚";
+    var min = diff / 60000;
+    if (min < 60) return Math.max(1, Math.round(min)) + " 分钟前";
+    var hr = min / 60;
+    if (hr < 24) return Math.round(hr) + " 小时前";
+    var day = hr / 24;
+    if (day < 30) return Math.round(day) + " 天前";
+    return Math.round(day / 30) + " 个月前";
+  }
+  function hl(text, q) {
+    if (!q) return esc(text);
+    var idx = text.toLowerCase().indexOf(q);
+    if (idx < 0) return esc(text);
+    return esc(text.slice(0, idx)) + '<mark class="hit">' + esc(text.slice(idx, idx + q.length)) + "</mark>" + esc(text.slice(idx + q.length));
+  }
+
+  /* ---------- 顶栏:校区切换 ---------- */
+  function campusName(key) {
+    return CAMPUS_NAMES[key] || { zh:key, en:"" };
+  }
+  function campusItemsOf(key) {
+    return allItems.filter(function (it) { return it._campus === key; });
+  }
+
+  function renderCampusSwitch() {
+    var nav = $("campus-switch");
+    nav.innerHTML = CAMPUS_ORDER.map(function (key) {
+      var nm = CAMPUS_NAMES[key];
+      var avail = !!CAMPUSES[key];
+      var n = avail ? campusItemsOf(key).length : 0;
+      return '<a href="#" data-campus="' + key + '" data-available="' + avail + '"' +
+        (key === state.campus ? ' aria-current="page"' : "") + '>' + esc(nm.zh) +
+        '<span lang="en">' + esc(nm.en) + "</span></a>";
+    }).join("");
+    nav.querySelectorAll("a").forEach(function (a) {
+      a.addEventListener("click", function (ev) {
+        ev.preventDefault();
+        var key = a.dataset.campus;
+        if (!CAMPUSES[key]) {
+          toast("还没有 " + campusName(key).zh + " 的数据，可运行 refresh.py --campus " + key + " 抓取该校区");
+          return;
+        }
+        switchCampus(key);
+      });
+    });
+  }
+
+  function switchCampus(key, fromHash) {
+    if (!CAMPUSES[key]) return;
+    var nm = campusName(key);
+    state.campus = key;
+    state.category = null;
+    state.scope = "all";
+    state.expanded = {};
+    document.querySelector(".app-shell").dataset.campus = key;
+    $("brand-name").textContent = nm.zh;
+    $("brand-en").textContent = nm.en;
+    document.title = "「" + nm.zh + "」" + (nm.en ? " " + nm.en : "");
+    renderCampusSwitch();
+    updateBrandAvailability();   // official 分组的显示名依赖当前校区,必须在筛选器之前
+    renderSourceFilter();
+    renderClusters();
+    render();
+    if (dialogDetail.open) dialogDetail.close();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (!fromHash) setHash("campus", key);
+  }
+
+  /* 每个校区都有自己的地址:#campus=zju */
+  function setHash(name, value) {
+    var next = "#" + name + "=" + encodeURIComponent(value);
+    if (location.hash !== next) location.hash = next;
+  }
+
+  function updateBrandAvailability() {
+    CAMPUS_ORDER.forEach(function (key) {
+      var a = document.querySelector('#campus-switch a[data-campus="' + key + '"]');
+      if (!a) return;
+      var avail = !!CAMPUSES[key];
+      var n = avail ? campusItemsOf(key).length : 0;
+      a.dataset.available = String(avail);
+      a.title = campusName(key).zh + " · " + (n ? n + " 条通知" : "尚未接入信息源");
+    });
+    GROUP_LABEL.official = (CAMPUS_NAMES[state.campus] || {}).zh
+      ? CAMPUS_NAMES[state.campus].zh.replace("知道", "") + "官方网站"
+      : "官方网站";
+  }
+
+  /* ---------- 左分类导航 ---------- */
+  function renderClusters() {
+    var items = campusItems();
+    var counts = {};
+    items.forEach(function (it) { counts[it.c] = (counts[it.c] || 0) + 1; });
+
+    var clusters = [
+      { id:"activity",    label:"活动", tone:"peach", icon:"party",     cats:["文体活动","社团公益","讲座活动","学习成长","实习就业","交流访学"] },
+      { id:"information", label:"通知", tone:"water", icon:"megaphone", cats:["校园动态","学术科研","院系资讯","生活资讯","学业教务","奖助评优","校园服务"] }
+    ];
+
+    elClusters.innerHTML = clusters.map(function (cl) {
+      var links = cl.cats.map(function (cat) {
+        var m = META_OF[cat] || metaOf(cat, 0);
+        var n = counts[cat] || 0;
+        return '<a href="#" data-cat="' + esc(cat) + '" data-tone="' + m.tone + '" title="' + esc(cat + " · " + n + " 条") + '">' +
+          ic(m.icon, 14) + '<span class="cat-label-long">' + esc(cat) + "</span><span class=\"cat-label-short\">" + esc(m.short) + "</span></a>";
+      }).join("");
+      var all = '<a href="#" class="category-nav-all" data-scope="' + cl.id + '" data-tone="' + cl.tone + '" title="浏览全部分组">' +
+        ic("arrow", 14) + "<span>全部</span></a>";
+      return '<section class="category-cluster" data-tone="' + cl.tone + '">' +
+        '<div class="category-cluster-heading"><span class="category-cluster-icon">' + ic(cl.icon, 17) + "</span>" +
+        "<strong>" + esc(cl.label) + "</strong></div>" +
+        '<div class="category-nav">' + all + links + "</div></section>";
+    }).join("");
+
+    elClusters.querySelectorAll("a[data-cat]").forEach(function (a) {
+      a.addEventListener("click", function (ev) { ev.preventDefault(); selectCategory(a.dataset.cat); });
+    });
+    elClusters.querySelectorAll("a[data-scope]").forEach(function (a) {
+      a.addEventListener("click", function (ev) { ev.preventDefault(); selectScope(a.dataset.scope); });
+    });
+    syncNavActive();
+  }
+
+  function syncNavActive() {
+    var rootAll = $("cat-all");
+    if (rootAll) {
+      if (state.scope === "all" && !state.category) rootAll.setAttribute("aria-current", "page");
+      else rootAll.removeAttribute("aria-current");
+    }
+    elClusters.querySelectorAll("a").forEach(function (a) {
+      var on = false;
+      if (a.dataset.cat) on = state.category === a.dataset.cat;
+      if (a.dataset.scope) on = !state.category && state.scope === a.dataset.scope;
+      if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+    });
+    var label = "全部通知";
+    if (state.category) {
+      var m = META_OF[state.category];
+      label = state.category + (m && m.group === "activity" ? " · 活动" : " · 通知");
+    } else if (state.scope === "activity") label = "全部活动";
+    else if (state.scope === "information") label = "全部通知";
+    if (state.srcName) label = state.srcName;   // 按来源筛选时标题显示来源名
+    elTitle.textContent = label;
+  }
+
+  function selectCategory(cat) {
+    state.category = (state.category === cat) ? null : cat;
+    state.scope = state.category ? (META_OF[cat] || {}).group || "all" : "all";
+    state.expanded = {};
+    state.srcKey = null; state.srcName = "";
+    syncNavActive();
+    render();
+    scrollToResults();
+  }
+  function selectScope(scope) {
+    if (!state.category && state.scope === scope) { state.scope = "all"; }
+    else { state.scope = scope; }
+    state.category = null;
+    state.expanded = {};
+    state.srcKey = null; state.srcName = "";
+    syncNavActive();
+    render();
+    scrollToResults();
+  }
+  function scrollToResults() {
+    var nav = document.querySelector(".board-navigation");
+    var top = nav ? nav.getBoundingClientRect().bottom + window.scrollY - 8 : 0;
+    if (window.scrollY > top) window.scrollTo({ top: top, behavior: "smooth" });
+  }
+
+  /* ---------- 来源筛选 ---------- */
+  function renderSourceFilter() {
+    // 还没有数据的校区不显示两个空勾选框,只给一个占位提示
+    if (!campusItems().length) {
+      elSourceFilter.innerHTML = '<span class="source-filter-label">信息来源</span>' +
+        '<span class="source-filter-pending">' + ic("globe", 15) + "待接入</span>";
+      return;
+    }
+    var stats = GROUP_STATS[state.campus] || {};
+    var defs = [
+      { id:"wechat",   tone:"water", icon:"wechat",  label:GROUP_LABEL.wechat },
+      { id:"official", tone:"lilac", icon:"building2", label:GROUP_LABEL.official }
+    ];
+    elSourceFilter.innerHTML = '<span class="source-filter-label">信息来源</span>' + defs.map(function (d) {
+      var st = stats[d.id] || {};
+      var n = st.count != null ? st.count : 0;
+      return '<label class="source-choice" data-tone="' + d.tone + '" data-selected="' + !!state.groups[d.id] + '">' +
+        '<input type="checkbox" value="' + d.id + '"' + (state.groups[d.id] ? " checked" : "") + ">" +
+        ic(d.icon, 15) + "<span>" + esc(d.label) + (n ? " · " + n : "") + "</span></label>";
+    }).join("");
+    elSourceFilter.querySelectorAll("input").forEach(function (inp) {
+      inp.addEventListener("change", function () {
+        var on = inp.checked;
+        state.groups[inp.value] = on;
+        var onCount = defs.filter(function (d) { return state.groups[d.id]; }).length;
+        if (onCount === 0) { inp.checked = true; state.groups[inp.value] = true; toast("至少要保留一个信息来源"); return; }
+        inp.closest(".source-choice").dataset.selected = String(on);
+        render();
+      });
+    });
+  }
+
+  /* ---------- 过滤 ---------- */
+  function withinRange(it) {
+    if (state.range === "all") return true;
+    var days = parseInt(state.range, 10);
+    if (!days) return true;
+    // 时间未知的通知不参与时间筛选,而不是被静默藏起来
+    if (!it._ts) return true;
+    var cutoff = Date.now() - days * 86400000;
+    if (days === 1) { var d0 = new Date(); d0.setHours(0, 0, 0, 0); cutoff = d0.getTime(); }
+    return it._ts >= cutoff;
+  }
+  // 时间未知的始终排在最后,不受升降序影响
+  function byTime(a, b) {
+    if (!a._ts || !b._ts) return (a._ts ? 0 : 1) - (b._ts ? 0 : 1);
+    return state.sort === "desc" ? b._ts - a._ts : a._ts - b._ts;
+  }
+  function setStatus(text) { if (elStatus) elStatus.textContent = text; }
+  function matchesQuery(it, q) {
+    if (!q) return true;
+    return it._hay.indexOf(q) >= 0;
+  }
+  function filtered() {
+    var q = state.q.trim().toLowerCase();
+    var list = allItems.filter(function (it) {
+      if (it._campus !== state.campus) return false;
+      if (state.srcKey && (it.si || it.s) !== state.srcKey) return false;
+      if (state.groups[it._group] === false) return false;
+      if (!withinRange(it)) return false;
+      if (state.category && it.c !== state.category) return false;
+      if (!state.category && state.scope !== "all" && it._meta.group !== state.scope) return false;
+      if (!matchesQuery(it, q)) return false;
+      return true;
+    });
+    list.sort(byTime);
+    return list;
+  }
+
+  /* ---------- 渲染 ---------- */
+  /* 「近期活动」按钮的按下态只在这里同步,避免 state.view 被别处改回 board 后按钮残留 */
+  var elUpcoming = document.querySelector('[data-open="upcoming"]');
+  function syncUpcomingButton() {
+    if (!elUpcoming) return;
+    var on = state.view === "upcoming";
+    elUpcoming.setAttribute("aria-pressed", String(on));
+    elUpcoming.style.color = on ? "var(--primary)" : "";
+    elUpcoming.style.borderColor = on ? "var(--primary)" : "";
+    elUpcoming.style.background = on ? "var(--accent)" : "";
+  }
+
+  function render() {
+    elResults.style.setProperty("--cols", state.cols);
+    var list = filtered();
+    var total = campusItems().length;
+    var c = campus();
+    var nm = campusName(state.campus);
+    $("footer-brand").textContent = "「" + nm.zh + "」" + (nm.en ? " " + nm.en : "");
+    $("footer-sync").textContent = "数据同步时间 " +
+      (c.site_last_sync ? c.site_last_sync.replace("T", " ").slice(0, 16) : "—");
+    // 页面生成时间：每次重建都会变；数据同步时间只在上游有新内容时才前进
+    // （变量名用拼接写，避免被构建脚本的占位符替换误伤）
+    var buildIso = window["__BUILD_" + "TIME__"];
+    $("footer-build").textContent = "页面生成于 " +
+      (buildIso ? buildIso.replace("T", " ").slice(0, 16) : "—");
+    $("footer-count").textContent = total + " 条通知";
+
+    if (state.view === "upcoming") {
+      var now = Date.now();
+      var evs = list.filter(function (it) {
+        var s = it.dt && it.dt.ev && it.dt.ev[0];
+        return s && Date.parse(s) >= now - 86400000;
+      }).sort(function (a, b) { return Date.parse(a.dt.ev[0]) - Date.parse(b.dt.ev[0]); });
+      elTitle.textContent = "近期活动";
+      elTotal.textContent = evs.length;
+      setStatus(!total ? "该校区还没有接入信息源"
+        : (evs.length ? "近期活动 " + evs.length + " 条" : "没有符合条件的近期活动"));
+      elResults.innerHTML = "";
+      if (!evs.length) { elResults.appendChild(emptyState()); return; }
+      elResults.appendChild(sectionEl({ name:"近期活动", tone:"lilac", icon:"calclock" }, evs, "upcoming"));
+      return;
+    }
+
+    elTotal.textContent = list.length;
+    setStatus(!total ? "该校区还没有接入信息源"
+      : (list.length ? "共 " + list.length + " 条通知" : "没有匹配的通知"));
+    elResults.innerHTML = "";
+
+    if (!list.length) {
+      elResults.appendChild(emptyState());
+      return;
+    }
+
+    var byCat = {};
+    list.forEach(function (it) { (byCat[it.c] = byCat[it.c] || []).push(it); });
+    var order = CATEGORY_ORDER.filter(function (c) { return byCat[c]; });
+    if (state.category) order = [state.category].filter(function (c) { return byCat[c]; });
+
+    order.forEach(function (cat) {
+      elResults.appendChild(sectionEl(META_OF[cat] || metaOf(cat, 0), byCat[cat], cat));
+    });
+  }
+
+  function sectionEl(meta, items, key) {
+    var preview = state.cols * 2;
+    var expanded = !!state.expanded[key];
+    var shown = expanded ? items : items.slice(0, preview);
+    var sec = document.createElement("section");
+    sec.className = "notice-section";
+    sec.dataset.tone = meta.tone;
+    sec.style.setProperty("--cols", state.cols);
+
+    var head = document.createElement("div");
+    head.className = "section-heading";
+    var more = "";
+    if (items.length > preview) {
+      more = '<button class="section-more" type="button" data-key="' + esc(key) + '">' +
+        (expanded ? "收起" : "展开全部 " + items.length + " 条") + ic("chevron", 13) + "</button>";
+    }
+    head.innerHTML = '<span class="section-icon">' + ic(meta.icon, 19) + "</span>" +
+      "<h2>" + esc(meta.name) + "</h2>" +
+      '<span class="section-count">' + items.length + " 条</span>" + more;
+    sec.appendChild(head);
+
+    var grid = document.createElement("ul");
+    grid.className = "notice-grid";
+    var q = state.q.trim().toLowerCase();
+    shown.forEach(function (it) {
+      var li = document.createElement("li");
+      var btn = document.createElement("button");
+      btn.className = "notice-block";
+      btn.type = "button";
+      btn.setAttribute("aria-haspopup", "dialog");
+      if (Date.now() - it._ts < 36 * 3600000) btn.classList.add("is-new");
+      var useEn = state.lang === "en" && it.en;
+      var title = useEn ? it.en : it.t;
+      // 「近期活动」按活动开始时间排序,卡片就显示活动时间;普通列表显示发布时间
+      var evStart = (key === "upcoming" && it.dt && it.dt.ev && it.dt.ev[0]) ? it.dt.ev[0] : null;
+      var timeIso = evStart || it.d;
+      var timeText = evStart ? ("活动 " + fmtDate(evStart)) : (fmtDate(it.d) || "时间待定");
+      var timeTitle = evStart ? "活动开始时间" : "发布时间";
+      btn.innerHTML =
+        '<span class="notice-block-copy">' +
+          '<span class="notice-block-title"' + (useEn ? ' lang="en"' : "") + ' title="' + esc(title) + '">' + hl(title, q) + "</span>" +
+          '<span class="notice-block-meta">' +
+            '<time class="notice-block-time" datetime="' + esc(timeIso) + '" title="' + timeTitle + '" aria-label="' + timeTitle + '">' +
+              ic("clock", 12) + "<span>" + esc(timeText) + "</span></time>" +
+            '<span class="notice-block-source" title="' + esc(it.s) + '">' + ic("user", 12) + "<span>" + esc(it.s) + "</span></span>" +
+          "</span>" +
+        "</span>";
+      btn.addEventListener("click", function () { openDetail(it); });
+      li.appendChild(btn);
+      grid.appendChild(li);
+    });
+    sec.appendChild(grid);
+
+    var moreBtn = head.querySelector(".section-more");
+    if (moreBtn) {
+      moreBtn.addEventListener("click", function () {
+        state.expanded[key] = !state.expanded[key];
+        render();
+        // render() 会重建整个列表,把焦点交还给同一个分区的按钮
+        var next = null;
+        elResults.querySelectorAll(".section-more").forEach(function (b) {
+          if (b.dataset.key === key) next = b;
+        });
+        if (next) next.focus();
+      });
+    }
+    return sec;
+  }
+
+  function emptyState() {
+    var box = document.createElement("div");
+    box.className = "board-empty";
+    var chips = document.createElement("div");
+    chips.className = "filter-chips";
+
+    // 校区在切换栏里、但还没有任何数据:给一个说明和两个去处,而不是"没有匹配的通知"
+    if (!campusItems().length) {
+      box.innerHTML = ic("inbox", 44) +
+        "<strong>" + esc(campusName(state.campus).zh) + "还没有接入信息源</strong>" +
+        "<p>这个校区的页面已经就绪，只是还没有数据。信息源接入后，通知会按分类出现在这里。</p>";
+      [
+        { label:"先看清华知道", run:function () { switchCampus("thu"); } },
+        { label:"如何接入信息源", run:function () { openModal("信息源补充", "sparkles", suggestHTML()); } }
+      ].forEach(function (o) { chips.appendChild(chip(o, false)); });
+      box.appendChild(chips);
+      return box;
+    }
+
+    box.innerHTML = ic("inbox", 44) + "<strong>没有匹配的通知</strong>" +
+      "<p>试着换个关键词，或放宽时间范围和来源筛选。</p>";
+    [
+      { label:"清空搜索", run:function () { state.q = ""; elInput.value = ""; elClear.hidden = true; state.srcKey = null; state.srcName = ""; syncNavActive(); } },
+      { label:"全部时间", run:function () { state.range = "all"; $("range").value = "all"; } },
+      { label:"全部来源", run:function () { state.groups = { wechat:true, official:true, other:true }; renderSourceFilter(); } },
+      { label:"展示全部分类", run:function () { state.category = null; state.scope = "all"; syncNavActive(); } }
+    ].forEach(function (o) { chips.appendChild(chip(o, true)); });
+    box.appendChild(chips);
+    return box;
+
+    function chip(o, rerender) {
+      var b = document.createElement("button");
+      b.className = "filter-chip";
+      b.type = "button";
+      b.textContent = o.label;
+      b.addEventListener("click", function () { o.run(); if (rerender) render(); });
+      return b;
+    }
+  }
+
+  /* ---------- 详情弹窗 ---------- */
+  function openDetail(it) {
+    var m = it._meta;
+    var dt = it.dt || {};
+    var card = $("detail-card");
+    card.dataset.tone = m.tone;
+
+    var badges = '<span class="badge cat">' + ic(m.icon, 12) + esc(it.c) + "</span>" +
+      '<span class="badge src">' + ic(it._group === "wechat" ? "wechat" : "building2", 12) + esc(GROUP_LABEL[it._group] || "来源") + "</span>" +
+      '<span class="badge src">' + esc(it.s) + "</span>";
+    if (Date.now() - it._ts < 36 * 3600000) badges += '<span class="badge cat">' + ic("sparkles", 12) + "最新</span>";
+    $("detail-badges").innerHTML = badges;
+
+    $("detail-title").textContent = it.t;
+    var en = $("detail-en");
+    if (state.lang === "en" && it.en) {
+      $("detail-title").textContent = it.en;
+      $("detail-title").setAttribute("lang", "en");
+      if (it.t) { en.textContent = it.t; en.hidden = false; en.setAttribute("lang", "zh-CN"); }
+      else en.hidden = true;
+    } else {
+      $("detail-title").removeAttribute("lang");
+      if (it.en) { en.textContent = it.en; en.hidden = false; en.setAttribute("lang", "en"); }
+      else en.hidden = true;
+    }
+
+    var rows = [];
+    rows.push({ icon:"clock", k:"发布时间", v:(fmtDate(it.d) || "未公布") + (relative(it.d) ? " · " + relative(it.d) : "") });
+    if (dt.tm) rows.push({ icon:"calclock", k:"活动时间", v:dt.tm });
+    if (dt.ev && dt.ev[0]) rows.push({ icon:"calclock", k:"开始时间", v:fmtDate(dt.ev[0]) });
+    if (dt.lo) rows.push({ icon:"pin", k:"活动地点", v:dt.lo });
+    if (dt.og) rows.push({ icon:"user", k:"主办方", v:dt.og });
+    if (dt.dl) rows.push({ icon:"calclock", k:"报名 / 截止", v:dt.dl });
+
+    var body = "";
+    if (rows.length) {
+      body += '<dl class="detail-meta">' + rows.map(function (r) {
+        return '<div class="meta-row">' + ic(r.icon, 16) + "<div><dt>" + esc(r.k) + "</dt><dd>" + esc(r.v) + "</dd></div></div>";
+      }).join("") + "</dl>";
+    }
+    if (dt.su) {
+      body += "<section><h3 class=\"block-title\">" + ic("sparkles", 15) + "内容摘要</h3>" +
+        '<p class="detail-summary">' + esc(dt.su) + "</p></section>";
+    }
+    if (dt.tx) {
+      body += "<section><h3 class=\"block-title\">" + ic("book", 15) + "正文摘录</h3>" +
+        '<div class="detail-content">' + esc(dt.tx) + "</div></section>";
+    }
+    if (dt.at && dt.at.length) {
+      body += "<section><h3 class=\"block-title\">" + ic("paperclip", 15) + "相关附件</h3>" +
+        '<ul class="attach-list">' + dt.at.map(function (n) {
+          return "<li>" + ic("paperclip", 14) + "<span>" + esc(n) + "</span></li>";
+        }).join("") + "</ul></section>";
+    }
+    if (!body) body = '<p class="empty-note">这条通知暂无更详细的正文，请点击「阅读原文」查看。</p>';
+    $("detail-body").innerHTML = body;
+
+    var origin = $("detail-origin");
+    origin.href = it.u || "#";
+    origin.hidden = !it.u;
+    $("detail-body").scrollTop = 0;
+
+    if (!dialogDetail.open) dialogDetail.showModal();
+  }
+
+  $("detail-close").addEventListener("click", function () { dialogDetail.close(); });
+  dialogDetail.addEventListener("click", function (ev) { if (ev.target === dialogDetail) dialogDetail.close(); });
+  $("detail-copy").addEventListener("click", function () {
+    var url = $("detail-origin").href;
+    if (!url || url === "#") { toast("没有可复制的链接"); return; }
+    var done = function () { toast("链接已复制"); };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(url).then(done, fallback);
+    else fallback();
+    function fallback() {
+      var ta = document.createElement("textarea");
+      ta.value = url; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); done(); } catch (e) { toast("复制失败，请手动复制"); }
+      document.body.removeChild(ta);
+    }
+  });
+
+  /* ---------- 通用弹窗 ---------- */
+  function openModal(title, icon, html) {
+    $("modal-head").innerHTML = ic(icon, 19) + "<h2 id=\"modal-title\">" + esc(title) + "</h2>";
+    $("modal-body").innerHTML = html;
+    if (!dialogModal.open) dialogModal.showModal();
+    $("modal-body").scrollTop = 0;
+  }
+  $("modal-close").addEventListener("click", function () { dialogModal.close(); });
+  dialogModal.addEventListener("click", function (ev) { if (ev.target === dialogModal) dialogModal.close(); });
+
+  function statsHTML() {
+    var items = campusItems();
+    var c = campus();
+    var nm = campusName(state.campus);
+
+    if (!items.length) {
+      return '<p style="margin:0 0 14px;font-size:13.5px;line-height:1.85"><b>' + esc(nm.zh) +
+        "</b> 还没有接入信息源，所以暂时没有任何数据可统计。页面结构与「清华知道」完全一致，" +
+        "接入数据后这里会自动显示通知条数、分类分布与渠道来源。</p>" +
+        '<h3 class="block-title">' + ic("info", 15) + "当前状态</h3>" +
+        '<ul style="margin:0;padding-left:20px;line-height:1.9;font-size:13.5px">' +
+        "<li>校区页面：已就绪，顶部切换栏可进入</li>" +
+        "<li>信息源：0 个（待接入）</li>" +
+        "<li>通知条数：0 条</li></ul>";
+    }
+
+    var catCount = {};
+    items.forEach(function (it) { catCount[it.c] = (catCount[it.c] || 0) + 1; });
+    var srcCount = {};
+    items.forEach(function (it) { var k = it.si || it.s; srcCount[k] = (srcCount[k] || 0) + 1; });
+    var groups = GROUP_STATS[state.campus] || {};
+    var dated = items.filter(function (it) { return it._ts > 0; });
+    var oldest = dated.reduce(function (a, b) { return (!a || b._ts < a._ts) ? b : a; }, null);
+    var newest = dated.reduce(function (a, b) { return (!a || b._ts > a._ts) ? b : a; }, null);
+
+    var html = '<div class="stat-grid">' +
+      tile(items.length, "条通知") +
+      tile(Object.keys(srcCount).length, "个信息来源（有内容）") +
+      tile(Object.keys(catCount).length, "个分类") +
+      tile(dated.length, "条带发布时间") +
+      "</div>";
+
+    html += '<h3 class="block-title">' + ic("clock", 15) + "数据时间范围</h3>" +
+      '<p style="margin:0 0 20px;font-size:13.5px">最早：<b>' + esc(oldest ? fmtDate(oldest.d) : "—") + "</b>　最新：<b>" +
+      esc(newest ? fmtDate(newest.d) : "—") + "</b></p>";
+
+    html += '<h3 class="block-title">' + ic("inbox", 15) + "分类分布</h3><div>";
+    var max = Math.max.apply(null, [1].concat(Object.keys(catCount).map(function (k) { return catCount[k]; })));
+    CATEGORY_ORDER.forEach(function (cat) {
+      if (!catCount[cat]) return;
+      var m = META_OF[cat] || metaOf(cat, 0);
+      html += '<div class="bar-row" data-tone="' + m.tone + '"><span class="bar-label">' + esc(cat) + "</span>" +
+        '<span class="bar-track"><span class="bar-fill" style="width:' + Math.round(catCount[cat] / max * 100) + '%"></span></span>' +
+        '<span class="bar-val">' + catCount[cat] + "</span></div>";
+    });
+    html += "</div>";
+
+    html += '<h3 class="block-title" style="margin-top:20px">' + ic("globe", 15) + "渠道来源</h3><div>";
+    Object.keys(groups).forEach(function (gid) {
+      var g = groups[gid];
+      if (!g.sources) return;
+      html += '<p style="margin:0 0 6px;font-size:13.5px"><b>' + esc(GROUP_LABEL[gid] || gid) + "</b> · " +
+        g.sources + " 个来源 / " + g.count + " 条通知</p>";
+    });
+    html += "</div>";
+
+    // 来源状态:照搬原站那套「最近更新 / 无新内容 / 采集失败 / 待接入」
+    var allSources = (c.sources || []).slice();
+    var registered = c.wechat_accounts || [];
+    var seenNames = {};
+    allSources.forEach(function (s) { seenNames[s.name] = true; });
+    registered.forEach(function (name) {
+      if (!seenNames[name]) allSources.push({ name: name, count: 0, status: "pending" });
+    });
+    var byStatus = { ok: 0, no_recent: 0, failed: 0, pending: 0 };
+    allSources.forEach(function (s) {
+      var key;
+      if (s.status === "pending") key = "pending";            // 已登记、从未取到内容
+      else if (s.status === "failed") key = "failed";
+      else if (s.count > 0) key = s.status || "ok";
+      else key = s.status ? "no_recent" : "pending";
+      byStatus[key] = (byStatus[key] || 0) + 1;
+    });
+    html += '<h3 class="block-title" style="margin-top:20px">' + ic("check", 15) + "来源状态</h3><div>";
+    ["ok", "no_recent", "failed", "pending"].forEach(function (key) {
+      if (!byStatus[key]) return;
+      html += '<div class="bar-row" data-status-row="1"><span class="bar-label">' + esc(sourceStatusMeta(key).label) + "</span>" +
+        '<span class="bar-track"><span class="bar-fill" style="width:' +
+        Math.round(byStatus[key] / allSources.length * 100) + '%"></span></span>' +
+        '<span class="bar-val">' + byStatus[key] + "</span></div>";
+    });
+    html += "</div>";
+
+    var li = c.last_import || {};
+    html += '<p style="margin:18px 0 0;font-size:12.5px;color:var(--muted-foreground)">' +
+      "数据保留 " + RETENTION_DAYS + " 天：每轮追加新发布的官网内容，发布超过 " + RETENTION_DAYS +
+      " 天的历史条目自动清除（发布时间未知的除外）。" +
+      (li.added ? "最近一轮新增 <b>" + li.added + "</b> 条、更新 <b>" + (li.updated || 0) + "</b> 条（" +
+        esc((li.at || "").replace("T", " ").slice(0, 16)) + "）。" : "") + "</p>" +
+      (PRUNED_OF[state.campus]
+        ? '<p style="margin:8px 0 0;font-size:12.5px;color:var(--muted-foreground)">本次加载时已自动清除 <b>' +
+          PRUNED_OF[state.campus] + "</b> 条超过 " + RETENTION_DAYS + " 天的历史条目。</p>" : "");
+
+    html += '<p style="margin:22px 0 0;font-size:12.5px;color:var(--muted-foreground)">页面内置数据抓取于 <b>' +
+      esc(c.scraped_at ? c.scraped_at.replace("T", " ").slice(0, 16) : "—") + "</b>；上游站点同步于 <b>" +
+      esc(c.site_last_sync ? c.site_last_sync.replace("T", " ").slice(0, 16) : "—") + "</b>。</p>";
+    return html;
+
+    function tile(v, l) { return '<div class="stat-tile"><b>' + v + "</b><span>" + esc(l) + "</span></div>"; }
+  }
+
+  /* 来源状态徽标:照搬原站那套「最近更新 / 无新内容 / 采集失败 / 待接入」 */
+  var SOURCE_STATUS = {
+    ok:        { label: "最近更新", tone: "ok" },
+    no_recent: { label: "无新内容", tone: "idle" },
+    failed:    { label: "采集失败", tone: "bad" },
+    pending:   { label: "待接入",   tone: "idle" }
+  };
+  function sourceStatusMeta(status) {
+    return SOURCE_STATUS[status] || SOURCE_STATUS.pending;
+  }
+  function sourceBadge(status) {
+    var meta = sourceStatusMeta(status);
+    return '<i class="src-status" data-status="' + meta.tone + '">' + esc(meta.label) + "</i>";
+  }
+
+  function sourcesHTML() {
+    var c = campus() || {};
+    var counts = {}, countsByName = {};
+    campusItems().forEach(function (it) {
+      var k = it.si || it.s;
+      counts[k] = (counts[k] || 0) + 1;
+      countsByName[it.s] = (countsByName[it.s] || 0) + 1;
+    });
+    // 有来源标识就按标识精确计数;老数据(没有 key)才退回按显示名计数 ——
+    // 否则「浙江大学物理学院」这种同名公众号会继承官网的条数。
+    var countFor = function (s) {
+      if (s.hasKey) return counts[s.key] || 0;
+      if (countsByName[s.name] != null) return countsByName[s.name];
+      return s.count || 0;
+    };
+    var sources = (SOURCES_OF[state.campus] || []).map(function (s) {
+      return { key: s.key || s.name, hasKey: !!s.key, name: s.name, source_group: s.source_group,
+               status: s.status, count: countFor(s) };
+    });
+
+    // 已登记但还没有注册表记录的公众号(从未取到内容)也要列出来
+    var known = {};
+    sources.forEach(function (s) { known[s.key] = true; });
+    (c.wechat_accounts || []).forEach(function (name) {
+      var key = "wx:" + name;
+      if (known[key]) return;
+      known[key] = true;
+      sources.push({ key: key, hasKey: true, name: name, source_group: "wechat", count: 0, status: "pending" });
+    });
+
+    var byGroup = { wechat: [], official: [], other: [] };
+    sources.forEach(function (s) { (byGroup[s.source_group] || byGroup.other).push(s); });
+
+    var statusOf = function (s) {
+      if (s.status === "pending") return "pending";   // 已登记、从未取到内容
+      if (s.status === "failed") return "failed";
+      if (s.count > 0) return s.status || "ok";
+      // 抓过但没有内容 → 无新内容
+      return s.status ? "no_recent" : "pending";
+    };
+    var withContent = sources.filter(function (s) { return s.count > 0; });
+    var li = c.last_import || {};
+
+    var html = '<p class="src-summary">共 <b>' + withContent.length + "</b> 个来源有内容" +
+      "<span class=\"dot\"></span>累计 <b>" + campusItems().length + "</b> 条" +
+      (li.added ? '<span class="dot"></span>最近一轮新增 <b>' + li.added + "</b> 条" : "") +
+      (sources.length > withContent.length
+        ? '<span class="dot"></span>另有 <b>' + (sources.length - withContent.length) + "</b> 个待接入" : "") +
+      "</p>";
+
+    ["wechat", "official"].forEach(function (gid) {
+      var arr = byGroup[gid];
+      if (!arr || !arr.length) return;
+      arr.sort(function (a, b) { return b.count - a.count; });
+      var live = arr.filter(function (s) { return s.count > 0; }).length;
+      html += '<div class="src-group"><h3>' + esc(GROUP_LABEL[gid] || gid) + " · " + live + " 个有内容" +
+        (arr.length > live ? " / " + (arr.length - live) + " 个待接入" : "") +
+        '</h3><div class="src-chips">' +
+        arr.map(function (s) {
+          var n = s.count;
+          var status = statusOf(s);
+          if (status === "pending") {
+            return '<span class="src-chip is-pending">' + esc(s.name) + sourceBadge(status) + "</span>";
+          }
+          if (!n) {
+            return '<span class="src-chip is-empty">' + esc(s.name) + sourceBadge(status) + "</span>";
+          }
+          return '<span class="src-chip" data-src="' + esc(s.key) + '" data-name="' + esc(s.name) +
+            '" data-status="' + esc(status) + '">' + esc(s.name) + "<em>" + n + "</em>" +
+            sourceBadge(status) + "</span>";
+        }).join("") + "</div></div>";
+    });
+    if (!html) html = '<p class="empty-note">暂无来源信息。</p>';
+
+    var pendingWechat = sources.filter(function (s) {
+      return s.source_group === "wechat" && !s.count && statusOf(s) === "pending";
+    });
+    if (pendingWechat.length) {
+      html += '<p style="margin:12px 0 0;font-size:12.5px;color:var(--muted-foreground)">带「待接入」的公众号是已登记、' +
+        "但还没抓到文章的号：微信公众号没有公开的文章列表接口，需要登录公众平台后台才能按号拉历史文章。" +
+        "把登录后的 cookies 存成 <code>_work/wxmp-cookies.json</code> 后重跑 <code>python fetch_wechat.py</code>，" +
+        "即可用 <code>wxmp</code> 批量补全；也可把文章链接写进 <code>_work/wechat-&lt;校区&gt;.txt</code> 作为公开种子。" +
+        "详见 <code>docs/wxmp公众号接入.md</code>。</p>";
+    }
+    html += '<p style="margin:12px 0 0;font-size:12.5px;color:var(--muted-foreground)">' +
+      "点击任一来源可只看它的通知（同名官网栏目与公众号是分开的两个来源）。数据保留 " + RETENTION_DAYS +
+      " 天：每轮追加新发布的官网内容，发布超过 " + RETENTION_DAYS + " 天的历史条目自动清除。" +
+      "所有内容均来自公开渠道，版权归原作者所有。</p>";
+    return html;
+  }
+
+  function campusOverview() {
+    return CAMPUS_ORDER.map(function (key) {
+      var zh = campusName(key).zh;
+      return campusItemsOf(key).length ? zh : zh + "（信息源待接入）";
+    }).join("、");
+  }
+
+  function aboutHTML() {
+    return '<p style="margin:0 0 14px">这是一个对照 <b>pkuknow.cn/thu（「清华知道」THU Know）</b> 重做的校园信息聚合站复刻版，' +
+      "顶栏可以切换 <b>" + esc(campusOverview()) + "</b>。</p>" +
+      '<h3 class="block-title">' + ic("check", 15) + "已实现</h3>" +
+      '<ul style="margin:0 0 18px;padding-left:20px;line-height:1.9;font-size:13.5px">' +
+      "<li>顶栏多校区切换，每个校区有独立地址（<code>#campus=zju</code>）、圆角搜索、昼夜主题与本地偏好记忆</li>" +
+      "<li>吸顶分类导航:两个色块组、13 个分类、彩色 tone 体系</li>" +
+      "<li>分区卡片网格:标题 / 发布时间 / 来源，悬停放大与左侧色条</li>" +
+      "<li>详情弹窗:发布时间、活动时间、地点、主办、截止、摘要、正文摘录、附件与原文跳转</li>" +
+      "<li>来源筛选、时间范围、排序、列数切换、全文搜索、详情深链</li>" +
+      "<li>数据概览与信息来源抽屉</li></ul>" +
+      '<h3 class="block-title">' + ic("info", 15) + "说明</h3>" +
+      '<p style="margin:0;font-size:13px;color:var(--muted-foreground);line-height:1.85">' +
+      "页面内嵌的数据由 <code>refresh.py</code> 抓取自上游公开接口，重新运行即可刷新。所有通知的版权归原作者与发布单位所有，本页仅作展示与检索之用。</p>";
+  }
+
+  function suggestHTML() {
+    return '<p style="margin:0 0 14px">这个站点的校区页是数据驱动的：目前「清华知道」已有数据，' +
+      "浙大 / 上交 / 西交三个校区页面已经就绪，信息源待接入。</p>" +
+      '<h3 class="block-title">' + ic("check", 15) + "刷新已有校区</h3>" +
+      '<p style="margin:0 0 18px;font-size:13.5px;line-height:1.85">在项目目录运行 <code>python refresh.py</code> 抓取清华全量并重新生成页面。</p>' +
+      '<h3 class="block-title">' + ic("check", 15) + "接入新校区的信息源</h3>" +
+      '<p style="margin:0 0 18px;font-size:13.5px;line-height:1.85">把抓到的数据按 <code>data/thu.json</code> 的字段写成 ' +
+      "<code>data/&lt;校区&gt;.json</code>，再运行 <code>python refresh.py --build-only</code>，" +
+      "对应校区的页面就会自动显示通知。若上游提供了接口，在 <code>refresh.py</code> 的 <code>CAMPUS_PREFIX</code> 里登记路径后也可以直接 " +
+      "<code>python refresh.py --campus zju</code>。</p>" +
+      '<h3 class="block-title">' + ic("info", 15) + "自建数据源</h3>" +
+      '<p style="margin:0;font-size:13.5px;line-height:1.85">若要长期收录某个公众号，最稳妥的方式是直接订阅该公众号并自建抓取，' +
+      "或向数据源维护方提交信息源补充申请。本项目仅聚合已公开的内容。</p>";
+  }
+
+  document.querySelectorAll("[data-open]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var kind = b.dataset.open;
+      if (kind === "stats") openModal("数据概览", "inbox", statsHTML());
+      else if (kind === "sources") {
+        openModal("信息来源", "globe", sourcesHTML());
+        $("modal-body").querySelectorAll("[data-src]").forEach(function (chip) {
+          chip.style.cursor = "pointer";
+          chip.addEventListener("click", function () {
+            state.srcKey = chip.dataset.src;
+            state.srcName = chip.dataset.name || "";
+            state.category = null; state.scope = "all";
+            state.q = ""; elInput.value = ""; elClear.hidden = true;
+            syncNavActive();
+            dialogModal.close(); render(); scrollToResults();
+          });
+        });
+      }
+      else if (kind === "about") openModal("关于这个站点", "info", aboutHTML());
+      else if (kind === "suggest") openModal("信息源补充", "sparkles", suggestHTML());
+      else if (kind === "upcoming") {
+        state.view = state.view === "upcoming" ? "board" : "upcoming";
+        syncUpcomingButton();
+        render();
+        toast(state.view === "upcoming" ? "已切换到近期活动视图" : "已回到全部通知");
+      }
+    });
+  });
+  $("modal-body").addEventListener("click", function (ev) {
+    var btn = ev.target.closest("button[data-id]");
+    if (!btn) return;
+    var it = allItems.filter(function (x) { return x.i === btn.dataset.id; })[0];
+    if (it) { dialogModal.close(); openDetail(it); }
+  });
+
+  /* ---------- 交互绑定 ---------- */
+  var searchTimer = null;
+  elInput.addEventListener("input", function () {
+    elClear.hidden = !elInput.value;
+    // 手动输入就是自由搜索,取消「只看某个来源」
+    state.srcKey = null; state.srcName = "";
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(function () {
+      state.q = elInput.value;
+      syncNavActive();
+      render();
+    }, 160);
+  });
+  elInput.addEventListener("keydown", function (ev) { if (ev.key === "Escape") { elInput.value = ""; state.q = ""; state.srcKey = null; state.srcName = ""; elClear.hidden = true; syncNavActive(); render(); } });
+  elClear.addEventListener("click", function () {
+    elInput.value = ""; state.q = ""; state.srcKey = null; state.srcName = "";
+    elClear.hidden = true; elInput.focus(); syncNavActive(); render();
+  });
+  $("range").addEventListener("change", function () { state.range = this.value; render(); });
+  $("sort").addEventListener("change", function () { state.sort = this.value; savePrefs(); render(); });
+  $("cols").addEventListener("change", function () { state.cols = parseInt(this.value, 10) || 4; savePrefs(); render(); });
+  $("refresh").addEventListener("click", function () {
+    var b = this;
+    b.classList.add("spinning");
+    render();
+    setTimeout(function () { b.classList.remove("spinning"); toast("已按当前条件重新渲染"); }, 560);
+  });
+  $("cat-all").addEventListener("click", function (ev) {
+    ev.preventDefault();
+    state.category = null; state.scope = "all"; state.view = "board";
+    state.srcKey = null; state.srcName = "";
+    state.expanded = {}; syncUpcomingButton(); syncNavActive(); render();
+  });
+  $("brand-link").addEventListener("click", function (ev) {
+    ev.preventDefault();
+    state.category = null; state.scope = "all"; state.q = ""; elInput.value = ""; elClear.hidden = true;
+    state.srcKey = null; state.srcName = "";
+    state.range = "all"; $("range").value = "all"; state.view = "board";
+    state.groups = { wechat:true, official:true, other:true };
+    renderSourceFilter(); syncUpcomingButton(); syncNavActive(); render();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  /* 主题 */
+  function setTheme(t) {
+    document.documentElement.dataset.theme = t;
+    try { localStorage.setItem("thu-know-theme", t); } catch (e) { /* 忽略 */ }
+  }
+  $("theme-dark").addEventListener("click", function () { setTheme("dark"); });
+  $("theme-light").addEventListener("click", function () { setTheme("light"); });
+  (function initTheme() {
+    var saved;
+    try { saved = localStorage.getItem("thu-know-theme"); } catch (e) { /* 忽略 */ }
+    if (!saved) saved = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    document.documentElement.dataset.theme = saved;
+  })();
+
+  /* 中英文标题 */
+  function syncLangButton() {
+    var en = state.lang === "en";
+    var btn = $("lang-toggle");
+    btn.dataset.on = String(en);
+    // 按钮的可访问名就是这个 aria-label,必须跟着语言状态走
+    btn.setAttribute("aria-label", en ? "Switch to Chinese titles" : "Switch to English");
+    btn.title = en ? "切回中文标题" : "切换中英文标题";
+    elInput.placeholder = en ? "Search notices" : "搜索通知";
+  }
+  $("lang-toggle").addEventListener("click", function () {
+    state.lang = state.lang === "zh" ? "en" : "zh";
+    savePrefs();
+    syncLangButton();
+    render();
+    if (dialogDetail.open) dialogDetail.close();
+    toast(state.lang === "en" ? "已切换为英文标题" : "已切回中文标题");
+  });
+
+  /* 快捷键 */
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key === "/" && document.activeElement !== elInput) { ev.preventDefault(); elInput.focus(); }
+  });
+
+  /* 深链:#campus=<校区> 打开某个校区,#notice=<id> 打开某条通知 */
+  function applyHash() {
+    var raw = (location.hash || "").replace(/^#/, "");
+    if (!raw) return;
+    var params = {};
+    raw.split("&").forEach(function (kv) {
+      var i = kv.indexOf("=");
+      if (i > 0) params[decodeURIComponent(kv.slice(0, i))] = decodeURIComponent(kv.slice(i + 1));
+    });
+    if (params.campus && CAMPUSES[params.campus] && params.campus !== state.campus) {
+      switchCampus(params.campus, true);
+    }
+    if (params.notice) {
+      var it = allItems.filter(function (x) { return x.i === params.notice; })[0];
+      if (it) {
+        if (it._campus !== state.campus) switchCampus(it._campus, true);
+        openDetail(it);
+      }
+    }
+  }
+  window.addEventListener("hashchange", applyHash);
+
+  /* ---------- 启动 ---------- */
+  renderCampusSwitch();
+  $("brand-name").textContent = CAMPUS_NAMES[state.campus] ? CAMPUS_NAMES[state.campus].zh : state.campus;
+  $("brand-en").textContent = CAMPUS_NAMES[state.campus] ? CAMPUS_NAMES[state.campus].en : "";
+  $("cols").value = String(state.cols);
+  $("sort").value = state.sort;
+  syncLangButton();
+  updateBrandAvailability();
+  renderSourceFilter();
+  renderClusters();
+  syncUpcomingButton();
+  render();
+  applyHash();
+})();
+</script>
+</body>
+</html>
