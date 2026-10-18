@@ -37,3 +37,5 @@ Thumbs.db
 _upload_fix/
 _upload_scripts/
 _forcopy/
+_bak_*/
+_artifacts/

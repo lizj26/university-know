@@ -1,0 +1,14 @@
+[
+  {
+    "id": "zju_example_college",
+    "name": "浙江大学某某学院",
+    "url": "https://www.example.zju.edu.cn/",
+    "kind": "list",
+    "max": 6
+  },
+  {
+    "id": "sjtu_example_old",
+    "url": "https://old.example.sjtu.edu.cn/",
+    "enabled": false
+  }
+]

@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>「清华知道」 THU Know</title>
-<meta name="description" content="聚合清华大学等高校的公开活动、招募、教务与校园通知，查看活动时间、地点和原文。">
+<title>「西交知道」 XJTU Know</title>
+<meta name="description" content="聚合浙江大学、上海交通大学、西安交通大学等高校的公开活动、招募、教务与校园通知，查看活动时间、地点和原文。">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='2' width='28' height='28' rx='9' fill='%2386539b'/%3E%3Ccircle cx='12' cy='14' r='2.4' fill='%23fff'/%3E%3Ccircle cx='20' cy='14' r='2.4' fill='%23fff'/%3E%3Cpath d='M11.5 20.5c1.4 2 2.9 3 4.5 3s3.1-1 4.5-3' stroke='%23fff' stroke-width='1.9' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
 /* ============================================================
-   设计令牌 —— 复刻「清华知道」的 8 色 tone 体系
+   设计令牌 —— 复刻自 pkuknow.cn「清华知道」的 8 色 tone 体系
    ============================================================ */
 :root{
   --font-sans:"Geist","Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
@@ -388,7 +388,7 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
 </style>
 </head>
 <body>
-<div class="app-shell" data-campus="thu">
+<div class="app-shell" data-campus="xjtu">
   <a class="skip-link" href="#notices">跳转至通知列表</a>
 
   <header class="masthead">
@@ -415,7 +415,7 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
             <path d="M25.2 5.6l.85 2.05 2.05.85-2.05.85-.85 2.05-.85-2.05-2.05-.85 2.05-.85z" fill="#ffd98e"/>
           </svg>
           <span class="brand-lettering">
-            <span class="brand-bracket" aria-hidden="true">「</span><span id="brand-name">清华知道</span><span class="brand-en" id="brand-en">THU Know</span><span class="brand-bracket" aria-hidden="true">」</span>
+            <span class="brand-bracket" aria-hidden="true">「</span><span id="brand-name">西交知道</span><span class="brand-en" id="brand-en">XJTU Know</span><span class="brand-bracket" aria-hidden="true">」</span>
           </span>
         </a>
       </h1>
@@ -516,7 +516,7 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
   </main>
 
   <footer class="site-footer">
-    <span><b id="footer-brand">「清华知道」THU Know</b> · 校园信息聚合演示站</span>
+    <span><b id="footer-brand">「西交知道」XJTU Know</b> · 校园信息聚合演示站</span>
     <span class="dot"></span>
     <span>数据聚合自各高校院系 / 社团微信公众号与官方网站的<b>公开信息</b>，版权归原作者所有</span>
     <span class="dot"></span>
@@ -569,13 +569,61 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
 <script>window["__BUILD_" + "TIME__"] = "__BUILD_TIME__";</script>
 <script>
 /* =====================================================================
-   「清华知道」单文件版
-   数据由 refresh.py 抓取自 pkuknow.cn 公开接口后内嵌，无需联网即可浏览。
+   校园知道 · 按需加载版
+   首屏只内嵌「轻量索引」（标题 / 时间 / 来源 / 分类），其余按需取：
+     data/shard/<校区>.json    切到该校区时加载（全量条目）
+     data/shard/<校区>-d.json  点开某条通知时才加载（正文摘要、地点、主办方…）
+   这样打开页面只下载首屏需要的部分，不点进去就不会产生多余流量。
+   「清华知道」为外链，点击直达 pkuknow.cn/thu。
    ===================================================================== */
 (function () {
   "use strict";
 
   var PAYLOAD = JSON.parse(document.getElementById("notice-data").textContent);
+
+  /* ---------- 按需加载 ---------- */
+  var SHARD_BASE = "data/shard/";        // 分片目录（与 index.html 同级）
+  var FULL_OF = {};                      // 校区 → 已取到的全量条目
+  var DETAIL_OF = {};                    // 校区 → 已取到的详情增量
+  var shardCache = {};                   // 路径 → Promise，避免重复请求
+  var detailTicket = 0;                  // 详情弹窗的「当前请求」编号，防止旧响应覆盖新弹窗
+
+  function loadShard(path) {
+    if (shardCache[path]) return shardCache[path];
+    var p;
+    if (typeof fetch !== "function") {
+      p = Promise.reject(new Error("no-fetch"));
+    } else {
+      p = fetch(path, { cache: "force-cache" }).then(function (r) {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      });
+    }
+    // 失败的请求不缓存，下次还能重试
+    p.catch(function () { delete shardCache[path]; });
+    shardCache[path] = p;
+    return p;
+  }
+
+  function whenCampusLoaded(key) {
+    if (FULL_OF[key] || !CAMPUSES[key]) return Promise.resolve(key);
+    return loadShard(SHARD_BASE + key + ".json").then(function (d) {
+      // 全量分片里是完整条目，直接替换掉首屏的轻量索引
+      if (d && d.items) FULL_OF[key] = d.items;
+      return key;
+    });
+  }
+
+  function whenDetailLoaded(key, id) {
+    if (!id) return Promise.resolve(null);
+    var det = DETAIL_OF[key] || (DETAIL_OF[key] = {});
+    if (det[id]) return Promise.resolve(det[id]);
+    if (!FULL_OF[key] && !CAMPUSES[key]) return Promise.resolve(null);
+    return loadShard(SHARD_BASE + key + "-d.json").then(function (d) {
+      DETAIL_OF[key] = (d && d.items) || {};
+      return DETAIL_OF[key][id] || null;
+    });
+  }
 
   /* ---------- 图标 ---------- */
   var P = {
@@ -642,13 +690,13 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
   }
 
   var CAMPUS_NAMES = {
-    thu: { zh:"清华知道", en:"THU Know" },
-    zju: { zh:"浙大知道", en:"ZJU Know" },
+    thu:{ zh:"清华知道", en:"THU Know", ext:"https://pkuknow.cn/thu" },
+    zju:{ zh:"浙大知道", en:"ZJU Know" },
     sjtu:{ zh:"上交知道", en:"SJTU Know" },
     xjtu:{ zh:"西交知道", en:"XJTU Know" }
   };
   var CAMPUS_ORDER = ["thu", "zju", "sjtu", "xjtu"];
-  var GROUP_LABEL = { wechat:"微信公众号", official:"清华官方网站", other:"其他来源" };
+  var GROUP_LABEL = { wechat:"微信公众号", official:"官方网站", other:"其他来源" };
 
   // 数据里多出来的校区自动补进切换栏:以后加校区只要放一份 data/<key>.json
   Object.keys(PAYLOAD.campuses || {}).forEach(function (key) {
@@ -660,10 +708,11 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
 
   /* ---------- 数据整理 ---------- */
   var CAMPUSES = PAYLOAD.campuses || {};
-  var ACTIVE = PAYLOAD.default_campus || Object.keys(CAMPUSES)[0] || "thu";
+  var ACTIVE = PAYLOAD.default_campus || Object.keys(CAMPUSES)[0] || "xjtu";
   if (!CAMPUSES[ACTIVE]) CAMPUSES[ACTIVE] = { campus:ACTIVE, items:[], sources:[], groups:[] };
 
   var CATEGORY_ORDER = CATEGORY_META.map(function (m) { return m.name; });
+  var ITEM_POOL = [];                    // 原始条目池,保留 _key/_ix 以便按需回填
   var allItems = [];
 
   // 保留期:发布超过 90 天的内容自动清除(与 refresh.py 的 RETENTION_DAYS 一致)。
@@ -684,16 +733,85 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
         PRUNED_OF[key] = (PRUNED_OF[key] || 0) + 1;
         return;
       }
-      it._group = (it.dt && it.dt.sg) || (/^weixinzs_/.test(it.si || "") ? "wechat" : "official");
-      var idx = CATEGORY_ORDER.indexOf(it.c);
-      it._meta = metaOf(it.c, idx < 0 ? 0 : idx);
-      if (idx < 0) CATEGORY_ORDER.push(it.c);
-      it._hay = [it.t, it.s, it.en, it.ens, it.dt && it.dt.su, it.dt && it.dt.tx, it.dt && it.dt.lo, it.dt && it.dt.og]
-        .filter(Boolean).join("\n").toLowerCase();
+      normalize(it);
+      ITEM_POOL.push(it);
       allItems.push(it);
     });
   });
   CATEGORY_ORDER = CATEGORY_ORDER.filter(function (v, i, a) { return a.indexOf(v) === i; });
+
+  // 预计算字段:筛选与渲染都靠它,必须在 index 里
+  function normalize(it) {
+    var dt = (it.dt = it.dt || {});
+    it._group = dt.sg || (/^weixinzs_/.test(it.si || "") ? "wechat" : "official");
+    var idx = CATEGORY_ORDER.indexOf(it.c);
+    it._meta = metaOf(it.c, idx < 0 ? 0 : idx);
+    if (idx < 0) CATEGORY_ORDER.push(it.c);
+    it._hay = haystack(it);
+    return it;
+  }
+
+  // 搜索索引：首屏只有标题与来源；正文、地点、主办方在详情分片到位后再补进来
+  function haystack(it) {
+    var dt = it.dt || {};
+    return [it.t, it.s, it.en, it.ens, dt.su, dt.tx, dt.lo, dt.og]
+      .filter(Boolean).join("\n").toLowerCase();
+  }
+
+  // 某校区的全量分片到位后把它换进池子。
+  // 首屏内嵌的是「轻量索引」，全量分片里的条目字段更全，所以必须按 id 把字段并回去，
+  // 而不是看到 id 已存在就跳过——否则正文永远不会补上。
+  // 并的时候保留已经加载过的 _detail，别把用户看过的正文又抹掉。
+  function mergeItems(key, items) {
+    if (!items || !items.length) return [];
+
+    var existing = {};
+    ITEM_POOL.forEach(function (it) { if (it._campus === key) existing[it.i] = it; });
+
+    var touched = [];
+    items.forEach(function (raw) {
+      var cur = existing[raw.i];
+      if (cur) {
+        // 同一份数据，字段更全 → 覆盖回去（_detail 等运行时字段必须留下）
+        Object.assign(cur, raw);
+        cur._campus = key;
+        cur._ts = Date.parse(cur.d) || Date.parse(cur.dt && cur.dt.ev && cur.dt.ev[0]) || 0;
+        normalize(cur);
+        touched.push(cur);
+        return;
+      }
+      var it = Object.assign({}, raw);
+      it._campus = key;
+      it._ts = Date.parse(it.d) || Date.parse(it.dt && it.dt.ev && it.dt.ev[0]) || 0;
+      if (it._ts && it._ts < RETENTION_CUTOFF) {
+        PRUNED_OF[key] = (PRUNED_OF[key] || 0) + 1;
+        return;
+      }
+      it._detail = null;                           // 详情尚未加载
+      normalize(it);
+      ITEM_POOL.push(it);
+      allItems.push(it);
+      touched.push(it);
+    });
+    return touched;
+  }
+
+  // 用详情分片补全一条通知：弹出详情前调用,补完这条的正文与搜索字段
+  function mergeDetail(it, detail) {
+    it._detail = detail || {};
+    if (!detail) return it;
+    if (detail.dt) it.dt = Object.assign({}, it.dt, detail.dt);
+    if (detail.ens != null) it.ens = detail.ens;
+    if (detail.g != null) it.g = detail.g;
+    if (detail.d) it.d = detail.d;
+    it._hay = haystack(it);
+    return it;
+  }
+
+  function findItem(id) {
+    for (var i = 0; i < allItems.length; i++) if (allItems[i].i === id) return allItems[i];
+    return null;
+  }
 
   var SOURCES_OF = {};
   var GROUP_STATS = {};
@@ -801,14 +919,20 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
   function renderCampusSwitch() {
     var nav = $("campus-switch");
     nav.innerHTML = CAMPUS_ORDER.map(function (key) {
-      var nm = CAMPUS_NAMES[key];
+      var nm = CAMPUS_NAMES[key] || { zh: key, en: "" };
+      // 外链校区（如清华知道）：整项就是一条跳转到外部站点的链接，本站不含它的数据
+      if (nm.ext) {
+        return '<a href="' + esc(nm.ext) + '" target="_blank" rel="noopener noreferrer" ' +
+          'data-external="true" title="' + esc(nm.zh + " · 打开 " + nm.ext) + '">' + esc(nm.zh) +
+          '<span lang="en">' + esc(nm.en) + "</span>" + ic("external", 12) + "</a>";
+      }
       var avail = !!CAMPUSES[key];
-      var n = avail ? campusItemsOf(key).length : 0;
       return '<a href="#" data-campus="' + key + '" data-available="' + avail + '"' +
         (key === state.campus ? ' aria-current="page"' : "") + '>' + esc(nm.zh) +
         '<span lang="en">' + esc(nm.en) + "</span></a>";
     }).join("");
     nav.querySelectorAll("a").forEach(function (a) {
+      if (a.dataset.external === "true") return;    // 外链：交给浏览器默认跳转
       a.addEventListener("click", function (ev) {
         ev.preventDefault();
         var key = a.dataset.campus;
@@ -840,6 +964,39 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
     if (dialogDetail.open) dialogDetail.close();
     window.scrollTo({ top: 0, behavior: "smooth" });
     if (!fromHash) setHash("campus", key);
+    // 首屏只带了轻量索引：切到某个校区时再按需拉它的全量数据，
+    // 到位后原地刷新（用户已经看到内容，不会白屏等待）
+    ensureCampus(key);
+  }
+
+  var campusBusy = {};
+  function ensureCampus(key) {
+    if (FULL_OF[key] || campusBusy[key]) return;
+    campusBusy[key] = true;
+    setBusy(true);
+    whenCampusLoaded(key).then(function () {
+      campusBusy[key] = false;
+      setBusy(false);
+      if (!FULL_OF[key]) return;
+      mergeItems(key, FULL_OF[key]);
+      // 用户已经切走了：数据先存着，等他回来时直接就是全量
+      if (state.campus !== key) return;
+      renderClusters();
+      renderSourceFilter();
+      render();
+    }).catch(function () {
+      campusBusy[key] = false;
+      setBusy(false);
+      if (state.campus === key) {
+        // 分片没取到（离线打开、只拷了 index.html、或分片没上传）：
+        // 列表仍按内嵌索引显示，但正文摘要与「展开全部」之外的内容会缺
+        toast("「" + campusName(key).zh + "」的完整数据没加载到，现在显示的是离线索引");
+      }
+    });
+  }
+
+  function setBusy(on) {
+    if (elResults) elResults.setAttribute("aria-busy", on ? "true" : "false");
   }
 
   /* 每个校区都有自己的地址:#campus=zju */
@@ -1124,7 +1281,7 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
             '<span class="notice-block-source" title="' + esc(it.s) + '">' + ic("user", 12) + "<span>" + esc(it.s) + "</span></span>" +
           "</span>" +
         "</span>";
-      btn.addEventListener("click", function () { openDetail(it); });
+      btn.addEventListener("click", function () { showNotice(it); });
       li.appendChild(btn);
       grid.appendChild(li);
     });
@@ -1158,7 +1315,7 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
         "<strong>" + esc(campusName(state.campus).zh) + "还没有接入信息源</strong>" +
         "<p>这个校区的页面已经就绪，只是还没有数据。信息源接入后，通知会按分类出现在这里。</p>";
       [
-        { label:"先看清华知道", run:function () { switchCampus("thu"); } },
+        { label:"先看浙大知道", run:function () { switchCampus("zju"); } },
         { label:"如何接入信息源", run:function () { openModal("信息源补充", "sparkles", suggestHTML()); } }
       ].forEach(function (o) { chips.appendChild(chip(o, false)); });
       box.appendChild(chips);
@@ -1187,6 +1344,21 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
   }
 
   /* ---------- 详情弹窗 ---------- */
+  // 统一入口：先把这条的正文取回来，再画详情弹窗。
+  // 首屏只有轻量索引，正文在 <校区>-d.json 里按需加载——不点开就不下载。
+  function showNotice(it) {
+    if (!it) return;
+    var ticket = ++detailTicket;
+    var proceed = function () {
+      if (ticket !== detailTicket) return;    // 期间用户又点了别的，丢弃这次
+      openDetail(it);
+    };
+    whenDetailLoaded(it._campus, it.i).then(function (extra) {
+      mergeDetail(it, extra);
+      proceed();
+    }).catch(function () { proceed(); });
+  }
+
   function openDetail(it) {
     var m = it._meta;
     var dt = it.dt || {};
@@ -1285,7 +1457,7 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
 
     if (!items.length) {
       return '<p style="margin:0 0 14px;font-size:13.5px;line-height:1.85"><b>' + esc(nm.zh) +
-        "</b> 还没有接入信息源，所以暂时没有任何数据可统计。页面结构与「清华知道」完全一致，" +
+        "</b> 还没有接入信息源，所以暂时没有任何数据可统计。页面结构与其它校区完全一致，" +
         "接入数据后这里会自动显示通知条数、分类分布与渠道来源。</p>" +
         '<h3 class="block-title">' + ic("info", 15) + "当前状态</h3>" +
         '<ul style="margin:0;padding-left:20px;line-height:1.9;font-size:13.5px">' +
@@ -1487,14 +1659,15 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
 
   function campusOverview() {
     return CAMPUS_ORDER.map(function (key) {
-      var zh = campusName(key).zh;
-      return campusItemsOf(key).length ? zh : zh + "（信息源待接入）";
+      var nm = campusName(key);
+      if (nm.ext) return nm.zh + "（外链）";
+      return campusItemsOf(key).length ? nm.zh : nm.zh + "（信息源待接入）";
     }).join("、");
   }
 
   function aboutHTML() {
-    return '<p style="margin:0 0 14px">这是一个对照 <b>pkuknow.cn/thu（「清华知道」THU Know）</b> 重做的校园信息聚合站复刻版，' +
-      "顶栏可以切换 <b>" + esc(campusOverview()) + "</b>。</p>" +
+    return '<p style="margin:0 0 14px">这是一个校园信息聚合站，顶栏可在 <b>' + esc(campusOverview()) + '</b> 之间切换。' +
+      '其中「清华知道」是直达 <b>pkuknow.cn/thu</b> 的外链（在新标签打开），浙大 / 上交 / 西交三个校区的公开通知由本页内嵌展示。</p>' +
       '<h3 class="block-title">' + ic("check", 15) + "已实现</h3>" +
       '<ul style="margin:0 0 18px;padding-left:20px;line-height:1.9;font-size:13.5px">' +
       "<li>顶栏多校区切换，每个校区有独立地址（<code>#campus=zju</code>）、圆角搜索、昼夜主题与本地偏好记忆</li>" +
@@ -1509,12 +1682,12 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
   }
 
   function suggestHTML() {
-    return '<p style="margin:0 0 14px">这个站点的校区页是数据驱动的：目前「清华知道」已有数据，' +
-      "浙大 / 上交 / 西交三个校区页面已经就绪，信息源待接入。</p>" +
+    return '<p style="margin:0 0 14px">这个站点的校区页是数据驱动的：浙大 / 上交 / 西交三个校区由 <code>fetch_campus.py</code> 抓各校官网生成，' +
+      '「清华知道」则直接跳转到 pkuknow.cn/thu。</p>' +
       '<h3 class="block-title">' + ic("check", 15) + "刷新已有校区</h3>" +
-      '<p style="margin:0 0 18px;font-size:13.5px;line-height:1.85">在项目目录运行 <code>python refresh.py</code> 抓取清华全量并重新生成页面。</p>' +
+      '<p style="margin:0 0 18px;font-size:13.5px;line-height:1.85">在项目目录运行 <code>python cloud_update.py</code>（或 <code>python fetch_campus.py</code>）抓取三校并重新生成页面。</p>' +
       '<h3 class="block-title">' + ic("check", 15) + "接入新校区的信息源</h3>" +
-      '<p style="margin:0 0 18px;font-size:13.5px;line-height:1.85">把抓到的数据按 <code>data/thu.json</code> 的字段写成 ' +
+      '<p style="margin:0 0 18px;font-size:13.5px;line-height:1.85">把抓到的数据按 <code>data/xjtu.json</code> 的字段写成 ' +
       "<code>data/&lt;校区&gt;.json</code>，再运行 <code>python refresh.py --build-only</code>，" +
       "对应校区的页面就会自动显示通知。若上游提供了接口，在 <code>refresh.py</code> 的 <code>CAMPUS_PREFIX</code> 里登记路径后也可以直接 " +
       "<code>python refresh.py --campus zju</code>。</p>" +
@@ -1554,8 +1727,8 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
   $("modal-body").addEventListener("click", function (ev) {
     var btn = ev.target.closest("button[data-id]");
     if (!btn) return;
-    var it = allItems.filter(function (x) { return x.i === btn.dataset.id; })[0];
-    if (it) { dialogModal.close(); openDetail(it); }
+    var it = findItem(btn.dataset.id);
+    if (it) { dialogModal.close(); showNotice(it); }
   });
 
   /* ---------- 交互绑定 ---------- */
@@ -1652,10 +1825,19 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
       switchCampus(params.campus, true);
     }
     if (params.notice) {
-      var it = allItems.filter(function (x) { return x.i === params.notice; })[0];
-      if (it) {
-        if (it._campus !== state.campus) switchCampus(it._campus, true);
-        openDetail(it);
+      // 深链可能指向另一个校区，而那个校区的全量分片还没到——
+      // 先把校区数据（连同这条通知）取回来，再开详情
+      var open = function () {
+        var it = findItem(params.notice);
+        if (it) { if (it._campus !== state.campus) switchCampus(it._campus, true); showNotice(it); }
+      };
+      var target = findItem(params.notice);
+      if (target) open();
+      else {
+        // 不在当前已加载的数据里：按 URL 里给的 campus 参数去它的分片里找
+        var guess = params.campus || state.campus;
+        ensureCampus(guess);
+        whenCampusLoaded(guess).then(function () { open(); }).catch(function () {});
       }
     }
   }
@@ -1674,6 +1856,10 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
   syncUpcomingButton();
   render();
   applyHash();
+
+  // 首屏渲染完，后台悄悄把默认校区的全量数据取回来。
+  // 用户看到的界面先有（用的是内嵌索引），数据到位后原地替换，不需要任何等待。
+  ensureCampus(ACTIVE);
 })();
 </script>
 </body>

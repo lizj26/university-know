@@ -25,7 +25,7 @@
 
 两条链路都只往同一份 `data/<校区>.json` 里**追加**（按 `i` 去重、90 天保留期），
 所以页面是合一的，但任何一条断了都不会影响另一条：
-官网源失败=0（95 个源长期稳定），公众号受微信**账号级限流**影响会整轮拿不到东西。
+官网源失败=0（20 个源长期稳定），公众号受微信**账号级限流**影响会整轮拿不到东西。
 把文件分开后，「清 _work、备份、排查某一条链路」互不牵连。
 旧布局（公众号文件散在 `_work/` 根下）首次运行时会自动迁移，见 migrate_legacy_files()。
 
@@ -59,6 +59,44 @@
     python fetch_wechat.py --no-import              # 只抓取，结果落在 _work/wechat/wechat-items-<校区>.json
     python fetch_wechat.py --import-only             # 不联网，用上次结果导入 data/ 并重建页面
     python fetch_wechat.py --cookies my.json        # 指定 cookies 文件
+
+应对限流（ret=200013，详见 docs/wxmp公众号接入.md 第 10 节）
+----------------------------------------------------------
+    # 账号级限流**只能靠换账号解决，等待无效**。多准备几份 cookies 即可轮换：
+    #   _work/wechat/wxmp-cookie-header.txt        ← 第 1 份
+    #   _work/wechat/wxmp-cookie-header-pool2.txt  ← 第 2 份
+    # 或者把所有行塞进同一个文件，一行一份：
+    #   _work/wechat/wxmp-cookie-header-pool.txt
+    python fetch_wechat.py --cred-index 1          # 手工指定用第 2 份凭据
+
+    # 公开合集源：零凭据、不受限流影响，是限流期的兜底
+    python fetch_wechat.py --albums                # 正常抓取 + 合集补充
+    python fetch_wechat.py --albums-only           # 只用合集，完全不碰 cookies
+    python fetch_wechat.py --albums-only --album-pages 4   # 每个合集多翻几页
+
+    # appmsg 被限流时会**自动**改走合集源，不需要人工干预。
+
+    # 合集**不需要人工维护白名单**：脚本会拿公开种子清单里的文章页，
+    # 自动从页面里发现的合集链接取到 (__biz, album_id) 再枚举。
+    # 想手工指定也行：_work/wechat/wxmp-albums.json
+
+为什么合集源不需要 cookies
+--------------------------
+微信的文章页里印着这篇所属合集的完整链接：
+
+    mp/appmsgalbum?__biz=<biz>&action=getalbum&album_id=<id>#wechat_redirect
+
+于是链路变成：**种子文章页 → 发现合集 → 枚举文章 → 抓正文**，全程零凭据，
+也完全不调用 `appmsg`，所以**不受账号级限流影响**。
+
+⚠ 一个容易踩的坑：微信对文章页链接分三种，只有前两种能抓（2026-10-14 实测）：
+
+    短链            /s/XLsEsQOyo4qwtekckfDT2A            ✅ 3.7 MB
+    长链带 chksm    /s?__biz=..&mid=..&sn=..&chksm=..     ✅ 3.6 MB
+    长链缺 chksm    /s?__biz=..&mid=..&sn=..&scene=21     ❌ 17 KB 验证码墙
+
+同一条文章做了受控对照，差别只在 `chksm`。文末「往期回顾」的链接**没有** chksm，
+所以抓不动（只能拿来展示/跳转）；而**合集接口返回的链接带 chksm，能抓正文**。
 
 扩展一个新校区 / 新公众号
 ------------------------
@@ -95,6 +133,7 @@ import datetime
 import importlib.util
 import json
 import os
+import random
 import re
 import shutil
 import sys
@@ -168,6 +207,39 @@ WECHAT_CONFIG = {
 }
 
 FAKEID_CACHE = "wxmp-fakeid.json"      # fakeid 缓存文件名（落在 _work/wechat/ 下）
+# 同一份 fakeid 缓存按【凭据来源】分文件存。原因见 load_fakeid_cache()：
+# fakeid 不是纯公开数据，它是「某个登录账号搜出来的结果」，跨账号复用容易触发风控。
+FAKEID_SIBLING_CACHE = "wxmp-fakeid-*.json"
+
+# 限流（ret=200013 freq control）的两种粒度，处置方式完全不同：
+#   · 账号级：这份 cookies 被盯上了。换一份 cookies 就能绕开（见 load_cookies 的轮换池）。
+#   · fakeid 级：单个号被限制。同一份 cookies 抓其它号仍然正常。
+# 把两种情况分开记，才能在报告里给出**可执行的建议**，而不是笼统地说「等一天」。
+BLOCK_FILE = "wxmp-blocked.json"       # 限流记忆：谁被限了、什么时候、什么粒度
+
+
+# --------------------------------------------------------------------------
+# 请求节奏：给固定间隔加**抖动**
+#
+# 原来每一步都是 `time.sleep(1.0)` / `sleep(1.5)` —— 固定间隔本身就是个特征：
+# 一个「人」不会每隔正好 1.000 秒点一次接口，脚本才会。加了 ±35% 的随机抖动后，
+# 请求间隔变成一个区间而不是一个常数，远比固定值更接近真人操作。
+#
+# 这不是对抗风控，是**避免自己的行为特征过于醒目**——同时也让服务端压力更平滑。
+# --------------------------------------------------------------------------
+PACE_JITTER = 0.35
+
+
+def gentle_sleep(base=1.0, label=""):
+    """睡 base 秒 ± PACE_JITTER 的随机量。传 0 或负数则直接返回（测试用）。"""
+    if base <= 0:
+        return 0.0
+    delay = base * (1.0 + random.uniform(-PACE_JITTER, PACE_JITTER))
+    delay = max(0.05, delay)
+    if os.environ.get("WECHAT_PACE_VERBOSE"):
+        print(f"      · 等待 {delay:.2f}s {label}")
+    time.sleep(delay)
+    return delay
 
 
 # --------------------------------------------------------------------------
@@ -198,8 +270,9 @@ def wechat_path(name):
 MIGRATE_GLOBS = (
     "wxmp-cookies.json", "wxmp-cookies-*.json",
     "wxmp-cookie-header.txt", "wxmp-cookie-header-*.txt",
+    "wxmp-cookie-header-*.txt.*",          # 轮换池：wxmp-cookie-header-pool2.txt 等
     "wxmp-token.txt", "wxmp-accounts.json", "wxmp-accounts-*.json",
-    FAKEID_CACHE, "wechat-items-*.json", "wechat-*.txt",
+    FAKEID_CACHE, FAKEID_SIBLING_CACHE, "wechat-items-*.json", "wechat-*.txt",
 )
 
 
@@ -411,6 +484,227 @@ def load_cookies(campus):
 
 
 # --------------------------------------------------------------------------
+# 凭据轮换池：缓解「账号级限流」
+#
+# 微信对 appmsg（历史文章列表）接口的限制里，有一类是**绑在登录账号上**的：
+# 同一个「公众平台登录态」抓得多了，这个号就被盯上，之后连搜索都拿不到东西。
+# 这种限制**等**是等不好的——唯一的出路是**换一个登录账号**。
+#
+# 所以这里支持把多份 cookies 一起丢进来轮换。命名约定（都放在 _work/wechat/ 下）：
+#
+#     wxmp-cookie-header.txt            ← 第 1 份（原有命名，照常生效）
+#     wxmp-cookie-header-pool2.txt      ← 第 2 份
+#     wxmp-cookie-header-pool3.txt      ← 第 3 份 ...
+#
+# 或 JSON 形式：
+#     wxmp-cookies.json                 ← 第 1 份
+#     wxmp-cookies-pool2.json           ← 第 2 份 ...
+#
+# 更省事的做法：把所有行塞进**同一个文件**，一行一份 Cookie，脚本按行拆：
+#     wxmp-cookie-header-pool.txt
+#
+# 轮换是**确定性**的（每天选一份），不是随机的——随机会让「今天到底用的哪个号」
+# 变成玄学，出问题时无法复现。
+# --------------------------------------------------------------------------
+def _cred_slot(path):
+    """从文件名判断这是第几份凭据：pool2 → 2，poolN → N，其它 → 1。"""
+    m = re.search(r"pool(\d+)", os.path.basename(path))
+    return int(m.group(1)) if m else 1
+
+
+def _multiline_cookie_file(path):
+    """解析「一份文件里多行 Cookie」的写法，每行一份。返回 [(cookies, 描述)]。"""
+    try:
+        with open(path, encoding="utf-8") as fh:
+            lines = [ln.strip() for ln in fh if ln.strip()]
+    except Exception:  # noqa: BLE001
+        return []
+    if len(lines) < 2:
+        return []
+    out = []
+    for idx, ln in enumerate(lines, 1):
+        pairs = parse_cookie_header(ln)
+        if pairs:
+            out.append((pairs, f"{os.path.basename(path)} 第 {idx} 行"))
+    return out
+
+
+def _scan_dirs():
+    """扫描新目录 + 旧目录（后者只读回退，兼容未迁移的旧布局）。"""
+    return [WECHAT_DIR, LEGACY_WORK_DIR]
+
+
+def _is_cred_file(base, campus, ext):
+    """判断文件名是不是「凭据文件」，并返回 (是否校区专用, slot)。
+
+    合法形式（ext 为 txt 或 json）：
+        wxmp-cookie-header.txt / wxmp-cookies.json                → slot 1，全局
+        wxmp-cookie-header-zju.txt / wxmp-cookies-zju.json        → slot 1，校区专用
+        wxmp-cookie-header-pool2.txt / wxmp-cookies-pool2.json    → slot 2，全局
+        wxmp-cookie-header-pool2-zju.txt                          → slot 2，校区专用
+    多行汇总文件（wxmp-cookie-header-pool.txt）不在这里处理，见 ①。
+    """
+    if not base.startswith("wxmp-"):
+        return None
+    if not base.endswith(ext):
+        return None
+    core = base[len("wxmp-"):-len(ext)]           # cookie-header / cookies / cookie-header-pool2 …
+    if core in ("cookie-header", "cookies"):
+        return (False, 1)
+    # 带 poolN 的无校区后缀
+    mo = re.fullmatch(r"(?:cookie-header|cookies)-pool(\d+)", core)
+    if mo:
+        return (False, int(mo.group(1)))
+    # 带校区后缀：<kind>-<campus> / <kind>-poolN-<campus>
+    for kind in ("cookie-header", "cookies"):
+        if core.startswith(kind + "-"):
+            tail = core[len(kind) + 1:]
+            mo = re.fullmatch(r"pool(\d+)-(.+)", tail)
+            if mo and mo.group(2) == campus:
+                return (True, int(mo.group(1)))
+            if tail == campus:
+                return (True, 1)
+    return None
+
+
+def list_credential_pool(campus):
+    """收集所有可用凭据，返回 [(cookies, 描述)]，按 slot 排序（第 1 份在最前）。
+
+    优先级：校区专用 > 全局。同一 slot 里两种格式都有时，Cookie 头文本优先（转录错误少）。
+    """
+    import glob as _glob
+
+    found = {}   # (slot, scoped) -> (cookies, 描述)
+
+    def put(slot, campus_scoped, cookies, desc):
+        key = (slot, campus_scoped)
+        if key not in found:
+            found[key] = (cookies, desc)
+
+    # ① 多行汇总文件（最省事）：一行一份 Cookie
+    multiline = (f"wxmp-cookie-header-pool-{campus}.txt", "wxmp-cookie-header-pool.txt")
+    for name in multiline:
+        path = find_wechat_file(name)
+        if path:
+            for idx, (ck, desc) in enumerate(_multiline_cookie_file(path), 1):
+                put(1000 + idx, name.endswith(f"-{campus}.txt"), ck, desc)
+
+    # ② Cookie 头文本（单份）
+    # ③ JSON（单份）
+    for ext, reader in ((".txt", _read_cookie_text), (".json", _read_cookie_json)):
+        for base_dir in _scan_dirs():
+            for path in sorted(_glob.glob(os.path.join(base_dir, "wxmp-*" + ext))):
+                base = os.path.basename(path)
+                # 只排除「多行汇总文件」（pool.txt / pool-<校区>.txt），
+                # 不能连 poolN.txt 一起排掉——那正是第 2、3 份凭据。
+                if re.fullmatch(r"wxmp-cookie-header-pool(-\w+)?\.txt", base):
+                    continue
+                hit = _is_cred_file(base, campus, ext)
+                if not hit:
+                    continue
+                scoped, slot = hit
+                ck = reader(path)
+                if ck:
+                    put(slot, scoped, ck, base)
+
+    # 校区专用排在全局前面：同一份凭据，优先用校区专用的那个文件
+    ordered = sorted(found.items(), key=lambda kv: (-kv[0][1], kv[0][0]))
+    return [v for _k, v in ordered]
+
+
+def _read_cookie_text(path):
+    try:
+        return parse_cookie_header(open(path, encoding="utf-8").read().strip())
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def _read_cookie_json(path):
+    try:
+        data = json.load(open(path, encoding="utf-8"))
+        return data if isinstance(data, dict) and data else None
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def pick_credential(campus, index=0):
+    """取轮换池里的第 index 份。池子为空时回退到 load_cookies() 的老行为。"""
+    pool = list_credential_pool(campus)
+    if not pool:
+        return load_cookies(campus)
+    if index >= len(pool):
+        index = len(pool) - 1        # 轮完一圈就停在最后一份，不报错
+    return pool[index]
+
+
+def pool_index_for_today(campus):
+    """按「日期」在池子里挑一份——同一天多次运行用同一份，行为可复现。"""
+    pool = list_credential_pool(campus)
+    if len(pool) <= 1:
+        return 0
+    return datetime.date.today().toordinal() % len(pool)
+
+
+# --------------------------------------------------------------------------
+# 限流记忆：区分「账号级」与「fakeid 级」
+# --------------------------------------------------------------------------
+def load_block_state():
+    path = find_wechat_file(BLOCK_FILE)
+    if not path:
+        return {"credentials": {}, "targets": {}}
+    try:
+        data = json.load(open(path, encoding="utf-8"))
+        if isinstance(data, dict):
+            data.setdefault("credentials", {})
+            data.setdefault("targets", {})
+            return data
+    except Exception:  # noqa: BLE001
+        pass
+    return {"credentials": {}, "targets": {}}
+
+
+def save_block_state(state):
+    try:
+        path = os.path.join(WECHAT_DIR, BLOCK_FILE)
+        with open(path, "w", encoding="utf-8") as fh:
+            json.dump(state, fh, ensure_ascii=False, indent=2)
+    except OSError as exc:  # noqa: BLE001
+        print(f"! 限流记录写不进去（不影响本轮）：{exc}")
+
+
+def is_recently_blocked(kind, key, hours=6):
+    """这个「凭据」/「fakeid」是不是最近才被限过？是的话本轮可以跳过，省得白跑。"""
+    state = load_block_state()
+    rec = (state.get(kind) or {}).get(key) or {}
+    ts = rec.get("ts") or ""
+    if not ts:
+        return False
+    try:
+        when = datetime.datetime.fromisoformat(ts)
+    except ValueError:
+        return False
+    elapsed = datetime.datetime.now(CST) - when.astimezone(CST)
+    return elapsed < datetime.timedelta(hours=hours)
+
+
+def note_block(kind, key, note=""):
+    state = load_block_state()
+    bucket = state.setdefault(kind, {})
+    rec = bucket.setdefault(key, {})
+    rec["ts"] = now_iso_cst_parts()
+    rec["count"] = int(rec.get("count") or 0) + 1
+    if note:
+        rec["note"] = note
+    save_block_state(state)
+    return rec
+
+
+def now_iso_cst_parts():
+    """ISO 时间戳（带时区），供 datetime.fromisoformat 回读。"""
+    return datetime.datetime.now(CST).isoformat(timespec="seconds")
+
+
+# --------------------------------------------------------------------------
 # 公众号名单：加载（内置 + 外部文件）、昵称规范化、精确匹配、fakeid 缓存
 # --------------------------------------------------------------------------
 def normalize_name(name):
@@ -496,8 +790,26 @@ def load_accounts(campus):
     return accounts
 
 
-def load_fakeid_cache():
-    path = find_wechat_file(FAKEID_CACHE)
+def _fakeid_cache_name(cred_path=None):
+    """按凭据来源给 fakeid 缓存分文件。
+
+    为什么不能所有凭据共用一份缓存：fakeid 是「某个登录账号搜出来的结果」，
+    不是公开常量。把 A 账号搜到的 fakeid 直接喂给 B 账号去拉文章，
+    在微信看来就是「B 突然开始访问一个它从没搜过的号」——这正是风控的典型特征。
+    分成 `wxmp-fakeid.json` / `wxmp-fakeid-pool2.json` 后，每份凭据只复用自己的战果。
+
+    传 None（未指定凭据）时用默认名，保持对旧缓存的兼容。
+    """
+    if not cred_path:
+        return FAKEID_CACHE
+    slot = _cred_slot(cred_path)
+    if slot <= 1:
+        return FAKEID_CACHE
+    return f"wxmp-fakeid-pool{slot}.json"
+
+
+def load_fakeid_cache(cred_path=None):
+    path = find_wechat_file(_fakeid_cache_name(cred_path))
     try:
         with open(path, encoding="utf-8") as fh:
             data = json.load(fh)
@@ -506,8 +818,8 @@ def load_fakeid_cache():
         return {}
 
 
-def save_fakeid_cache(cache):
-    path = wechat_path(FAKEID_CACHE)
+def save_fakeid_cache(cache, cred_path=None):
+    path = wechat_path(_fakeid_cache_name(cred_path))
     try:
         os.makedirs(WECHAT_DIR, exist_ok=True)
         with open(path, "w", encoding="utf-8") as fh:
@@ -618,17 +930,21 @@ def search_account(api, name, retries=2):
             if attempt >= retries:
                 print(f"    · 搜索「{name}」失败：{exc}")
                 return None
-            time.sleep(1.5 * (attempt + 1))
+            gentle_sleep(1.5 * (attempt + 1), "（搜索退避）")
     return None
 
 
-def list_articles(api, fakeid, count, pages, retries=1):
+def list_articles(api, fakeid, count, pages, retries=1, want_block=False):
     """按页拉历史文章列表，返回 [{title, link, published, digest, cover}]。
+
+    `want_block=True` 时返回 `(rows, blocked)` 二元组，让调用方能区分
+    「这个号没有新文章」和「这个号被限流了」——这两者对后续处置的含义完全不同。
 
     注意：微信对 `appmsg`（历史文章列表）接口有**账号级频率限制**，新登录 / 久未使用的
     账号常返回 ret=200013（freq control），通常需等待数小时至 1 天才解禁。
     这种限流与参数无关，等待也无效，所以**不做长退避**，识别到就快速返回 []。
     调用方（crawl_wechat）会在连续多号被限流时中止本轮，避免空转。
+    真正的解法是**换一份凭据**（见 list_credential_pool），而不是等。
     """
     out, seen, per_page = [], set(), 5
     fetched = 0
@@ -646,7 +962,7 @@ def list_articles(api, fakeid, count, pages, retries=1):
                     if attempt >= retries:
                         rows = []
                         break
-                    time.sleep(2.0)
+                    gentle_sleep(2.0, "（限流退避）")
                     continue
                 if ret not in (0, None):
                     if ret in (200002, -1):            # 无效 fakeid / 会话失效
@@ -661,7 +977,7 @@ def list_articles(api, fakeid, count, pages, retries=1):
                     print(f"    · 拉取文章列表失败（第 {page + 1} 页）：{exc}")
                     rows = []
                     break
-                time.sleep(1.5 * (attempt + 1))
+                gentle_sleep(1.5 * (attempt + 1), "（失败退避）")
         if not rows:
             break
         added = 0
@@ -682,12 +998,301 @@ def list_articles(api, fakeid, count, pages, retries=1):
         if added == 0:
             break
         page += 1
-        time.sleep(1.0)     # 温柔一点，别把后台接口打疼
+        gentle_sleep(1.0, "（翻页）")     # 温柔一点，别把后台接口打疼
     if blocked and not out:
-        print("    ⚠ 该账号的「历史文章列表」接口被微信限流（200013 freq control）。")
-        print("      这是账号级限制，与参数无关：新登录/久未使用的号通常需等待数小时至 1 天解禁；")
-        print("      期间 searchbiz 搜索正常，但不影响先把 fakeid 全部锁定。次日重跑即可。")
-    return out[:count]
+        print("    ⚠ 该号的「历史文章列表」被限流（ret=200013 freq control）。")
+    return (out[:count], blocked) if want_block else out[:count]
+
+
+# --------------------------------------------------------------------------
+# 公开「合集」接口：唯一一条**零凭据、不受限流**的补充路径
+#
+#     GET /mp/appmsgalbum?action=getalbum&__biz=<biz>&album_id=<id>&f=json
+#
+# 实测：返回 200 + 合法 JSON，**不需要任何登录态**。参数不对时也只是
+# `{"base_resp":{"ret":10004}}`，说明接口本身是开放的。
+#
+# 这条路径的价值正好补上 appmsg 的短板：
+#   · appmsg 有账号级限流（200013）且凭据会过期；
+#   · 合集接口没有限流、不用凭据，**限流期间依然能拿到东西**。
+#
+# 代价是覆盖范围小：合集里只有作者**手工整理进去**的文章，不是全量历史。
+# 所以它是补充源，不是替代品。
+# --------------------------------------------------------------------------
+ALBUM_FILE = "wxmp-albums.json"        # 校区 → [{biz, album_id, name}]
+ALBUM_API = "https://mp.weixin.qq.com/mp/appmsgalbum"
+
+
+def load_albums(campus):
+    """读合集清单：_work/wechat/wxmp-albums-<校区>.json 或 wxmp-albums.json。
+
+    可写形式（都支持）：
+        ["MzA5...:1234567890", ...]                       # "biz:album_id"
+        {"albums": [{"biz": "...", "album_id": "...", "name": "招生简章"}]}
+        {"zju": [{"biz": "...", "album_id": "..."}]}      # 按校区分组
+    """
+    for name in (f"wxmp-albums-{campus}.json", ALBUM_FILE):
+        path = find_wechat_file(name)
+        if not path:
+            continue
+        try:
+            data = json.load(open(path, encoding="utf-8"))
+        except Exception as exc:  # noqa: BLE001
+            print(f"! 合集清单 {path} 读不出来：{exc}")
+            continue
+        raw = data.get(campus) if isinstance(data, dict) and campus in data else data
+        if isinstance(raw, dict):
+            raw = raw.get("albums") or []
+        out = []
+        for entry in raw or []:
+            if isinstance(entry, str) and ":" in entry:
+                biz, _, album = entry.partition(":")
+                out.append({"biz": biz.strip(), "album_id": album.strip(), "name": ""})
+            elif isinstance(entry, dict) and entry.get("biz") and entry.get("album_id"):
+                out.append({"biz": str(entry["biz"]).strip(),
+                            "album_id": str(entry["album_id"]).strip(),
+                            "name": entry.get("name") or ""})
+        if out:
+            return out
+    return []
+
+
+def _album_json(params, timeout=12):
+    """调合集接口，返回解析后的 dict；失败返回 {}。
+
+    **不需要 cookies** —— 这是整条链路的立足点：完全不碰 `appmsg`（历史文章列表），
+    也就不受账号级限流 ret=200013 的影响。
+    """
+    import urllib.parse
+    url = f"{ALBUM_API}?{urllib.parse.urlencode(params)}"
+    headers = {
+        "User-Agent": ("Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) "
+                       "AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"),
+        "Referer": "https://mp.weixin.qq.com/",
+    }
+    try:
+        import requests
+        data = requests.get(url, timeout=timeout, headers=headers, verify=False).json()
+    except ImportError:
+        # 优先用 requests（与主链路一致）；**没有 requests 时退回标准库 urllib**。
+        # 这条路径是限流期的兜底，绝不能因为「装不上依赖」就整个失效——
+        # 它本来就不需要 cookies，也就不该需要任何第三方库。
+        try:
+            import ssl
+            import urllib.request
+            ctx = ssl.create_default_context()
+            ctx.check_hostname = False
+            ctx.verify_mode = ssl.CERT_NONE
+            req = urllib.request.Request(url, headers=headers)
+            with urllib.request.urlopen(req, timeout=timeout, context=ctx) as fh:
+                data = json.loads(fh.read().decode("utf-8", "replace"))
+        except Exception as exc:  # noqa: BLE001
+            print(f"    · 合集接口请求失败（urllib）：{exc}")
+            return {}
+    except Exception as exc:  # noqa: BLE001
+        print(f"    · 合集接口请求失败：{exc}")
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def _album_page(biz, album_id, begin_msgid=0, begin_itemidx=0, timeout=12, count=20):
+    """取合集的一页。返回 (条目 list, 合集标题, 是否还有下一页)。"""
+    data = _album_json({
+        "action": "getalbum", "__biz": biz, "album_id": album_id, "f": "json",
+        "count": count, "begin_msgid": begin_msgid, "begin_itemidx": begin_itemidx,
+    }, timeout=timeout)
+    if not data:
+        return [], "", False
+    ret = (data.get("base_resp") or {}).get("ret", 0)
+    if ret not in (0, None):
+        # 10004 = 参数不对（biz/album_id 写错或该合集已删除）
+        print(f"    · 合集接口 ret={ret}"
+              + ("（__biz / album_id 可能不对）" if ret == 10004 else ""))
+        return [], "", False
+    resp = data.get("getalbum_resp") or {}
+    info = resp.get("base_info")
+    title = (info or {}).get("title") or "" if isinstance(info, dict) else ""
+    rows = []
+    for row in (resp.get("article_list") or []):
+        t, link = row.get("title") or "", row.get("url") or ""
+        if not t or not link:
+            continue
+        rows.append({
+            "title": t,
+            "link": link,
+            "published": ts_to_iso(row.get("create_time") or row.get("update_time")),
+            "digest": row.get("digest") or "",
+            "_msgid": row.get("msgid"),
+            "_itemidx": row.get("itemidx"),
+        })
+    return rows, title, bool(resp.get("continue_flag"))
+
+
+def fetch_album(biz, album_id, timeout=12, pages=1):
+    """拉一个合集（自动翻页）。返回 (合集标题, [{title, link, published, digest}])。
+
+    翻页实测有效：`continue_flag=1` 时带上一页末条的 `msgid`/`itemidx` 再请求即可续取，
+    每页 10~20 条（`count` 只是上限，微信按自己的节奏给）。
+    """
+    out, seen, title = [], set(), ""
+    begin_msgid, begin_itemidx = 0, 0
+    for _page in range(max(1, pages)):
+        rows, t, more = _album_page(biz, album_id, begin_msgid, begin_itemidx,
+                                    timeout=timeout)
+        if t and not title:
+            title = t
+        fresh = 0
+        for r in rows:
+            if r["link"] in seen:
+                continue
+            seen.add(r["link"])
+            out.append({k: r[k] for k in ("title", "link", "published", "digest")})
+            fresh += 1
+        if not rows or not more or fresh == 0:
+            break
+        begin_msgid = rows[-1].get("_msgid") or 0
+        begin_itemidx = rows[-1].get("_itemidx") or 0
+        gentle_sleep(0.8, "（合集翻页）")
+    return title, out
+
+
+def fetch_album_articles(biz, album_id, timeout=12, pages=1):
+    """拉一个合集的文章列表。返回 [{title, link, published, digest}]；失败返回 []。"""
+    return fetch_album(biz, album_id, timeout=timeout, pages=pages)[1]
+
+
+# 微信会把合集的完整链接直接印在文章页里：
+#     mp/appmsgalbum?__biz=<biz>&action=getalbum&album_id=<id>#wechat_redirect
+# 所以只要拿到**任意一篇**该号的文章页，就能自动发现它属于哪个合集——
+# 不需要人工去找合集链接，也不需要提前维护 album_id 白名单。
+#
+# 匹配限定在「同一个链接/字符串内」（字符类排除引号、空白、尖括号），
+# 避免页面别处的 __biz 与别处的 album_id 被误配成一对。
+_ALBUM_SEP = r"[^\"'\s<>\\]{0,400}?"
+ALBUM_FWD_RE = re.compile(r"__biz=([A-Za-z0-9=_%-]+)" + _ALBUM_SEP + r"album_id=(\d{6,})")
+ALBUM_REV_RE = re.compile(r"album_id=(\d{6,})" + _ALBUM_SEP + r"__biz=([A-Za-z0-9=_%-]+)")
+
+
+def _norm_biz(biz):
+    return (biz or "").replace("%3D%3D", "==").replace("%3d%3d", "==")
+
+
+def extract_album_refs(html):
+    """从文章页 HTML 里挖出「这篇文章属于哪个合集」。返回 [{biz, album_id}]。"""
+    html = html or ""
+    out, seen = [], set()
+    pairs = [(m.group(1), m.group(2)) for m in ALBUM_FWD_RE.finditer(html)]
+    pairs += [(m.group(2), m.group(1)) for m in ALBUM_REV_RE.finditer(html)]
+    for biz, aid in pairs:
+        biz = _norm_biz(biz)
+        key = (biz, aid)
+        if not biz or key in seen:
+            continue
+        seen.add(key)
+        out.append({"biz": biz, "album_id": aid})
+    return out
+
+
+def discover_albums(campus, links, workers=4, limit=40):
+    """抓文章页并自动发现它们所属的合集。返回 [{biz, album_id, account}]。
+
+    定位：把「人工找合集链接」这一步彻底去掉。有任意一篇该号的文章链接即可。
+    """
+    if not links:
+        return []
+    links = links[:limit]
+    print(f"· [{campus}] 从 {len(links)} 篇文章页自动发现合集…")
+    found, seen = [], set()
+
+    def one(url):
+        html = fetch_html(url, timeout=15)
+        if not html:
+            return "", []
+        _t, account, _p, _b = parse_wechat_html(html)
+        return account, extract_album_refs(html)
+
+    with cf.ThreadPoolExecutor(max_workers=max(1, min(workers, len(links)))) as pool:
+        for account, refs in pool.map(one, links):
+            for ref in refs:
+                key = (ref["biz"], ref["album_id"])
+                if key in seen:
+                    continue
+                seen.add(key)
+                found.append({"biz": ref["biz"], "album_id": ref["album_id"],
+                              "name": "", "account": account or ""})
+    print(f"    → 发现 {len(found)} 个合集")
+    return found
+
+
+def album_sources(campus, args):
+    """合集来源：优先用人工清单，没有就**自动发现**（零配置）。
+
+    自动发现的输入就是公开种子清单 `_work/wechat/wechat-<校区>.txt`：
+    抓其中任意一篇的文章页，页面里就印着该号合集的完整链接。
+    """
+    albums = load_albums(campus)
+    if albums:
+        print(f"· [{campus}] 合集清单来自 wxmp-albums*.json（{len(albums)} 个）")
+        return albums
+    links = load_seed_links(campus, getattr(args, "seed_file", None))
+    if not links:
+        return []
+    return discover_albums(campus, links, workers=getattr(args, "workers", 4))
+
+
+def crawl_albums(campus, args):
+    """按合集抓取，产出与 wxmp 模式同构的 items / registry。
+
+    定位是**降级补充**：没有 cookies、或 cookies 被限流时，这条路径仍然可用——
+    因为它完全不调用 `appmsg`（历史文章列表），所以**不受账号级限流影响**。
+
+    实测（2026-10-14）：合集接口 `ret=0` 无需登录；返回的链接带 `chksm`，
+    可以正常抓到正文（对照实验：同一篇文章去掉 `chksm` 就会吃验证码墙）。
+    """
+    albums = album_sources(campus, args)
+    if not albums:
+        print(f"· [{campus}] 没有可用合集：既没有 wxmp-albums*.json，"
+              f"也没能从种子文章页自动发现")
+        return [], {}
+
+    pages = max(1, getattr(args, "album_pages", 2))
+    print(f"· [{campus}] 公开合集 {len(albums)} 个（零凭据、不受限流影响，每集最多 {pages} 页）")
+    filter_re = re.compile(WECHAT_CONFIG[campus].get("filter") or r".+")
+    known = {normalize_name(a["name"]) for a in load_accounts(campus)}
+    now = now_iso_cst()
+    kept, per_biz = [], {}
+
+    for alb in albums:
+        title, arts = fetch_album(alb["biz"], alb["album_id"], pages=pages)
+        label = alb.get("name") or title or alb["album_id"]
+        if not arts:
+            print(f"    - {label}: 取回 0 篇")
+            continue
+        account = alb.get("account") or alb.get("name") or "微信公众号"
+        # 收录三选一：① 号在完整名单内；② 号名含本校关键词；③ 标题含本校关键词。
+        # 否则跳过，避免「上海交大的文章混进浙大校区」这类跨校污染。
+        mine = [a for a in arts
+                if (normalize_name(account) in known
+                    or filter_re.search(account) or filter_re.search(a["title"]))]
+        kept.extend({"account": account, **a} for a in mine)
+        per_biz[account] = per_biz.get(account, 0) + len(mine)
+        print(f"    - {label}: 取回 {len(arts)} 篇，收录 {len(mine)} 篇")
+
+    if kept and not getattr(args, "no_content", False):
+        links = [k["link"] for k in kept]
+        bodies = fetch_bodies(links, workers=getattr(args, "workers", 6))
+        for k, body in zip(kept, bodies):
+            k["body"] = body or k.get("digest") or ""
+
+    items = [make_item(k["link"], k["title"], k["published"], k["account"],
+                       k.get("body") or k.get("digest") or "")
+             for k in kept]
+    registry = {
+        "wx:" + acc: {"name": acc, "count": n, "new": n, "status": "ok", "last_checked": now}
+        for acc, n in per_biz.items()
+    }
+    print(f"· [{campus}] 合集合计 {len(items)} 条，来自 {len(registry)} 个号")
+    return items, registry
 
 
 def fetch_body(link, timeout=12):
@@ -785,14 +1390,49 @@ def parse_wechat_html(html):
     return title, account, published, body
 
 
+BROWSER_UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+              "AppleWebKit/537.36 Chrome/120.0.0.0")
+
+
+def fetch_html(url, timeout=15, timeout_retry=True):
+    """抓一个微信页面的原始 HTML。失败返回空串。
+
+    ⚠ 实测（2026-10-14）微信对**文章页链接的两种形式区别对待**：
+
+    | 链接形式 | 例 | 能否抓到 |
+    |---|---|---|
+    | 短链 | `/s/XLsEsQOyo4qwtekckfDT2A` | ✅ 3.7 MB，正常 |
+    | 长链带 `chksm` | `/s?__biz=..&mid=..&idx=..&sn=..&chksm=..` | ✅ 3.6 MB，正常 |
+    | 长链**缺** `chksm` | `/s?__biz=..&mid=..&sn=..&scene=21` | ❌ 17 KB 验证码墙（加载 TCaptcha.js） |
+
+    **同一条文章**的短链能抓、去掉 chksm 的长链就吃验证墙（已做受控对照）。
+    所以：文末「往期回顾」里的链接抓不动（它们没有 chksm），
+    而**合集接口返回的链接带 chksm，可以抓**——这是「零凭据 + 不限流」链路的关键。
+    """
+    try:
+        import ssl
+        import urllib.request
+        req = urllib.request.Request(url, headers={"User-Agent": BROWSER_UA})
+        return urllib.request.urlopen(req, timeout=timeout).read().decode("utf-8", "replace")
+    except Exception:  # noqa: BLE001
+        # 退一步：部分环境下默认证书链不可用（与合集接口的 verify=False 保持一致）
+        try:
+            import ssl
+            import urllib.request
+            ctx = ssl.create_default_context()
+            ctx.check_hostname = False
+            ctx.verify_mode = ssl.CERT_NONE
+            req = urllib.request.Request(url, headers={"User-Agent": BROWSER_UA})
+            with urllib.request.urlopen(req, timeout=timeout, context=ctx) as fh:
+                return fh.read().decode("utf-8", "replace")
+        except Exception:  # noqa: BLE001
+            return ""
+
+
 def fetch_article(url, timeout=15):
     """抓一篇文章页并一次性解析，返回 (title, account, published, body)。"""
-    try:
-        import urllib.request
-        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; "
-                                                   "Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0"})
-        html = urllib.request.urlopen(req, timeout=timeout).read().decode("utf-8", "replace")
-    except Exception:  # noqa: BLE001
+    html = fetch_html(url, timeout=timeout)
+    if not html:
         return "", "", "", ""
     return parse_wechat_html(html)
 
@@ -899,8 +1539,13 @@ def crawl_wechat(campus, api, args):
     items, registry = [], {}
     now = now_iso_cst()
     accounts = load_accounts(campus)
-    fake_cache = load_fakeid_cache()
+    cred_path = getattr(args, "_cred_path", None)
+    # 凭据指纹：限流记忆按它归类（同一份 cookies 被抓的次数会很不一样）
+    cred_key = os.path.basename(cred_path) if cred_path else "default"
+    fake_cache = load_fakeid_cache(cred_path)
     consecutive_zero = 0
+    blocked_creds = 0        # 这一轮里「看起来是账号级限流」的号
+    ok_accounts = 0
     print(f"· [{campus}] 公众号 {len(accounts)} 个（名单内完整昵称优先收录）")
 
     for entry in accounts:
@@ -927,12 +1572,13 @@ def crawl_wechat(campus, api, args):
             if not exact:
                 print(f"    - {name}：未精确命中，退回关键词匹配到「{nickname}」")
             fake_cache[normalize_name(name)] = {"nickname": nickname, "fakeid": fakeid}
-            save_fakeid_cache(fake_cache)
+            save_fakeid_cache(fake_cache, cred_path)
         else:
             cached = fake_cache.get(normalize_name(name), {})
             nickname = cached.get("nickname") or name
 
-        arts = list_articles(api, fakeid, want, args.pages, retries=args.retries)
+        arts, blocked = list_articles(api, fakeid, want, args.pages,
+                                     retries=args.retries, want_block=True)
         got = 0
         if args.no_content:
             for art in arts:
@@ -947,19 +1593,44 @@ def crawl_wechat(campus, api, args):
                 items.append(make_item(art["link"], art["title"], art["published"],
                                        nickname, body))
                 got += 1
+        if got:
+            ok_accounts += 1
+        if blocked and got == 0:
+            # 单个 fakeid 被限：记下来，下次可跳过；同时观察是不是整份凭据都废了
+            blocked_creds += 1
+            note_block("targets", fakeid, f"{nickname} @ {campus}")
         tag = "精确" if exact else "关键词"
-        print(f"    - {nickname}（{tag}匹配）: 取回 {got} 篇")
+        print(f"    - {nickname}（{tag}匹配）: 取回 {got} 篇" + ("（限流）" if blocked and not got else ""))
         registry["wx:" + nickname] = {"name": nickname, "count": got, "new": got,
                                       "status": "ok" if got else "no_recent", "last_checked": now,
                                       "fakeid": fakeid}
         consecutive_zero = consecutive_zero + 1 if got == 0 else 0
         if consecutive_zero >= 3:
-            print("\n✗ 连续 3 个号都取回 0 篇 —— 「历史文章列表」接口被账号级限流（200013）。")
-            print("  这不是脚本问题：新登录/久未使用的公众平台账号需等数小时至 1 天解禁。")
-            print("  已锁定的 fakeid 会保留，解禁后重跑 `python fetch_wechat.py` 即可。")
-            print("  本轮中止，不写入 data/（避免把空结果当成「无新内容」）。")
+            # 判定粒度：如果这轮里还有号是成功的 → 只坏在这几个号身上（fakeid 级）；
+            # 如果从头到尾一个号都没成功 → 更像整份凭据被盯上（账号级）。
+            if ok_accounts == 0:
+                note_block("credentials", cred_key, f"连续 {consecutive_zero} 个号取回 0 篇")
+                print("\n✗ 连续 3 个号都取回 0 篇，且本轮没有任何号成功 —— 判定为【账号级限流】。")
+                print(f"  被限的凭据：{cred_key}")
+                pool = list_credential_pool(campus)
+                if len(pool) > 1:
+                    print(f"  ✓ 检测到 {len(pool)} 份凭据可用，换一份即可，不必等：")
+                    print("    存成 _work/wechat/wxmp-cookie-header-pool2.txt，重跑本脚本。")
+                else:
+                    print("  ✗ 只找到 1 份凭据 —— 账号级限流**只能靠换账号解决，等待无效**。")
+                    print("    准备第 2 个公众平台账号：登录后把 Cookie 整行存成")
+                    print("    _work/wechat/wxmp-cookie-header-pool2.txt，脚本会自动轮换。")
+            else:
+                note_block("targets", fakeid, f"连续取回 0 篇：{nickname}")
+                print(f"\n✗ 连续 3 个号取回 0 篇，但本轮有 {ok_accounts} 个号是成功的")
+                print("  —— 判定为【fakeid 级限流】，只坏在这几个号上。")
+                print("  这几个号已记入限流名单，6 小时内会自动跳过，不影响其它号。")
+            print("  已锁定的 fakeid 会保留，本轮中止、不写入 data/（避免把空结果当成「无新内容」）。")
             return [], {}
 
+    if blocked_creds and ok_accounts:
+        print(f"· 本轮有 {blocked_creds} 个号限流、{ok_accounts} 个号正常 —— "
+              f"限流是 fakeid 级，账号本身没问题。")
     print(f"· [{campus}] 公众号合计 {len(items)} 条")
     return items, registry
 
@@ -1142,7 +1813,7 @@ def run_search_only(campuses, args):
                 print(f"  {mark} {a['name']} → {r['nickname']}")
             else:
                 print(f"  ✗未命中 {a['name']}")
-            time.sleep(1.2)
+            gentle_sleep(1.2, "（搜索间隔）")
     save_fakeid_cache(cache)
     print(f"\n· 搜索完成：{hit}/{total} 命中（精确 {exact_n}），已缓存到 _work/{FAKEID_CACHE}")
     print("  限流解禁后直接跑 `python fetch_wechat.py` 即可按号抓取（会走缓存，不再搜索）")
@@ -1156,6 +1827,9 @@ def main():
     ap.add_argument("--retries", type=int, default=2, help="单次请求失败重试次数")
     ap.add_argument("--workers", type=int, default=6, help="并发抓正文的线程数（默认 6）")
     ap.add_argument("--cookies", help="指定 cookies JSON 文件（默认自动找 _work/wechat/wxmp-cookies*.json）")
+    ap.add_argument("--cred-index", type=int, default=None,
+                    help="凭据池里用第几份（从 0 开始）。默认按日期自动轮换，"
+                         "同一份被限流时自动跳到下一份")
     ap.add_argument("--no-content", action="store_true", help="不抓正文，只用列表里的摘要")
     ap.add_argument("--public-seed", action="store_true",
                     help="无 cookies 时用公开文章链接种子抓取（默认在无凭据时自动启用）")
@@ -1163,6 +1837,12 @@ def main():
     ap.add_argument("--public-max", type=int, default=60, help="公开种子模式最多抓几篇（默认 60）")
     ap.add_argument("--no-seed-fallback", action="store_true",
                     help="API 模式下不补抓种子清单里尚未入库的链接（默认会补，避免名单外的号漏掉）")
+    ap.add_argument("--albums", action="store_true",
+                    help="额外抓一遍「公开合集」源（零凭据、不受限流影响，是 appmsg 被限流时的兜底）")
+    ap.add_argument("--albums-only", action="store_true",
+                    help="只抓公开合集源（完全不用 cookies，适合限流期维持更新）")
+    ap.add_argument("--album-pages", type=int, default=2,
+                    help="每个合集最多翻几页（每页 10~20 篇，默认 2；合集接口会自动给 continue_flag）")
     ap.add_argument("--dry-run", action="store_true", help="只搜索公众号验证 cookies，不写数据")
     ap.add_argument("--list-accounts", action="store_true",
                     help="只打印各校区合并后的公众号名单（含来源），不联网")
@@ -1213,6 +1893,22 @@ def main():
             continue
         print(f"\n=== {campus} ===")
 
+        if args.albums_only:
+            # 纯合集模式：不用任何凭据，因此**完全不受限流影响**。
+            # 这是限流期维持页面更新的兜底路径。
+            items, registry = crawl_albums(campus, args)
+            if not items:
+                print("· 合集源没取到内容（检查 _work/wechat/wxmp-albums*.json 是否配好）")
+                continue
+            write_payload(campus, items, registry, [])
+            if args.no_import:
+                print(f"· 结果已写入 _work/wechat/wechat-items-{campus}.json（--no-import）")
+                continue
+            total, added = merge_into_data(campus, items, registry, refresh)
+            print(f"· [{campus}] 合并完成：新增 {added} 条，现有 {total} 条")
+            written.append(campus)
+            continue
+
         if args.import_only:
             path = find_wechat_file(f"wechat-items-{campus}.json")
             if not path:
@@ -1233,7 +1929,22 @@ def main():
                 except Exception as exc:  # noqa: BLE001
                     print(f"! 读不到 --cookies {args.cookies}：{exc}")
             else:
-                cookies, src = load_cookies(campus)
+                # 轮换池：有多份凭据时按日期挑一份，避免单账号被抓到限流后整条链路停摆
+                pool = list_credential_pool(campus)
+                if len(pool) > 1:
+                    idx = (args.cred_index if getattr(args, "cred_index", None) is not None
+                           else pool_index_for_today(campus))
+                    idx = max(0, min(idx, len(pool) - 1))
+                    cookies, src = pool[idx]
+                    print(f"· 凭据池共 {len(pool)} 份，本次用第 {idx + 1} 份：{src}")
+                    if is_recently_blocked("credentials", os.path.basename(src)):
+                        nxt = (idx + 1) % len(pool)
+                        print(f"  ⚠ 这一份最近被限过，自动换第 {nxt + 1} 份：{pool[nxt][1]}")
+                        cookies, src = pool[nxt]
+                else:
+                    cookies, src = load_cookies(campus)
+            # 让 crawl_wechat 知道本次用的是哪份凭据（限流记忆 / fakeid 缓存都按它分桶）
+            args._cred_path = src
 
             if not WxMPAPI or not cookies:
                 if args.dry_run:
@@ -1284,9 +1995,30 @@ def main():
                     continue
                 items, registry = crawl_wechat(campus, api, args)
                 items, registry = append_seed_fallback(campus, items, registry, args)
+                # 合集源作为**并行补充**：它不受限流影响，即使 appmsg 被限也能带回来一些
+                if args.albums:
+                    album_items, album_reg = crawl_albums(campus, args)
+                    if album_items:
+                        have = {it.get("i") for it in items}
+                        fresh = [it for it in album_items if it.get("i") not in have]
+                        if fresh:
+                            print(f"· [{campus}] 合集源补充 {len(fresh)} 条")
+                        items = items + fresh
+                        for k, v in album_reg.items():
+                            registry.setdefault(k, v)
                 if not items:
-                    print("· 本轮没抓到文章，保留现有数据")
-                    continue
+                    # appmsg 被限流（crawl_wechat 会返回空）时，别就此收工：
+                    # 合集源零凭据、不受限流影响，是这时候唯一的出路。
+                    print("· 本轮 appmsg 没抓到文章")
+                    albums_cfg = load_albums(campus)
+                    if albums_cfg:
+                        print(f"  ↓ 自动改走公开合集源兜底（{len(albums_cfg)} 个合集，不需要 cookies）")
+                        items, registry = crawl_albums(campus, args)
+                    if not items:
+                        print("  合集源也没取到内容，保留现有数据")
+                        print("  → 若确认是账号级限流，准备第 2 个公众平台账号存成")
+                        print("    _work/wechat/wxmp-cookie-header-pool2.txt，脚本会自动轮换")
+                        continue
                 write_payload(campus, items, registry, [])
                 if args.no_import:
                     print(f"· 结果已写入 _work/wechat/wechat-items-{campus}.json（--no-import）")

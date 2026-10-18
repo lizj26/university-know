@@ -1,0 +1,18 @@
+# 西安交通大学官方微信公众号文章链接种子（一行一个，# 开头为注释）
+# 无 cookies 时的公开种子：fetch_wechat.py 会逐篇抓正文，走与 wxmp 相同的入库链路。
+# 补齐 _work/wxmp-cookies.json 后自动改用 API 模式，本文件仍作为补充种子合并。
+
+# 西安交通大学机械工程学院
+https://mp.weixin.qq.com/s/H53NX5e9OI1HjponkOW_Hw
+https://mp.weixin.qq.com/s/BuzAR-d4aVbOXGKKdWsKdg
+https://mp.weixin.qq.com/s/NbbI28FbyrUQfg_sGHU_Zg
+https://mp.weixin.qq.com/s/OZBimRQHezaXEay6ABfA4A
+# 西安交通大学管理学院
+https://mp.weixin.qq.com/s/fVliMFrGXKUMRNTvCMlKPg
+https://mp.weixin.qq.com/s/zAmKAko3Z8QtAPLRy8znZw
+https://mp.weixin.qq.com/s/q5cf_qMEmAHT3nBqdRgwEQ
+https://mp.weixin.qq.com/s/IzBEdLGQz4f_XpA3S-Rw0A
+# 西安交大网信中心
+https://mp.weixin.qq.com/s/k8lUw7XiTVogb0jTBZ_rGQ
+# 西安交通大学机械校友会
+https://mp.weixin.qq.com/s/leGYilSDksY3EkRp47JWqw

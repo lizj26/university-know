@@ -1,0 +1,15 @@
+{
+  "Version": "1",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": { "Service": "fc.aliyuncs.com" },
+      "Action": "sts:AssumeRole",
+      "Condition": {
+        "StringEquals": {
+          "acs:RAM:ServiceName": "fc.aliyuncs.com"
+        }
+      }
+    }
+  ]
+}

@@ -3,15 +3,14 @@
 """
 「XX知道」校园信息聚合站 —— 一条命令完成「抓取 + 生成单文件站点」。
 
-数据来源：pkuknow.cn 的公开接口。所有内容均为各高校院系 / 社团微信公众号
-与官方网站的公开通知，版权归原作者所有。
+数据来源：各高校官网公开通知（由 fetch_campus.py 抓取），或 pkuknow.cn 公开接口
+（仅当某校在 CAMPUS_PREFIX 里登记了上游前缀）。内容版权归原作者所有。
 
 用法示例
 --------
-    python refresh.py                        # 抓取清华全量(约 1300 条)并生成 index.html
-    python refresh.py --limit 300            # 只抓最近 300 条，快很多
-    python refresh.py --campus thu,zju       # 同时抓多个校区(暂无上游接口的会跳过)
     python refresh.py --build-only           # 不联网，用 data/*.json 重新生成 index.html
+    python refresh.py --limit 300            # 上游模式下只抓最近 300 条，快很多
+    python refresh.py --campus zju           # 指定校区(暂无上游接口的会跳过)
     python refresh.py --no-details           # 只抓列表，不带正文详情(体积小 10 倍)
     python refresh.py --allow-partial        # 抓取不完整时也写入(默认保留旧数据)
     python refresh.py --campus zju --import items.json   # 导入自建信息源(按 id 合并)
@@ -19,8 +18,10 @@
 
 校区
 ----
-    清华知道(thu) 已有上游接口；浙大(zju) / 上交(sjtu) / 西交(xjtu) 的页面已经就绪，
-    但 pkuknow.cn 目前没有这三个校区的接口，data/<campus>.json 先留空占位。
+    浙大(zju) / 上交(sjtu) / 西交(xjtu) 的内容由 fetch_campus.py 直接抓各校官网写入
+    data/<campus>.json；本文件负责把它们合进 index.html。清华知道(thu) 已改为外链，
+    本站不再抓取它的内容。上游(pkuknow.cn)接口能力保留：若某校以后恢复上游接口，
+    在 CAMPUS_PREFIX 里登记路径即可用 --campus 直接抓。
 
 产物
 ----
@@ -59,11 +60,29 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(HERE, "data")
 TEMPLATE = os.path.join(HERE, "template.html")
 OUTPUT = os.path.join(HERE, "index.html")
+# 打开 index.html 时默认落在哪个校区（顶栏第一项 thu 是外链，故默认给西交）
+DEFAULT_CAMPUS = "xjtu"
 
-# 校区 -> 上游路径前缀;None 表示上游还没有这个校区的接口(页面与 data/<campus>.json 先占位)
-CAMPUS_PREFIX = {"thu": "/thu", "zju": None, "sjtu": None, "xjtu": None}
-CAMPUS_LABEL = {"thu": "清华知道", "zju": "浙大知道", "sjtu": "上交知道", "xjtu": "西交知道"}
-CAMPUS_EN = {"thu": "THU Know", "zju": "ZJU Know", "sjtu": "SJTU Know", "xjtu": "XJTU Know"}
+# 校区 -> 上游路径前缀;None 表示不经上游(改由 fetch_campus.py 直接抓官网，或该校区
+# 为外链不抓取)。当前四校都为 None：三校由 fetch_campus.py 抓官网，清华是外链。
+CAMPUS_PREFIX = {
+    "thu": None,
+    "zju": None,
+    "sjtu": None,
+    "xjtu": None,
+}
+CAMPUS_LABEL = {
+    "thu": "清华知道",
+    "zju": "浙大知道",
+    "sjtu": "上交知道",
+    "xjtu": "西交知道",
+}
+CAMPUS_EN = {
+    "thu": "THU Know",
+    "zju": "ZJU Know",
+    "sjtu": "SJTU Know",
+    "xjtu": "XJTU Know",
+}
 
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
@@ -680,6 +699,82 @@ def scrape_campus(campus, limit, workers, with_details=True, allow_partial=False
 
 
 # --------------------------------------------------------------------------
+# 按需加载:轻量索引 + 分片
+# --------------------------------------------------------------------------
+SHARD_DIR = os.path.join(DATA_DIR, "shard")
+
+# 首屏渲染卡片必需的字段:标识、标题、来源、分类、发布时间、链接、活动起始时间。
+# 其余字段（正文、摘要、地点、主办方、附件…）只有点开详情才用得上，放进 -d 分片。
+ITEM_INDEX_KEYS = ("i", "t", "en", "s", "si", "c", "u", "d")
+ITEM_INDEX_DT_KEYS = ("sg", "ev", "tm")
+
+
+def index_item(it):
+    """条目 → 首屏索引字段（丢掉的正文由 <校区>-d.json 按需补回）。
+
+    注意：不要叫 slim_item——refresh.py 上面已经有一个同名的「外部导入 → 紧凑结构」
+    转换函数，重名会把它顶掉。
+    """
+    out = {k: it[k] for k in ITEM_INDEX_KEYS if k in it}
+    dt = it.get("dt") or {}
+    keep = {k: dt[k] for k in ITEM_INDEX_DT_KEYS if dt.get(k) is not None}
+    if keep:
+        out["dt"] = keep
+    return out
+
+
+def detail_item(it):
+    """条目 → 详情增量（只保留被索引裁掉、且非空的字段）。
+
+    `g`/`ens`/`d` 三个字段索引里已经带了，这里不重复下发，省一份体积。
+    """
+    out = {}
+    dt = it.get("dt") or {}
+    keep = {k: v for k, v in dt.items() if k not in ITEM_INDEX_DT_KEYS and v not in (None, "", [], {})}
+    if keep:
+        out["dt"] = keep
+    for k in ("ens", "g"):
+        if it.get(k) not in (None, "", [], {}):
+            out[k] = it[k]
+    return out
+
+
+def write_shards(campuses):
+    """写出每校区两份分片，返回写出的文件路径列表。
+
+    <key>.json   全量条目：切到该校区、或从 URL 直达该校区时按需加载。
+    <key>-d.json 详情增量：点开某条通知时按需加载，只为真正打开的那几条取正文。
+    """
+    os.makedirs(SHARD_DIR, exist_ok=True)
+    written = []
+    for key, c in campuses.items():
+        items = c.get("items") or []
+
+        detail_map = {}
+        for it in items:
+            extra = detail_item(it)
+            if extra and it.get("i"):
+                detail_map[it["i"]] = extra
+        full = {"campus": key, "campus_name": c.get("campus_name") or key, "items": items}
+        det = {"campus": key, "items": detail_map}
+
+        for name, obj in ((f"{key}.json", full), (f"{key}-d.json", det)):
+            path = os.path.join(SHARD_DIR, name)
+            write_text(path, json.dumps(obj, ensure_ascii=False, separators=(",", ":")))
+            written.append(path)
+
+    # 清掉已经下线校区的残留分片，避免部署目录里留着过期数据
+    live = set()
+    for key in campuses:
+        live.add(f"{key}.json")
+        live.add(f"{key}-d.json")
+    for f in glob.glob(os.path.join(SHARD_DIR, "*.json")):
+        if os.path.basename(f) not in live:
+            os.remove(f)
+    return written
+
+
+# --------------------------------------------------------------------------
 # 生成 index.html
 # --------------------------------------------------------------------------
 def build():
@@ -711,12 +806,22 @@ def build():
             print(f"· {os.path.basename(f)} 清除发布超过 {RETENTION_DAYS} 天的历史条目 "
                   f"{pruned} 条，剩余 {len(items)} 条")
 
-    default = "thu" if "thu" in campuses else sorted(campuses)[0]
-    payload = {"default_campus": default, "campuses": campuses}
+    default = DEFAULT_CAMPUS if DEFAULT_CAMPUS in campuses else sorted(campuses)[0]
+
+    # 首屏只内嵌「轻量索引」：标题 / 时间 / 来源 / 分类这些渲染卡片必需的字段。
+    # 正文摘录（dt.tx）、活动地点、主办方等只在点开详情时才用到，放进 data/shard/。
+    # 这样 index.html 只有原来的 ~1/4，剩下的按需取——用户不点进去就永远不下载。
+    index_campuses = {k: {"items": [index_item(it) for it in (c.get("items") or [])]}
+                      for k, c in campuses.items()}
+    payload = {"default_campus": default, "campuses": index_campuses}
 
     # 内嵌进 <script type="application/json">，务必转义 < 与行分隔符
     blob = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
     blob = blob.replace("<", "\\u003c").replace("\u2028", "\\u2028").replace("\u2029", "\\u2029")
+
+    # 分片：每校区一份。campus.json 是全量（切校区时按需加载），campus-d.json 是
+    # 「只有详情才有用」的字段（点开某条通知时按需加载）。
+    shard_files = write_shards(campuses)
 
     with open(TEMPLATE, encoding="utf-8") as fh:
         html = fh.read()
@@ -731,28 +836,30 @@ def build():
     build_iso = datetime.now(CST).isoformat(timespec="seconds")
     html = html.replace("__BUILD_TIME__", build_iso, 1)
 
-    # 标题跟随默认校区
+    # 标题跟随默认校区（模板里的 <title> 写成什么都可以，这里统一改写成默认校区的标题）
     label = CAMPUS_LABEL.get(default, default)
     en = CAMPUS_EN.get(default, "")
-    old_title = "<title>「清华知道」 THU Know</title>"
-    if old_title in html:
-        html = html.replace(old_title, f"<title>「{label}」 {en}</title>", 1)
-    else:
-        print("! template.html 里的 <title> 与预期不一致，标题未改写", file=sys.stderr)
+    html, n = re.subn(r"<title>.*?</title>", f"<title>「{label}」 {en}</title>", html,
+                      count=1, flags=re.S)
+    if not n:
+        print("! template.html 里没有 <title>，标题未改写", file=sys.stderr)
 
     write_text(OUTPUT, html)
 
     print(f"✓ {OUTPUT}")
     print(f"  校区 {', '.join(campuses)} · 共 {sum(len(c.get('items', [])) for c in campuses.values())} 条"
-          f" · {os.path.getsize(OUTPUT)/1024/1024:.2f} MB")
-    print("  双击 index.html 即可浏览。")
+          f" · 首屏 {os.path.getsize(OUTPUT)/1024:.0f} KB（内嵌轻量索引）")
+    print(f"  按需分片 {len(shard_files)} 份 · {sum(os.path.getsize(f) for f in shard_files)/1024:.0f} KB"
+          f" → {os.path.relpath(SHARD_DIR, HERE)}/")
+    print("  本地直接双击 index.html 也能看：同目录有 data/shard/ 时按需加载，"
+          "没有则回退到内嵌索引（详情正文可能不完整）。")
 
 
 # --------------------------------------------------------------------------
 def main():
     force_utf8_stdout()
     ap = argparse.ArgumentParser(description="抓取 + 生成「XX知道」单文件站点")
-    ap.add_argument("--campus", default="thu", help="校区，逗号分隔：" + " / ".join(CAMPUS_PREFIX))
+    ap.add_argument("--campus", default="zju,sjtu,xjtu", help="校区，逗号分隔：" + " / ".join(CAMPUS_PREFIX))
     ap.add_argument("--limit", type=int, default=0, help="每个校区最多抓取多少条，0 表示全量")
     ap.add_argument("--workers", type=int, default=8, help="详情抓取并发数")
     ap.add_argument("--build-only", action="store_true", help="不联网，只用 data/*.json 重新生成 index.html")

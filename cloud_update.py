@@ -3,15 +3,17 @@
 
 用法
 ----
-    python cloud_update.py                  # 清华 + 浙大/上交/西交,重建 index.html
-    python cloud_update.py --skip-refresh   # 跳过清华,只抓三校
-    python cloud_update.py --with-wechat    # 三轮全跑(+ 微信公众号)
+    python cloud_update.py                  # 抓取各高校(浙大/上交/西交),重建 index.html
+    python cloud_update.py --skip-campus    # 跳过抓取,只重建页面
+    python cloud_update.py --with-wechat    # 再加上公众号这一步
     python cloud_update.py --summarize-only # 不抓取,只按现有 data/ 打印摘要(自检用)
     python cloud_update.py --stats-only     # 同 --summarize-only,语义更直白
 
 为什么要有这个文件
 ------------------
 给「云端定时任务 / cron / 无人值守」当唯一入口。
+「清华知道」在本站是外链（直达 pkuknow.cn/thu），故本入口不再跑清华这一步；
+默认只跑 `fetch_campus.py` 抓浙大/上交/西交三校，再（可选）跑公众号，最后重建页面。
 
 `refresh.py`、`fetch_campus.py`、`fetch_wechat.py` 会打印上千行进度(上百个来源逐个报状态),
 在由 AI 驱动的云端任务里,这些输出会整段进入模型上下文,显着抬高积分消耗,
@@ -229,12 +231,23 @@ def wechat_status_from_log(log_path):
         return ("⚠ 公众号：本机没装 wxmp，已自动降级为「公开种子」模式。"
                 "要按号成批抓取请 pip install wxmp（需 Python >= 3.10）")
     if "200013" in seg or "freq control" in seg:
-        return ("⚠ 公众号：被微信**账号级限流**(ret=200013 freq control)，本轮没有拉到任何文章列表，"
-                "已保留旧数据。这是账号维度的限制，与脚本无关 —— 新登录/久未使用的公众平台账号"
-                "通常要等数小时至 1 天解禁；解禁后重跑即可（fakeid 已缓存，不会再走搜索）")
+        # 分粒度给建议：账号级只能换账号（等待无效），fakeid 级会自动跳过个别号。
+        # 旧版这里一律说"等数小时至 1 天解禁"，对账号级限流是错的——会让人陷入
+        # "等一天→重跑→还是 0 篇→再等一天" 的死循环。
+        if "账号级限流" in seg:
+            return ("⚠ 公众号：被微信**账号级限流**(ret=200013 freq control)，本轮所有号都没拉到，"
+                    "已保留旧数据。**这种限流等待无效，只能换登录账号** —— 把第 2 份 Cookie 整行"
+                    "存成 _work/wechat/wxmp-cookie-header-pool2.txt，脚本会自动轮换；"
+                    "没有第二份凭据就配 _work/wechat/wxmp-albums.json 走公开合集源（不受限流影响）")
+        if "fakeid 级限流" in seg:
+            return ("⚠ 公众号：部分号被**单号限流**(ret=200013)，只影响这几个号，其余正常。"
+                    "已记入 _work/wechat/wxmp-blocked.json，6 小时内自动跳过，无需人工干预")
+        return ("⚠ 公众号：出现限流(ret=200013 freq control)，本轮未拉全，已保留旧数据。"
+                "账号级限流等待无效、只能换账号(存成 wxmp-cookie-header-pool2.txt)；"
+                "单号限流会自动跳过。详见 docs/wxmp公众号接入.md 第 10 节")
     if "没有 cookies" in seg:
         return ("⚠ 公众号：没找到 cookies，已降级为「公开种子」模式。"
-                "把登录后的 Cookie 整行存到 _work/wxmp-cookie-header.txt 即可启用按号抓取")
+                "把登录后的 Cookie 整行存到 _work/wechat/wxmp-cookie-header.txt 即可启用按号抓取")
     # 统计本轮实际入库量
     m = None
     for m2 in re.finditer(r"合并完成：新增 (\d+) 条，现有 (\d+) 条", seg):
@@ -250,14 +263,15 @@ wechat_failure_note = wechat_status_from_log
 
 def main():
     ap = argparse.ArgumentParser(description="无人值守入口:跑完抓取只输出摘要")
-    ap.add_argument("--skip-refresh", action="store_true", help="跳过清华(refresh.py)")
-    ap.add_argument("--skip-campus", action="store_true", help="跳过三校(fetch_campus.py)")
+    ap.add_argument("--skip-refresh", action="store_true",
+                    help="已废弃：清华改为外链后不再单独抓取，此开关现为空操作（保留以兼容旧调用）")
+    ap.add_argument("--skip-campus", action="store_true", help="跳过各高校(fetch_campus.py)")
     ap.add_argument("--skip-wechat", action="store_true",
                     help="跳过公众号(fetch_wechat.py);默认就跳过,除非给了 --with-wechat")
     ap.add_argument("--with-wechat", action="store_true",
                     help="把微信公众号抓取(fetch_wechat.py)作为第三步跑(需本机有 cookies/wxmp)")
     ap.add_argument("--wechat-only", action="store_true",
-                    help="只跑公众号这一步(等价 --skip-refresh --skip-campus --with-wechat)")
+                    help="只跑公众号这一步(等价 --skip-campus --with-wechat)")
     ap.add_argument("--campus", default=None,
                     help="限定校区(逗号分隔,如 zju / zju,sjtu);默认三校全抓。用于调试单校")
     ap.add_argument("--summarize-only", "--stats-only", dest="summarize_only",
@@ -286,7 +300,7 @@ def main():
     args = ap.parse_args()
 
     if args.wechat_only:
-        args.skip_refresh = args.skip_campus = True
+        args.skip_campus = True
         args.with_wechat = True
     if args.skip_wechat:
         args.with_wechat = False
@@ -344,10 +358,9 @@ def main():
 
     with open(LOG_PATH, "w", encoding="utf-8") as log_handle:
         log_handle.write(f"thu-know 更新开始 {datetime.now():%Y-%m-%d %H:%M:%S}\n")
-        if not args.skip_refresh:
-            steps.append(("清华 refresh.py", [py, "refresh.py"]))
+        # 注：清华已是外链，不再有独立的 refresh.py 抓取步骤
         if not args.skip_campus:
-            steps.append(("三校 fetch_campus.py", [py, "fetch_campus.py"] + campus_args))
+            steps.append(("各高校 fetch_campus.py", [py, "fetch_campus.py"] + campus_args))
         if args.with_wechat:
             if os.path.isfile(os.path.join(HERE, "fetch_wechat.py")):
                 steps.append(("公众号 fetch_wechat.py", [py, "fetch_wechat.py"] + wechat_args))

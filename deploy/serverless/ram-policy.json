@@ -1,0 +1,15 @@
+{
+  "Version": "1",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["oss:GetObject", "oss:PutObject"],
+      "Resource": "acs:oss:*:*:fc-university-know-role/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["oss:ListObjects", "oss:GetBucketInfo"],
+      "Resource": "acs:oss:*:*:fc-university-know-role"
+    }
+  ]
+}

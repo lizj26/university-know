@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""「XX知道」多校区信息源抓取器 —— 学院官网 + 官方微信公众号。
+"""「XX知道」多校区信息源抓取器 —— 各高校官网 + 职能部门（不抓公众号）。
 
 与 refresh.py 的分工:
     refresh.py       走 pkuknow.cn 聚合接口(清华),并负责把 data/*.json 生成 index.html
-    fetch_campus.py  直接从浙大/上交/西交的学院官网与官方公众号抓内容,产出 data/<校区>.json
+    fetch_campus.py  直接从各高校(浙大/上交/西交)的官网与职能部门抓内容,
+                     产出 data/<校区>.json。支持两种来源:
+                       kind=list  HTML 列表页(绝大多数站点)
+                       kind=json  自带搜索接口的整站前端渲染站点(如港大)
 
 用法示例
 --------
-    python fetch_campus.py                      # 抓三个校区,写入 data/ 并重新生成页面
+    python fetch_campus.py                      # 抓全部校区,写入 data/ 并重新生成页面
     python fetch_campus.py --campus zju         # 只抓浙大
-    python fetch_campus.py --max-per-source 10  # 每个来源最多取 10 条(默认 15)
+    python fetch_campus.py --max-per-source 10  # 每个来源最多取 10 条(默认按各来源的 max)
     python fetch_campus.py --no-details         # 不抓正文,只取标题/时间/链接(快很多)
     python fetch_campus.py --no-import          # 只抓取并输出到 _work/,不写 data/
     python fetch_campus.py --import-only        # 不联网,把 _work/ 里上次的结果写入 data/ 并生成页面
@@ -18,14 +21,12 @@
 设计要点
 --------
 * 只用标准库,与 refresh.py 保持一致(无需 pip install)。
-* 只抓公开页面:每所学校的新闻网/通知公告列表 + 页面里出现的官方微信公众号文章。
-* **可持续**:信息源是配置数据(SOURCES),每轮重爬列表页并按 id 合并进 data/,
-  新发布的内容自动入库,不需要改代码;要临时加一个来源,写
-  `_work/sources-<校区>.json` 即可(不必动这个文件);列表页候选还会按发布日期
-  从新到旧排序后再按 max 截断,保证新条目一定被抓到。
-* 公众号没有公开的"文章列表"接口,所以做法是:①跟着学校官网里链接的
-  mp.weixin.qq.com 文章走(官网转载/引用的官微内容,可自动发现);②用 --wechat-file
-  补一份手工维护的文章链接清单(一行一个)。两者都会把公众号名当来源名入库。
+* 只抓公开的网站内容:每所学校的新闻网/通知公告列表 + 各职能部门的列表页。
+* **只增不减、按 id 合并**:每轮重爬列表页并合并进 data/，新发布的内容自动入库；
+  历史条目保留，超过保留期的由 refresh.py 生成页面时统一清除。
+* **加一所学校不用改代码逻辑**，只要在下面的 SOURCES 里加一组来源、并在
+  refresh.py / template.html 里登记校区名即可（完整步骤见 docs/添加新大学.md）；
+  要临时补/停一个来源，写 `_work/sources-<校区>.json` 即可（同 id 覆盖、enabled=false 停用）。
 * 每个主机 1.2 秒一次请求,失败重试 2 次,失败不写坏数据(refresh.py 那一套写入保护照旧生效)。
 """
 
@@ -33,6 +34,8 @@ import argparse
 import concurrent.futures as cf
 import datetime
 import gzip
+from html import unescape as html_unescape
+import importlib.util
 import json
 import os
 import re
@@ -71,231 +74,116 @@ WX_HOST = "mp.weixin.qq.com"
 WX_RE = re.compile(r"https?://mp\.weixin\.qq\.com/s[/?][\w\-?=&%.:]+")
 
 # --------------------------------------------------------------------------
-# 信息源清单:一所学校一组。kind=list 抓列表页;kind=wechat 只摘页面里的公众号文章
+# 信息源清单：一所学校一组，只收「官网 + 各校职能部门」。
+#   - kind=list 抓列表页。kind=wechat 已全部移除：不再摘取任何公众号文章，
+#     只抓网页内容（需求：不抓公众号内容，只抓网站内容）。
+#   - 原先逐院系铺开的学院站点已移出：信息噪音大，且与「招生 / 教务 / 就业 /
+#     图书馆 / 学工 / 国际交流」这类更常见的信息需求重合度低。
+#   - link_re：现代框架站点(通知详情是 /post/detail/xxx、?id=123 这种，没有
+#     .htm + 数字路径)用自定义正则挑文章链接；配置了 link_re 就只认它。
+#   - kind=json：整站前端渲染、HTML 里没有任何文章链接的站点，可直接读它自己的
+#     搜索接口返回的 JSON（json_source_items() 即为此保留；当前 3 校不涉及）。
+#   - 想临时补回某个院系，不用改代码：写进 _work/sources-<校区>.json 即可
+#     （格式见 _work/sources.example.json，同 id 覆盖、enabled=false 停用）。
+#   - 各站逐个实测：能稳定解析出「标题+链接」的才收；纯 JS 单页且无公开接口的
+#     站点(zju 就业服务平台、sjtu/xjtu 图书馆、xjtu 就业创业网)，未收。
 # --------------------------------------------------------------------------
 SOURCES = {
     "zju": [
+        # ---- 官网新闻 ----
         {"id": "zju_news", "name": "浙江大学求是新闻网", "group": "official",
          "url": "http://www.news.zju.edu.cn/", "kind": "list", "max": 18},
         {"id": "zju_news_yw", "name": "浙大求是新闻网·要闻", "group": "official",
          "url": "http://www.news.zju.edu.cn/24344/list.htm", "kind": "list", "max": 12},
         {"id": "zju_news_kxtt", "name": "浙大求是新闻网·科学头条", "group": "official",
          "url": "http://www.news.zju.edu.cn/kxtt/list.htm", "kind": "list", "max": 12},
-        {"id": "zju_ckc", "name": "浙江大学竺可桢学院", "group": "official",
-         "url": "http://ckc.zju.edu.cn/", "kind": "list", "max": 10},
-        {"id": "zju_qsxy", "name": "浙江大学求是学院", "group": "official",
-         "url": "http://qsxy.zju.edu.cn/", "kind": "list", "max": 10},
-        {"id": "zju_lib", "name": "浙江大学图书馆", "group": "official",
-         "url": "https://libweb.zju.edu.cn/", "kind": "list", "max": 10},
-        {"id": "zju_cse", "name": "浙江大学控制科学与工程学院", "group": "official",
-         "url": "http://www.cse.zju.edu.cn/", "kind": "list", "max": 10},
-        {"id": "zju_som", "name": "浙江大学管理学院", "group": "official",
-         "url": "http://www.som.zju.edu.cn/", "kind": "list", "max": 10},
-        {"id": "zju_physics", "name": "浙江大学物理学院", "group": "official",
-         "url": "https://physics.zju.edu.cn/", "kind": "list", "max": 10},
+        # ---- 职能部门 ----
+        {"id": "zju_grs", "name": "浙江大学研究生院", "group": "official",
+         "url": "http://www.grs.zju.edu.cn/", "kind": "list", "max": 12},
         {"id": "zju_zdzsc", "name": "浙江大学本科招生", "group": "official",
          "url": "https://zdzsc.zju.edu.cn/", "kind": "list", "max": 10},
-        {"id": "zju_mse", "name": "浙江大学材料科学与工程学院", "group": "official",
-         "url": "https://mse.zju.edu.cn/", "kind": "list", "max": 10},
-        {"id": "zju_isee", "name": "浙江大学信息与电子工程学院", "group": "official",
-         "url": "http://www.isee.zju.edu.cn/", "kind": "list", "max": 10},
-        {"id": "zju_cs", "name": "浙江大学计算机科学与技术学院", "group": "official",
-         "url": "http://www.cs.zju.edu.cn/csen/", "kind": "list", "max": 10},
-        {"id": "zju_math", "name": "浙江大学数学科学学院", "group": "official",
-         "url": "http://www.math.zju.edu.cn/", "kind": "list", "max": 10},
-        {"id": "zju_portal", "name": "浙江大学主页", "group": "official",
-         "url": "https://www.zju.edu.cn/", "kind": "wechat", "max": 12},
-        # ---- 以下为各学院官网(URL 取自 zju.edu.cn/599 官方院系清单,2026-10 逐站验证) ----
-        {"id": "zju_lit", "name": "浙江大学文学院", "group": "official",
-         "url": "http://www.lit.zju.edu.cn/", "kind": "list", "max": 6},
-        {"id": "zju_ls", "name": "浙江大学历史学院", "group": "official",
-         "url": "https://ls.zju.edu.cn/main.htm", "kind": "list", "max": 6},
-        {"id": "zju_philosophy", "name": "浙江大学哲学学院", "group": "official",
-         "url": "http://www.philosophy.zju.edu.cn/", "kind": "list", "max": 6},
-        {"id": "zju_cmic", "name": "浙江大学传媒与国际文化学院", "group": "official",
-         "url": "http://www.cmic.zju.edu.cn/", "kind": "list", "max": 6},
-        {"id": "zju_soaa", "name": "浙江大学艺术与考古学院", "group": "official",
-         "url": "http://www.soaa.zju.edu.cn/", "kind": "list", "max": 6},
-        {"id": "zju_cec", "name": "浙江大学经济学院", "group": "official",
-         "url": "http://www.cec.zju.edu.cn/", "kind": "list", "max": 6},
-        {"id": "zju_ghls", "name": "浙江大学光华法学院", "group": "official",
-         "url": "http://www.ghls.zju.edu.cn/ghlscn/", "kind": "list", "max": 6},
-        {"id": "zju_ced", "name": "浙江大学教育学院", "group": "official",
-         "url": "http://www.ced.zju.edu.cn/", "kind": "list", "max": 6},
-        {"id": "zju_spa", "name": "浙江大学公共管理学院", "group": "official",
-         "url": "http://www.spa.zju.edu.cn/spachinese/", "kind": "list", "max": 6},
-        {"id": "zju_chem", "name": "浙江大学化学系", "group": "official",
-         "url": "http://www.chem.zju.edu.cn/chemcn/", "kind": "list", "max": 6},
-        {"id": "zju_gs", "name": "浙江大学地球科学学院", "group": "official",
-         "url": "http://gs.zju.edu.cn/", "kind": "list", "max": 6},
-        {"id": "zju_psych", "name": "浙江大学心理与行为科学系", "group": "official",
-         "url": "http://www.psych.zju.edu.cn", "kind": "list", "max": 6},
-        {"id": "zju_me", "name": "浙江大学机械工程学院", "group": "official",
-         "url": "http://me.zju.edu.cn/mecn/main.htm", "kind": "list", "max": 6},
-        {"id": "zju_doe", "name": "浙江大学能源工程学院", "group": "official",
-         "url": "http://www.doe.zju.edu.cn/main.htm", "kind": "list", "max": 6},
-        {"id": "zju_oc", "name": "浙江大学海洋学院", "group": "official",
-         "url": "http://oc.zju.edu.cn/", "kind": "list", "max": 6},
-        {"id": "zju_saa", "name": "浙江大学航空航天学院", "group": "official",
-         "url": "http://saa.zju.edu.cn/", "kind": "list", "max": 6},
-        {"id": "zju_polymer", "name": "浙江大学高分子科学与工程学系", "group": "official",
-         "url": "https://polymer.zju.edu.cn/main.htm", "kind": "list", "max": 6},
-        {"id": "zju_opt", "name": "浙江大学光电科学与工程学院", "group": "official",
-         "url": "http://opt.zju.edu.cn/", "kind": "list", "max": 6},
-        {"id": "zju_icsr", "name": "浙江大学网络空间安全学院", "group": "official",
-         "url": "https://icsr.zju.edu.cn/", "kind": "list", "max": 6},
-        {"id": "zju_cst", "name": "浙江大学软件学院", "group": "official",
-         "url": "http://www.cst.zju.edu.cn/", "kind": "list", "max": 6},
-        {"id": "zju_cbeis", "name": "浙江大学生物医学工程与仪器科学学院", "group": "official",
-         "url": "http://www.cbeis.zju.edu.cn/", "kind": "list", "max": 6},
-        {"id": "zju_ic", "name": "浙江大学集成电路学院", "group": "official",
-         "url": "https://ic.zju.edu.cn/", "kind": "list", "max": 6},
-        {"id": "zju_cls", "name": "浙江大学生命科学学院", "group": "official",
-         "url": "http://www.cls.zju.edu.cn/clscn/", "kind": "list", "max": 6},
-        {"id": "zju_caefs", "name": "浙江大学生物系统工程与食品科学学院", "group": "official",
-         "url": "http://www.caefs.zju.edu.cn/", "kind": "list", "max": 6},
-        {"id": "zju_cers", "name": "浙江大学环境与资源学院", "group": "official",
-         "url": "http://www.cers.zju.edu.cn/cercn/", "kind": "list", "max": 6},
-        {"id": "zju_cab", "name": "浙江大学农业与生物技术学院", "group": "official",
-         "url": "http://www.cab.zju.edu.cn/chinese/", "kind": "list", "max": 6},
-        {"id": "zju_cmm", "name": "浙江大学医学院", "group": "official",
-         "url": "http://www.cmm.zju.edu.cn/", "kind": "list", "max": 6},
-        {"id": "zju_phs", "name": "浙江大学公共卫生学院", "group": "official",
-         "url": "http://www.phs.zju.edu.cn/", "kind": "list", "max": 6},
-        {"id": "zju_cps", "name": "浙江大学药学院", "group": "official",
-         "url": "http://www.cps.zju.edu.cn/", "kind": "list", "max": 6},
+        {"id": "zju_lib", "name": "浙江大学图书馆", "group": "official",
+         "url": "https://libweb.zju.edu.cn/", "kind": "list", "max": 10},
     ],
     "sjtu": [
+        # ---- 官网新闻 / 通知 ----
         {"id": "sjtu_tg", "name": "上海交通大学通知公告", "group": "official",
          "url": "https://www.sjtu.edu.cn/tg/", "kind": "list", "max": 15},
         {"id": "sjtu_jdyw", "name": "上海交大新闻网·交大要闻", "group": "official",
          "url": "https://news.sjtu.edu.cn/jdyw/", "kind": "list", "max": 12},
         {"id": "sjtu_zhxw", "name": "上海交大新闻网·综合新闻", "group": "official",
          "url": "https://news.sjtu.edu.cn/zhxw/", "kind": "list", "max": 12},
-        {"id": "sjtu_seiee", "name": "上海交大电子信息与电气工程学院", "group": "official",
-         "url": "https://www.seiee.sjtu.edu.cn/xwdt.html", "kind": "list", "max": 12},
-        {"id": "sjtu_me", "name": "上海交大机械与动力工程学院", "group": "official",
-         "url": "https://me.sjtu.edu.cn/tzgg.html", "kind": "list", "max": 12},
-        {"id": "sjtu_acem", "name": "上海交大安泰经济与管理学院", "group": "official",
-         "url": "https://acem.sjtu.edu.cn/news_center/news.html", "kind": "list", "max": 12},
-        {"id": "sjtu_cs", "name": "上海交大计算机学院", "group": "official",
-         "url": "https://www.cs.sjtu.edu.cn/", "kind": "list", "max": 10},
-        {"id": "sjtu_scce", "name": "上海交大化学化工学院", "group": "official",
-         "url": "https://scce.sjtu.edu.cn/", "kind": "list", "max": 10},
+        # ---- 职能部门 ----
         {"id": "sjtu_jwc", "name": "上海交大教务处", "group": "official",
-         "url": "https://jwc.sjtu.edu.cn/", "kind": "list", "max": 10},
-        {"id": "sjtu_smse", "name": "上海交大材料科学与工程学院", "group": "official",
-         "url": "https://smse.sjtu.edu.cn/", "kind": "list", "max": 8},
-        {"id": "sjtu_pharm", "name": "上海交大药学院", "group": "official",
-         "url": "https://pharm.sjtu.edu.cn/", "kind": "list", "max": 8},
-        {"id": "sjtu_sfl", "name": "上海交大外国语学院", "group": "official",
-         "url": "https://sfl.sjtu.edu.cn/", "kind": "list", "max": 8},
-        {"id": "sjtu_shss", "name": "上海交大人文学院", "group": "official",
-         "url": "https://shss.sjtu.edu.cn/", "kind": "list", "max": 8},
-        # ---- 以下学院官网来自 sjtu.edu.cn/yxsz 官方院系页,2026-10 逐站验证 ----
-        {"id": "sjtu_naoce", "name": "上海交大船舶海洋与建筑工程学院", "group": "official",
-         "url": "http://naoce.sjtu.edu.cn/", "kind": "list", "max": 6},
-        {"id": "sjtu_see", "name": "上海交大电气工程学院", "group": "official",
-         "url": "https://see.sjtu.edu.cn/", "kind": "list", "max": 6},
-        {"id": "sjtu_sais", "name": "上海交大自动化与感知学院", "group": "official",
-         "url": "https://sais.sjtu.edu.cn/", "kind": "list", "max": 6},
-        {"id": "sjtu_icisee", "name": "上海交大集成电路学院", "group": "official",
-         "url": "https://icisee.sjtu.edu.cn/", "kind": "list", "max": 6},
-        {"id": "sjtu_physics", "name": "上海交大物理与天文学院", "group": "official",
-         "url": "http://www.physics.sjtu.edu.cn/", "kind": "list", "max": 6},
-        {"id": "sjtu_soo", "name": "上海交大海洋学院", "group": "official",
-         "url": "http://soo.sjtu.edu.cn/", "kind": "list", "max": 6},
-        {"id": "sjtu_law", "name": "上海交大凯原法学院", "group": "official",
-         "url": "http://law.sjtu.edu.cn/", "kind": "list", "max": 6},
-        {"id": "sjtu_ma", "name": "上海交大马克思主义学院", "group": "official",
-         "url": "http://ma.sjtu.edu.cn/", "kind": "list", "max": 6},
-        {"id": "sjtu_senergy", "name": "上海交大智慧能源创新学院", "group": "official",
-         "url": "http://www.senergy.sjtu.edu.cn/", "kind": "list", "max": 6},
-        {"id": "sjtu_psych", "name": "上海交大心理学院", "group": "official",
-         "url": "https://psychology.sjtu.edu.cn/", "kind": "list", "max": 6},
-        {"id": "sjtu_zhiyuan", "name": "上海交大致远学院", "group": "official",
-         "url": "https://zhiyuan.sjtu.edu.cn/hongshan/", "kind": "list", "max": 6},
-        {"id": "sjtu_soe", "name": "上海交大教育学院", "group": "official",
-         "url": "https://soe.sjtu.edu.cn/Web/NewsThree/40", "kind": "list", "max": 6},
-        {"id": "sjtu_bme", "name": "上海交大生物医学工程学院", "group": "official",
-         "url": "https://bme.sjtu.edu.cn/Web/List/299", "kind": "list", "max": 6},
+         "url": "https://jwc.sjtu.edu.cn/", "kind": "list", "max": 12},
+        {"id": "sjtu_gs", "name": "上海交大研究生院", "group": "official",
+         "url": "https://gs.sjtu.edu.cn/announcement/work", "kind": "list", "max": 10,
+         "link_re": r"/post/detail/[A-Za-z0-9=_-]+"},
+        {"id": "sjtu_zsb", "name": "上海交大本科招生", "group": "official",
+         "url": "https://admissions.sjtu.edu.cn/", "kind": "list", "max": 10,
+         "link_re": r"/newDetails\?contentsID=\d+"},
+        {"id": "sjtu_affairs", "name": "上海交大学生事务中心", "group": "official",
+         "url": "https://affairs.sjtu.edu.cn/", "kind": "list", "max": 10,
+         "link_re": r"mid=26&v=informationview&id=\d+"},
+        {"id": "sjtu_global", "name": "上海交大国际合作与交流处", "group": "official",
+         "url": "https://global.sjtu.edu.cn/announcement", "kind": "list", "max": 10,
+         "link_re": r"/announcement/view/\d+"},
     ],
     "xjtu": [
-        {"id": "xjtu_dice_tzgg", "name": "西安交大信息与通信工程学院·通知公告", "group": "official",
-         "url": "https://dice.xjtu.edu.cn/xwgg/tzgg1.htm", "kind": "list", "max": 15},
-        {"id": "xjtu_dice_xsjz", "name": "西安交大信息与通信工程学院·学术讲座", "group": "official",
-         "url": "https://dice.xjtu.edu.cn/xwgg/xsjz1.htm", "kind": "list", "max": 12},
-        {"id": "xjtu_ee", "name": "西安交大电气工程学院·通知公告", "group": "official",
-         "url": "https://ee.xjtu.edu.cn/jzxx.htm", "kind": "list", "max": 15},
-        {"id": "xjtu_mec", "name": "西安交大机械工程学院", "group": "official",
-         "url": "https://mec.xjtu.edu.cn/", "kind": "list", "max": 15},
+        # ---- 官网新闻 ----
         {"id": "xjtu_news", "name": "西安交大新闻网·主页新闻", "group": "official",
          "url": "https://news.xjtu.edu.cn/zyxw.htm", "kind": "list", "max": 15},
-        {"id": "xjtu_portal", "name": "西安交通大学主页", "group": "official",
-         "url": "https://www.xjtu.edu.cn/", "kind": "wechat", "max": 10},
-        {"id": "xjtu_math", "name": "西安交大数学与统计学院", "group": "official",
-         "url": "https://math.xjtu.edu.cn/", "kind": "list", "max": 10},
-        {"id": "xjtu_som", "name": "西安交大管理学院", "group": "official",
-         "url": "https://som.xjtu.edu.cn/", "kind": "list", "max": 10},
-        {"id": "xjtu_mse", "name": "西安交大材料科学与工程学院", "group": "official",
-         "url": "https://mse.xjtu.edu.cn/", "kind": "list", "max": 10},
-        {"id": "xjtu_clet", "name": "西安交大化学工程与技术学院", "group": "official",
-         "url": "https://clet.xjtu.edu.cn/", "kind": "list", "max": 10},
-        {"id": "xjtu_epe", "name": "西安交大能源与动力工程学院", "group": "official",
-         "url": "https://epe.xjtu.edu.cn/", "kind": "list", "max": 12},
-        {"id": "xjtu_rwxy", "name": "西安交大人文社会科学学院", "group": "official",
-         "url": "https://rwxy.xjtu.edu.cn/", "kind": "list", "max": 10},
+        # ---- 职能部门 ----
         {"id": "xjtu_jwc", "name": "西安交大教务处", "group": "official",
-         "url": "https://jwc.xjtu.edu.cn/", "kind": "list", "max": 10},
+         "url": "https://jwc.xjtu.edu.cn/", "kind": "list", "max": 12},
         {"id": "xjtu_gs", "name": "西安交大研究生院", "group": "official",
-         "url": "https://gs.xjtu.edu.cn/", "kind": "list", "max": 10},
-        # ---- 以下学院官网 2026-10 逐站验证(域名来自各学院官方页面互链) ----
-        {"id": "xjtu_cs", "name": "西安交大计算机科学与技术学院", "group": "official",
-         "url": "http://www.cs.xjtu.edu.cn/", "kind": "list", "max": 6},
-        {"id": "xjtu_se", "name": "西安交大软件学院", "group": "official",
-         "url": "http://se.xjtu.edu.cn/", "kind": "list", "max": 6},
-        {"id": "xjtu_esteie", "name": "西安交大电子科学与工程学院", "group": "official",
-         "url": "http://esteie.xjtu.edu.cn/", "kind": "list", "max": 6},
-        {"id": "xjtu_automation", "name": "西安交大自动化科学与工程学院", "group": "official",
-         "url": "http://automation.xjtu.edu.cn/", "kind": "list", "max": 6},
-        {"id": "xjtu_ele", "name": "西安交大微电子学院", "group": "official",
-         "url": "http://ele.xjtu.edu.cn/", "kind": "list", "max": 6},
-        {"id": "xjtu_cybersec", "name": "西安交大网络空间安全学院", "group": "official",
-         "url": "http://cybersec.xjtu.edu.cn/", "kind": "list", "max": 6},
-        {"id": "xjtu_sef", "name": "西安交大经济与金融学院", "group": "official",
-         "url": "https://sef.xjtu.edu.cn/", "kind": "list", "max": 6},
-        {"id": "xjtu_law", "name": "西安交大法学院", "group": "official",
-         "url": "https://fxy.xjtu.edu.cn/", "kind": "list", "max": 6},
-        {"id": "xjtu_phys", "name": "西安交大物理学院", "group": "official",
-         "url": "https://phys.xjtu.edu.cn/", "kind": "list", "max": 6},
-        {"id": "xjtu_chem", "name": "西安交大化学学院", "group": "official",
-         "url": "https://chem.xjtu.edu.cn/", "kind": "list", "max": 6},
-        {"id": "xjtu_sfs", "name": "西安交大外国语学院", "group": "official",
-         "url": "https://sfs.xjtu.edu.cn/", "kind": "list", "max": 6},
+         "url": "https://gs.xjtu.edu.cn/", "kind": "list", "max": 12},
+        {"id": "xjtu_yz", "name": "西安交大研究生招生", "group": "official",
+         "url": "https://yz.xjtu.edu.cn/", "kind": "list", "max": 10},
+        {"id": "xjtu_zs", "name": "西安交大本科招生", "group": "official",
+         "url": "https://zs.xjtu.edu.cn/", "kind": "list", "max": 10},
+        {"id": "xjtu_xsc", "name": "西安交大学生工作部（处）", "group": "official",
+         "url": "https://xsc.xjtu.edu.cn/", "kind": "list", "max": 10},
     ],
 }
 
-# 只要本校自己的公众号(含院系/学部/校友会号);校媒转载的人民日报、科普中国之类不收录
-WECHAT_ACCOUNT_FILTER = {
-    "zju": r"浙江大学|浙大",
-    "sjtu": r"上海交大|上海交通大学|交大",
-    "xjtu": r"西安交大|西安交通大学|交大",
-}
+# 公众号内容已整体停用（需求：只抓网站内容）。
+# 下面两个常量保留为空表，是为了「以后要恢复某校公众号」时只填配置、不改代码；
+# 抓取器也只在 kind=wechat 的来源上才会去摘 mp.weixin.qq.com 链接（现无此类来源）。
+# 默认抓取哪些校区：内置三校（浙大/上交/西交）。清华知道已改为外链，本站不再抓取。
+DEFAULT_CAMPUSES = "zju,sjtu,xjtu"
 
-# 已登记的官方公众号名片。公众号没有文章列表接口,所以这份名单的作用是:
-#   ① 让名字里不含「浙大 / 浙江大学」的号(如 ZJUPES、竺院团学汇)也能通过账号过滤;
-#   ② 在页面的「信息来源」里显示「已登记、暂无内容」,方便知道还缺哪些号。
-WECHAT_ACCOUNTS = {
-    "zju": [
-        "浙大灵韵音乐剧社", "竺院团学汇", "ZJU星弦幻协", "ZJUPES", "浙里等宁",
-        "浙大竺院人", "浙大魔协", "浙大体育与艺术", "浙江大学本科招生",
-        "浙江大学CC98论坛", "浙江大学物理学院", "浙江大学学生会",
-        "浙江大学校友总会", "浙浙小喇叭",
-    ],
-    "sjtu": [],
-    "xjtu": [],
-}
+WECHAT_ACCOUNT_FILTER = {}
+WECHAT_ACCOUNTS = {"zju": [], "sjtu": [], "xjtu": []}
 
+# --------------------------------------------------------------------------
+# 批量扩展的高校信息源（sources_more.py，由 tools/discover_sources.py 自动发现）
+# 与内置 SOURCES 同构：同 id 覆盖、enabled=false 停用。放在单独文件里是为了
+# 让这份「几十所学校」的长配置不把主文件撑爆，也方便批量重新生成。
+# --------------------------------------------------------------------------
+def _load_sources_more():
+    path = os.path.join(HERE, "sources_more.py")
+    if not os.path.exists(path):
+        return {}
+    spec = importlib.util.spec_from_file_location("sources_more", path)
+    mod = importlib.util.module_from_spec(spec)
+    try:
+        spec.loader.exec_module(mod)
+    except Exception as exc:  # noqa: BLE001
+        print(f"  ! sources_more.py 读不出来，已忽略：{exc}")
+        return {}
+    extra = getattr(mod, "SOURCES_EXTRA", None)
+    return extra if isinstance(extra, dict) else {}
+
+
+for _campus, _rows in _load_sources_more().items():
+    if not isinstance(_rows, list):
+        continue
+    _base = SOURCES.setdefault(_campus, [])
+    _have = {str(s.get("id")) for s in _base if isinstance(s, dict)}
+    for _row in _rows:
+        if isinstance(_row, dict) and str(_row.get("id")) not in _have:
+            _base.append(_row)
 # --------------------------------------------------------------------------
 # 分类规则:命中即止,顺序有意义(越具体的越靠前)
 # --------------------------------------------------------------------------
@@ -350,6 +238,10 @@ _LAST_HIT = {}
 _HOST_LOCK = threading.Lock()
 RETRY_COUNT = 2      # 单页失败重试次数,可由 --retries 覆盖(见 fetch)
 DOMAIN_DELAY = 0.0   # 同一注册域名(如 zju.edu.cn)聚合请求的最小间隔,>0 才生效(--domain-delay)
+HTTP_TIMEOUT = 25    # 单次请求超时(秒),可由 --timeout 覆盖
+# 超时是「站点被墙/挂起」时最大的时间黑洞:一个卡住的来源最坏要
+# timeout × (retries+1) 秒(默认 25×3=75s)。几十所学校规模下,把 --timeout
+# 压到 10~12s + --retries 1,最坏值就降到 20~24s,一轮能省几十分钟。
 
 
 # --------------------------------------------------------------------------
@@ -401,15 +293,21 @@ def polite_wait(url, delay):
         time.sleep(wait)
 
 
-def fetch(url, delay=1.2, retries=None, timeout=25):
+REQUESTS = 0            # 本轮真正发出的 HTTP 请求数(含重试)，用于量化「更新一次」的代价
+
+
+def fetch(url, delay=1.2, retries=None, timeout=None):
     """抓一个页面。http:// 的地址会先试同名 https —— 不少学校站点已上 https,
     而明文 http 可能被网关/代理拦成 403(2026-10 实测:多个学院站 http 403、https 正常)。
 
     retries=None 时用全局 RETRY_COUNT(可由 --retries 调整):失败源在被封的网络环境里
     每次重试都要等退避,云端可调小以压短单轮耗时。
     """
+    global REQUESTS
     if retries is None:
         retries = RETRY_COUNT
+    if timeout is None:
+        timeout = HTTP_TIMEOUT
     targets = [url]
     if url.startswith("http://"):
         targets = [url.replace("http://", "https://", 1), url]
@@ -417,6 +315,7 @@ def fetch(url, delay=1.2, retries=None, timeout=25):
     for target in targets:
         for attempt in range(retries + 1):
             polite_wait(target, delay)
+            REQUESTS += 1
             try:
                 req = urllib.request.Request(target, headers={
                     "User-Agent": UA,
@@ -503,7 +402,8 @@ def anchors(html, base):
     """返回 [(绝对链接, 锚文本, 在原文中的位置)]"""
     out = []
     for m in re.finditer(r'(?is)<a\s[^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)</a>', html):
-        href = urllib.parse.urljoin(base, m.group(1).strip())
+        # HTML 实体要先还原(&amp; -> &),否则带查询串的链接(如 &mid=26&id=488)会取错参
+        href = urllib.parse.urljoin(base, html_unescape(m.group(1).strip()))
         text = strip_tags(m.group(2)).replace("\n", " ").strip()
         out.append((href, text, m.start()))
     return out
@@ -739,6 +639,32 @@ def parse_date(text, default_year=None, publish_context=True):
     return ""
 
 
+# 英文月份（港大等英文站点的日期形如「11 Oct 2026」）
+MONTHS_EN = {"jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
+             "jul": 7, "aug": 8, "sep": 9, "oct": 10, "nov": 11, "dec": 12}
+
+
+def parse_en_date(text):
+    """解析英文日期：'11 Oct 2026' / 'October 11, 2026' / '2026-10-11' / ISO。
+
+    先试英文月份写法，再退回 parse_date（中文/数字写法）。
+    """
+    if not text:
+        return ""
+    t = str(text).strip()
+    m = re.search(r"(\d{1,2})\s+([A-Za-z]{3,9})\.?,?\s+(\d{4})", t)      # 11 Oct 2026
+    if m:
+        mon = MONTHS_EN.get(m.group(2)[:3].lower())
+        if mon:
+            return iso(m.group(3), mon, m.group(1))
+    m = re.search(r"([A-Za-z]{3,9})\.?\s+(\d{1,2}),?\s+(\d{4})", t)      # October 11, 2026
+    if m:
+        mon = MONTHS_EN.get(m.group(1)[:3].lower())
+        if mon:
+            return iso(m.group(3), mon, m.group(2))
+    return parse_date(t)
+
+
 def parse_event_range(text, year_hint=None):
     text = text or ""
     m = TIME_RANGE.search(text)
@@ -860,7 +786,9 @@ def excerpt(text, limit=520):
 SITE_WORDS = ("大学", "学院", "学部", "新闻网", "新闻", "要闻", "综合新闻", "动态", "专题",
               "研究院", "研究生院", "教务处", "中心", "校友会", "中学", "附中")
 SUBTITLE_HINTS = ("在", "关于", "为", "让", "对", "从", "与", "致", "给", "写", "记", "暨")
-SITE_NAME_ONLY = re.compile(r"^[\u4e00-\u9fa5A-Za-z]{2,14}(大学|学院|学部|新闻网|中心)$")
+SITE_NAME_ONLY = re.compile(r"^[\u4e00-\u9fa5A-Za-z]{2,14}(大学|学院|学部|新闻网|中心|招生网|就业网|教务处|研究生院|研究生招生网)$")
+# 详情页元信息栏(被某些站误做成 <h1>):「信息来源： 发布日期: … 浏览次数: …」
+META_BAR_JUNK = re.compile(r"信息来源|发布日期\s*[:：]|浏览次数|阅读次数|点击次数|_showDynClicks|点击数[:：]")
 
 
 def looks_like_site_label(tail):
@@ -917,7 +845,12 @@ def strip_site_prefix(text):
 
 
 def pick_title(anchor, detail_html):
-    """标题优先级:h1 → <title> → 列表页锚文本;都不合适就截断锚文本。"""
+    """标题优先级:h1 → <title> → 列表页锚文本;都不合适就截断锚文本。
+
+    注意:有些站(如同济研招网 yz.tongji.edu.cn)把元信息栏做成了 <h1>
+    「信息来源： 发布日期: … 浏览次数: …」,真正的标题在 <h2>。这类
+    元信息栏文本要用 META_BAR_JUNK 剔除,否则会被当成标题入库。
+    """
     h1 = ""
     m = re.search(r"(?is)<h1[^>]*>(.*?)</h1>", detail_html or "")
     if m:
@@ -925,13 +858,19 @@ def pick_title(anchor, detail_html):
     raw = [h1, page_title(detail_html or ""), anchor or ""]
     candidates = [strip_site_prefix(strip_site_suffix(re.sub(r"\s+", " ", c).strip())) for c in raw]
     for cand in candidates:
-        if not cand or SITE_NAME_ONLY.match(cand):
+        if not cand or SITE_NAME_ONLY.match(cand) or META_BAR_JUNK.search(cand):
             continue
         if 6 <= len(cand) <= 80:
             return cand
     for cand in candidates:
-        if cand and not SITE_NAME_ONLY.match(cand):
+        if cand and not SITE_NAME_ONLY.match(cand) and not META_BAR_JUNK.search(cand):
             return cand[:60]
+    # 全是元信息栏时,兜底从 <h2> 或正文首行找,再不行就空着(页面会显示「查看原文」)
+    m = re.search(r"(?is)<h[23][^>]*>(.*?)</h[23]>", detail_html or "")
+    if m:
+        cand = strip_site_prefix(strip_site_suffix(re.sub(r"\s+", " ", strip_tags(m.group(1))).strip()))
+        if cand and not META_BAR_JUNK.search(cand):
+            return cand[:80]
     return (anchor or "")[:60]
 
 
@@ -1138,6 +1077,53 @@ def merge_sources(campus):
     return [s for s in merged if s.get("enabled", True) is not False]
 
 
+def json_source_items(src, delay, timeout=None):
+    """抓取 kind=json 的来源（返回 JSON 的接口），产出 [(url, title, published, summary)]。
+
+    专门给「整站前端渲染、没有静态文章链接」的站点用（如港大新版官网 newsroom）。
+    可配置字段（都带默认值，最少只写 url + items_path 即可）：
+      items_path    条目数组在 JSON 里的路径，点号分层，默认 "items"（如 "result.items"）
+      title_field   标题字段名，默认 "title"
+      link_field    链接字段名，默认 "url"（相对路径会用 base 补全）
+      date_field    日期字段名，默认 "date"（支持英文月份写法）
+      summary_field 摘要字段名，默认 "summary"（用作正文摘录）
+      base          相对链接前缀，默认取 url 的 scheme://host
+      api           真正的接口地址；给了它就抓 api，而 url 只作为页面展示用的来源地址
+    """
+    endpoint = src.get("api") or src["url"]
+    timeout = timeout if timeout is not None else src.get("timeout")
+    text, _final = fetch(endpoint, delay=delay, timeout=timeout)
+    data = json.loads(text)
+    node = data
+    for part in str(src.get("items_path", "items")).split("."):
+        if not part:
+            continue
+        node = node.get(part) if isinstance(node, dict) else None
+        if node is None:
+            break
+    if not isinstance(node, list):
+        return []
+    parsed = urllib.parse.urlparse(endpoint)
+    base = src.get("base") or f"{parsed.scheme}://{parsed.netloc}"
+    title_field = src.get("title_field", "title")
+    link_field = src.get("link_field", "url")
+    date_field = src.get("date_field", "date")
+    summary_field = src.get("summary_field", "summary")
+    out = []
+    for row in node:
+        if not isinstance(row, dict):
+            continue
+        title = str(row.get(title_field) or "").strip()
+        link = str(row.get(link_field) or "").strip()
+        if not title or not link:
+            continue
+        url = urllib.parse.urljoin(base, link)
+        published = parse_en_date(row.get(date_field)) if row.get(date_field) else ""
+        summary = str(row.get(summary_field) or "").strip()
+        out.append((url, title, published, summary))
+    return out
+
+
 def crawl_campus(campus, args):
     sources = merge_sources(campus)
     if not sources:
@@ -1146,6 +1132,7 @@ def crawl_campus(campus, args):
     items, seen, seen_titles = [], set(), set()
     stats = {}
     known = previous_ids(campus)
+    refresh_known = bool(getattr(args, "refresh_known", False))
     registry = load_registry(campus)
     now = now_iso_cst()
     print(f"· [{campus}] 本轮信息源 {len(sources)} 个"
@@ -1177,11 +1164,70 @@ def crawl_campus(campus, args):
         这样多个来源可以并行(不同主机),同主机靠 polite_wait 限速。
         """
         log = []
+        tmo = src.get("timeout")          # 来源级超时覆盖（个别站特别慢时用）
         limit = args.max_per_source or src.get("max") or 15
         log.append(f"\n· [{campus}] {src['name']}  ({src['url']})")
         out = {"src": src, "items": [], "rows": [], "picked": 0, "log": log}
+
+        # ---- JSON 接口型来源（前端整站渲染、没有静态列表页的站点，如港大）----
+        if src.get("kind") == "json":
+            try:
+                rows = json_source_items(src, args.delay)
+            except Exception as exc:  # noqa: BLE001
+                log.append(f"    ✗ 接口失败：{exc}")
+                old = registry.get(src["id"]) or {}
+                out["rows"].append(dict(
+                    key=src["id"], name=src["name"], group=src.get("group", "official"),
+                    new=0, count_raw=old.get("count", 0), accumulate=False,
+                    status="failed", url=src["url"], source_id=src["id"], kind="json"))
+                return out
+            rows.sort(key=lambda r: r[2] or "", reverse=True)
+            picked, picked_ids, local_titles = 0, [], set()
+            skipped_known = 0
+            for url, title, published, summary in rows:
+                if picked >= limit:
+                    break
+                if title_key(title) in local_titles:
+                    continue
+                # 增量：已在库的条目不再抓详情（同官网来源的处理，见下方注释）
+                if url in known and not refresh_known:
+                    local_titles.add(title_key(title))
+                    picked_ids.append(url)
+                    picked += 1
+                    skipped_known += 1
+                    continue
+                body = summary
+                if not args.no_details and src.get("details", True) is not False:
+                    try:
+                        detail_html, _ = fetch(url, delay=args.delay, timeout=tmo)
+                        full = extract_body(detail_html)
+                        if full:
+                            body = full
+                        if not published:
+                            published = publish_date(detail_html, url)
+                        title = pick_title(title, detail_html)
+                    except Exception as exc:  # noqa: BLE001
+                        log.append(f"    ! 详情失败 {url[:60]}：{exc}")
+                key = title_key(title)
+                if key in local_titles:
+                    continue
+                item = make_item(url, title, published, src["name"], "official", body)
+                item["si"] = src["id"]
+                out["items"].append(item)
+                local_titles.add(key)
+                picked += 1
+                picked_ids.append(url)
+            src_new = len([i for i in picked_ids if i not in known])
+            out["rows"].append(dict(
+                key=src["id"], name=src["name"], group=src.get("group", "official"),
+                new=src_new, count_raw=picked, accumulate=False, status=source_status(src_new),
+                url=src["url"], source_id=src["id"], kind="json"))
+            out["picked"] = picked
+            log.append(f"    ✓ 文章 {picked} 条" + (f"  [新增 {src_new}]" if src_new else "  [无新增]"))
+            return out
+
         try:
-            html, final = fetch(src["url"], delay=args.delay)
+            html, final = fetch(src["url"], delay=args.delay, timeout=tmo)
         except Exception as exc:  # noqa: BLE001
             log.append(f"    ✗ 列表页失败：{exc}")
             old = registry.get(src["id"]) or {}
@@ -1193,9 +1239,17 @@ def crawl_campus(campus, args):
             return out
 
         base_host = host_of(final)
+        # link_re：现代框架站点(通知详情是 /post/detail/xxx、?id=123 这种，没有
+        # .htm + 数字路径)用自定义正则挑出文章链接；配置了 link_re 就只认它。
+        link_re = src.get("link_re")
+        if link_re:
+            link_re = re.compile(link_re)
         found, seen_here = [], set()
         for href, text, pos in anchors(html, final):
-            if not is_article_link(href, base_host):
+            if link_re:
+                if host_of(href) != base_host or not link_re.search(href):
+                    continue
+            elif not is_article_link(href, base_host):
                 continue
             if href in seen_here:
                 continue
@@ -1205,18 +1259,21 @@ def crawl_campus(campus, args):
             seen_here.add(href)
             found.append((href, text, window))
 
+        # 只抓网站内容：不再从网页里摘 mp.weixin.qq.com 链接。
+        # 保留这段逻辑并用 kind 判定，是为了「以后要恢复某个公众号来源」时只需
+        # 把该来源的 kind 改成 wechat，不用再改代码。当前 SOURCES 无 kind=wechat。
         wx_links = []
-        for href in WX_RE.findall(html):
-            href = href.split("&scene=")[0].split("#")[0]
-            if href not in wx_links:
-                wx_links.append(href)
-
         if src.get("kind") == "wechat":
+            for href in WX_RE.findall(html):
+                href = href.split("&scene=")[0].split("#")[0]
+                if href not in wx_links:
+                    wx_links.append(href)
             found = []
 
         picked = 0
         picked_ids = []
         local_titles = set()      # 来源内去重(跨来源去重交给主线程按顺序做)
+        skipped_known = 0         # 已在库、跳过正文抓取的条数
         # 列表页顺序不一定按时间倒序(有的站栏目混排),先按窗口里的发布日期从新到旧
         # 排一遍再截断,保证「刚发布的条目」一定落在 limit 之内,不会被旧稿挤掉。
         dated = []
@@ -1226,13 +1283,23 @@ def crawl_campus(campus, args):
         for published_hint, _, href, text, window in dated:
             if picked >= limit:
                 break
-            if title_key(text) in local_titles:
+            key = title_key(text)
+            if key in local_titles:
+                continue
+            # ---- 增量优化：这条 URL 已经在 data/ 里 → 不抓正文、不重复入库 ----
+            # 每轮列表页里 90% 以上是旧稿，它们的历史条目 refresh.py 会按 id 保留，
+            # 再抓一次正文只是白花请求。只有新稿才需要详情页(标题/日期/正文)。
+            if href in known and not refresh_known:
+                local_titles.add(key)
+                picked_ids.append(href)
+                picked += 1
+                skipped_known += 1
                 continue
             published = published_hint
             body = ""
-            if not args.no_details:
+            if not args.no_details and src.get("details", True) is not False:
                 try:
-                    detail_html, _ = fetch(href, delay=args.delay)
+                    detail_html, _ = fetch(href, delay=args.delay, timeout=tmo)
                     body = extract_body(detail_html)
                     if not published:
                         # 列表窗口里没日期 → 从详情页取:显式标签 → meta → URL 路径
@@ -1249,6 +1316,7 @@ def crawl_campus(campus, args):
             local_titles.add(key)
             picked += 1
             picked_ids.append(href)
+        out["skipped_known"] = skipped_known
 
         # 页面里链接的官方公众号文章
         wx_picked = 0
@@ -1313,9 +1381,11 @@ def crawl_campus(campus, args):
 
     # ---- 按来源配置顺序合并:日志按序打印,条目跨来源去重(先到先得) ----
     seen_ids = set()
+    skipped_total = 0
     for res in results:
         for line in res["log"]:
             print(line)
+        skipped_total += res.get("skipped_known", 0)
         for row in res["rows"]:
             count = row["count_raw"]
             if row["accumulate"] and row["new"] == 0:
@@ -1334,16 +1404,11 @@ def crawl_campus(campus, args):
             items.append(it)
         stats[res["src"]["id"]] = res["picked"]
 
-    # 手工维护的公众号文章清单:--wechat-file 指定的,加上 _work/wechat/wechat-<校区>.txt
-    # (旧布局放在 _work/wechat-<校区>.txt,这里也回退读一次)
+    # 只抓网站内容：不再自动读取 _work/wechat/wechat-<校区>.txt 里的公众号清单。
+    # 真要单独补几篇公众号文章，显式传 --wechat-file 路径（默认不抓公众号）。
     manual_files = []
     if args.wechat_file:
         manual_files.append(args.wechat_file)
-    for auto_file in (os.path.join(WORK_DIR, "wechat", f"wechat-{campus}.txt"),
-                      os.path.join(WORK_DIR, f"wechat-{campus}.txt")):
-        if os.path.exists(auto_file) and auto_file not in manual_files:
-            manual_files.append(auto_file)
-            break
 
     for manual_path in manual_files:
         if not os.path.exists(manual_path):
@@ -1392,8 +1457,21 @@ def crawl_campus(campus, args):
               + (f"（{'、'.join(got)}）" if got else "")
               + f"，待发现 {len(registered) - len(got)} 个")
 
+    # 来源注册表与当前配置对齐：SOURCES 里已经删掉的来源，其历史状态一并清掉，
+    # 否则页面「信息来源」会一直残留早已下线的栏目（只增不减只对"还在配置里的来源"生效）。
+    valid_ids = {s["id"] for s in sources}
+    dropped = [k for k in registry if k not in valid_ids]
+    for k in dropped:
+        registry.pop(k, None)
+    if dropped:
+        print(f"· [{campus}] 清理已下线来源 {len(dropped)} 个："
+              + "、".join(dropped[:8]) + (" …" if len(dropped) > 8 else ""))
+
     save_registry(campus, registry)
     items.sort(key=lambda x: (x.get("d") or "", x["i"]), reverse=True)
+    if skipped_total:
+        print(f"· [{campus}] 增量：{skipped_total} 条已在库，跳过正文抓取"
+              f"（省下约 {skipped_total} 次请求）")
     print(f"\n· [{campus}] 合计 {len(items)} 条；注册表 {len(registry)} 个来源"
           f"（{sum(1 for v in registry.values() if v.get('status') == 'ok')} 个本轮有新增）")
     return items
@@ -1425,9 +1503,11 @@ def do_import(campus, path):
 
 
 def main():
-    ap = argparse.ArgumentParser(description="抓取浙大/上交/西交的学院官网与官方公众号")
-    ap.add_argument("--campus", default="zju,sjtu,xjtu", help="校区，逗号分隔")
-    ap.add_argument("--max-per-source", type=int, default=15, help="每个来源最多取多少条")
+    ap = argparse.ArgumentParser(description="抓取各高校(浙大/上交/西交)的官网与职能部门")
+    ap.add_argument("--campus", default=DEFAULT_CAMPUSES,
+                    help="校区，逗号分隔：" + " / ".join(SOURCES))
+    ap.add_argument("--max-per-source", type=int, default=0,
+                    help="每个来源最多取多少条；0(默认)表示按每个来源自身配置的 max 取值")
     ap.add_argument("--max-wechat", type=int, default=8, help="每个来源最多抓多少篇公众号文章")
     ap.add_argument("--delay", type=float, default=1.2, help="同一主机两次请求的最小间隔(秒)")
     ap.add_argument("--domain-delay", type=float, default=0.0,
@@ -1440,17 +1520,27 @@ def main():
                          "默认 4,设 1 为纯串行)")
     ap.add_argument("--retries", type=int, default=2,
                     help="单个页面失败后的重试次数(默认 2;网络受限的云端环境可设 1 或 0 以压短耗时)")
+    ap.add_argument("--timeout", type=float, default=25,
+                    help="单次请求超时秒数(默认 25)。几十所学校规模下建议 10~12："
+                         "卡住的来源最坏耗时 = timeout ×(retries+1)")
     ap.add_argument("--no-details", action="store_true", help="不抓正文,只取标题/时间/链接")
+    ap.add_argument("--refresh-known", action="store_true",
+                    help="连已在库的条目也重抓详情（默认跳过：这类占每轮请求的 90%% 以上）。"
+                         "只有在需要修补旧条目的标题/正文时才用")
     ap.add_argument("--no-import", action="store_true", help="只抓取并输出到 _work/,不写 data/")
     ap.add_argument("--import-only", action="store_true", help="不联网,把 _work/ 上次的结果写入 data/")
     ap.add_argument("--wechat-file", help="额外的公众号文章链接清单(一行一个,含 # 的行忽略)")
+    ap.add_argument("--no-build", action="store_true",
+                    help="抓取后不重新生成 index.html(云端并行任务里由统一的 build 步骤生成)")
     args = ap.parse_args()
 
-    global RETRY_COUNT, DOMAIN_DELAY
+    global RETRY_COUNT, DOMAIN_DELAY, HTTP_TIMEOUT
     if args.retries is not None and args.retries >= 0:
         RETRY_COUNT = int(args.retries)
     if args.domain_delay and args.domain_delay > 0:
         DOMAIN_DELAY = float(args.domain_delay)
+    if args.timeout and args.timeout > 0:
+        HTTP_TIMEOUT = float(args.timeout)
 
     for stream in (sys.stdout, sys.stderr):
         try:
@@ -1460,6 +1550,7 @@ def main():
 
     campuses = [c.strip() for c in args.campus.split(",") if c.strip()]
     written = []
+    t_all = time.time()
     for campus in campuses:
         if campus not in SOURCES:
             print(f"✗ 未知校区 {campus}，可选：{', '.join(SOURCES)}")
@@ -1471,12 +1562,24 @@ def main():
                 continue
             print(f"· [{campus}] 用上次抓到的 {path}")
         else:
+            t0 = time.time()
+            req0 = REQUESTS
             items = crawl_campus(campus, args)
-            if not items:
+            print(f"⏱ [{campus}] 抓取用时 {time.time() - t0:.1f}s，"
+                  f"请求 {REQUESTS - req0} 次")
+            if not items and not previous_ids(campus):
+                # 一条都没抓到、且库里本来也没有 → 真异常，别拿空数据覆盖
                 print(f"✗ [{campus}] 一条都没抓到，保留现有数据")
                 continue
+            if not items:
+                # 增量模式的正常结果：所有条目都已在库，没有新稿要写。
+                # 仍然要走一次导入，把来源状态(上次检查时间/是否有新增)刷新上页面。
+                print(f"· [{campus}] 本轮无新增，只刷新来源状态")
             path = write_items(campus, items)
         written.append((campus, path))
+
+    print(f"\n⏱ 抓取阶段合计 {time.time() - t_all:.1f}s，请求 {REQUESTS} 次"
+          f"（{len(written)} 个校区）")
 
     if args.no_import or not written:
         print("\n(未写入 data/：--no-import)")
@@ -1484,6 +1587,10 @@ def main():
 
     for campus, path in written:
         do_import(campus, path)
+
+    if args.no_build:
+        print("\n(未重建页面：--no-build；由外部统一 build)")
+        return
 
     import importlib.util
     spec = importlib.util.spec_from_file_location("refresh", os.path.join(HERE, "refresh.py"))

@@ -1,0 +1,34 @@
+# 上海交通大学官方微信公众号文章链接种子（一行一个，# 开头为注释）
+# 无 cookies 时的公开种子：fetch_wechat.py 会逐篇抓正文，走与 wxmp 相同的入库链路。
+# 补齐 _work/wxmp-cookies.json 后自动改用 API 模式，本文件仍作为补充种子合并。
+
+# 上海交通大学教务处
+https://mp.weixin.qq.com/s/XLsEsQOyo4qwtekckfDT2A
+https://mp.weixin.qq.com/s/kpxby_sDwkj02I0HL7eagQ
+https://mp.weixin.qq.com/s/ws3WDGReXhfT5noanTE7Yw
+https://mp.weixin.qq.com/s/Hgdyc8EJtjjbO7G0PbInkg
+https://mp.weixin.qq.com/s/jIznoEcsus2T2yoecKLMdw
+https://mp.weixin.qq.com/s/iKjcfJsfzAEThY7cYEe1hg
+# 上海交通大学外国语学院
+https://mp.weixin.qq.com/s/NwBL7EoeKk07FkUPQ5gbSQ
+https://mp.weixin.qq.com/s/GolWsLgvpi1_JLHtEOm9zQ
+# 上海交通大学药学院
+https://mp.weixin.qq.com/s/U4ic5Dp5HC82ml0k15JaFQ
+https://mp.weixin.qq.com/s/VY6LmfV7qy1Sf3iCUV4QIw
+# 上海交通大学化学化工学院
+https://mp.weixin.qq.com/s/FgS9rdHJicjjUmlWXtc2wQ
+https://mp.weixin.qq.com/s/Nzi7oo4gOiofy16zvJKmoQ
+https://mp.weixin.qq.com/s/rua6CSAepeqNpCM5lC5ocg
+# 上海交通大学材料学院
+https://mp.weixin.qq.com/s/5TYGQUb4p7uwIuLcZMKP5Q
+https://mp.weixin.qq.com/s/a0aqYpq34WXtFGjhAgUENQ
+https://mp.weixin.qq.com/s/NPR7a5XEXHLjku4441fkkg
+# 上海交通大学人文学院
+https://mp.weixin.qq.com/s/YoRzZO7mK0BTnNeUaLdKUg
+# 上海交大自动化与感知学院
+https://mp.weixin.qq.com/s/1ru-ds4NuXbWYTIlQ65Q-w
+# 上海交通大学电气工程学院
+https://mp.weixin.qq.com/s/vEK-DIR0oEBSSZaFvnPCEg
+# 交大汉语 / 上交大皖招
+https://mp.weixin.qq.com/s/C5tycYYc7cRAPipmxkAGNQ
+https://mp.weixin.qq.com/s/zfBjNrvvD5Sh8FFzZLamrA

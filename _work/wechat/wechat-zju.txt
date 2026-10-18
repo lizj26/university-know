@@ -1,0 +1,27 @@
+# 手工维护的浙江大学官方微信公众号文章链接(一行一个,# 开头为注释)
+# 背景:微信公众号没有公开的文章列表接口,无法自动枚举某个号的历史文章。
+# 这里放的是人工/搜索找到的真实文章链接(=抓取时的种子),fetch_campus.py 会逐篇抓取,
+# 用文章里的公众号名当来源名入库。持续往这里补链接,页面上的官微内容就会越来越多。
+#
+# 用法:python fetch_campus.py --campus zju
+#      (脚本会自动读取 _work/wechat-<校区>.txt,不用额外加参数)
+
+# 浙大灵韵音乐剧社
+https://mp.weixin.qq.com/s/zoxY8XzsdRPbLP5cyIuc1w
+https://mp.weixin.qq.com/s/B5Mt22iTBiUV1aAD2luGKQ
+https://mp.weixin.qq.com/s/4cRFpYkdeBc746MCVNg5ew
+
+# 浙江大学校友总会 / 校友服务
+https://mp.weixin.qq.com/s/dZuSIHtwZwQCgsNp3_f5cA
+
+# 浙江大学本科招生
+https://mp.weixin.qq.com/s/QAMN8DOigtCyYUxUToFgWw
+
+# 面向新生的校园活动合集(账号名以抓取结果为准)
+https://mp.weixin.qq.com/s/eAnHKUF1UM97mgyCZdfdpw
+
+# ---- 以下为 fetch_wechat.py 追加的公开种子(公众号正文公开可读) ----
+# 浙江大学 / 浙大官方号
+https://mp.weixin.qq.com/s/l5i9pumfCvfmMXuW_sc0sQ
+https://mp.weixin.qq.com/s/rpZrjllPgAqDp2hcZ_4bwg
+
