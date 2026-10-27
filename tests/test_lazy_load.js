@@ -171,7 +171,18 @@ check("索引条目保留标题/来源/分类/时间",
   // 注意：切校区时加载的「全量分片」本身已含正文，所以真正验证按需取正文，
   // 要在该校区全量到位之前打开详情（模拟用户一进页面就点某条）。
   api.switchCampus("sjtu");
-  const one = api.getItems()[0];                 // 此刻 sjtu 还只有轻量索引
+  // 挑一条**确实有正文**的条目：公众号来源的条目天然没有正文
+  // （合集接口不返回摘要，正文要单独抓），拿"第一条"当靶子会随数据变化而误报。
+  // 详情分片是 {url: {dt:{tx:...}} } 的对象；公众号条目也在里面但没有 tx，
+  // 所以要挑一条「详情分片里真的带正文」的。
+  const detailMap = JSON.parse(
+    fs.readFileSync(path.join("data/shard", "sjtu-d.json"), "utf8")).items;
+  const one = api.getItems().find(i => {
+    const d = detailMap[i.i];
+    return d && d.dt && d.dt.tx;
+  });
+  check("能找到一条有正文的条目待测", !!one,
+        one ? (one.t || "").slice(0, 20) : "详情分片为空");
   check("打开前该条没有正文", !(one.dt && one.dt.tx));
   api.showNotice(one);                           // 先触发详情请求
   await settle();

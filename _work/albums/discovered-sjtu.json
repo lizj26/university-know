@@ -1,0 +1,44 @@
+[
+ {
+  "biz": "MzU4MjE1MjU3Nw==",
+  "album_id": "1823978859914903555",
+  "account": "上海交大物理与天文学院",
+  "campus": "sjtu",
+  "source": "links"
+ },
+ {
+  "biz": "MzA5NjgwODkxOA==",
+  "album_id": "2804112359714766852",
+  "account": "上海交大研究生会",
+  "campus": "sjtu",
+  "source": "links"
+ },
+ {
+  "biz": "MzI4MDY3MTM2NA==",
+  "album_id": "4592196785728864257",
+  "account": "上海交大自动化与感知学院",
+  "source": "discovered",
+  "campus": "sjtu"
+ },
+ {
+  "biz": "MzAxNTIyOTc3MA==",
+  "album_id": "3205396856655347713",
+  "account": "上海交通大学内蒙古研究院",
+  "campus": "sjtu",
+  "source": "links"
+ },
+ {
+  "biz": "Mzg3NTg3ODAyNw==",
+  "album_id": "3470163009618690049",
+  "account": "上海交通大学非学历教育",
+  "campus": "sjtu",
+  "source": "links"
+ },
+ {
+  "biz": "Mzg5NTQ0NzA3Mg==",
+  "album_id": "2995159646481055747",
+  "account": "交大思享+",
+  "campus": "sjtu",
+  "source": "links"
+ }
+]

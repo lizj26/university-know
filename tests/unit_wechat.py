@@ -480,14 +480,33 @@ class _FakeResp:
 
 
 def _album_with(payload):
-    """让 fetch_album_articles 拿到指定响应体，返回解析结果。"""
+    """让 fetch_album_articles 拿到指定响应体，返回解析结果。
+
+    ⚠ 必须同时打**两条**网络的桩：`_album_json` 优先用 requests，装不上才退回
+    urllib。只打 urllib 的桩时，机器上恰好装了 requests 就会真联网（对假 biz 返回
+    ret=10004），表现为"装了依赖，测试反而红了"——已实际踩到。
+    """
     import urllib.request
+
+    class _FakeRequestsResp:
+        def json(self):
+            return payload
+
     orig = urllib.request.urlopen
     urllib.request.urlopen = lambda *a, **k: _FakeResp(payload)
+    try:
+        import requests
+    except ImportError:
+        requests = None
+    orig_get = getattr(requests, "get", None)
+    if requests is not None:
+        requests.get = lambda *a, **k: _FakeRequestsResp()
     try:
         return fw.fetch_album_articles("MzAx==", "123")
     finally:
         urllib.request.urlopen = orig
+        if requests is not None and orig_get is not None:
+            requests.get = orig_get
 
 
 _FAKE_OK = {"base_resp": {"ret": 0}, "getalbum_resp": {"article_list": [

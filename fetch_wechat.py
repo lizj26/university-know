@@ -1007,6 +1007,16 @@ def list_articles(api, fakeid, count, pages, retries=1, want_block=False):
 # --------------------------------------------------------------------------
 # 公开「合集」接口：唯一一条**零凭据、不受限流**的补充路径
 #
+# ⚠ 2026-10-27 起，这条路径已独立成包：`albums/`（`python -m albums`）。
+#   本文件里的实现**保留但不再演进** —— 请优先用新包，理由：
+#     · 合集不需要 cookies，却要跟着本文件一起加载 wxmp/requests/pandas；
+#     · 原来抓完直接 merge 进 data/<校区>.json，和官网站点产物搅在一起；
+#     · 公众号名只能猜（本文件的 account 取值是 alb.name 或「微信公众号」），
+#       而合集接口的 base_info.nickname 直接给真名；
+#     · 没有增量水位，每轮从头翻；单集出错会把整轮记成失败。
+#   新包已实测：浙大 4 个合集 637 篇全量 38s、增量 3.8s，且不写 data/。
+#   这里保留是为了不破坏 `--albums-only` 的旧用法与 tests/unit_wechat.py。
+#
 #     GET /mp/appmsgalbum?action=getalbum&__biz=<biz>&album_id=<id>&f=json
 #
 # 实测：返回 200 + 合法 JSON，**不需要任何登录态**。参数不对时也只是

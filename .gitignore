@@ -11,7 +11,14 @@ _work/run.log
 _work/wechat/wxmp-cookie-header*.txt
 _work/wechat/wxmp-cookies*.json
 _work/wechat/wxmp-token*.txt
+_work/wechat/wxmp-wap-cookies*.txt
+# 号池：每个 .txt 都是一份账号凭据，等同密码
+_work/wechat/wxmp-pool/
 _work/wechat/.cache/
+# 扫码会话目录（含 cookies.json / session.json，等同密码）
+_work/wxmp-spider*/
+# 搜狗抓下来的正文
+_work/wechat/sogou-md/
 
 # ---- 打包产物 ----
 deploy/serverless/dist/
@@ -39,3 +46,22 @@ _upload_scripts/
 _forcopy/
 _bak_*/
 _artifacts/
+# 对标站点的一次性拆解产物（第三方页面/接口快照，不入库）
+_work/pkuknow/
+_work/pkucli-ref/
+_work/wechat/history-seen-*.json
+# 旧备份的归档（tar.gz 里是历史快照，留档用，不进版本库）
+_work/_archive/
+
+# ---- 公开合集链路（albums/）的产物 ----
+# state.json 每轮都变（含上千个文章 key），入库只会制造噪声；删掉 = 下次全量重抓。
+# albums-*.json 是抓取产物（每轮都变、近 600KB），`python -m albums fetch` 一分钟就能重建。
+# discovered-*.json **要提交**：那是搜狗开页挖出来的合集线索，重挖要几十次 3.5MB 请求。
+# site-*.json 是 export 的纯派生结果，能随时重算。
+_work/albums/state.json
+_work/albums/site-*.json
+_work/albums/albums-*.json
+
+# ---- 公开链接链路（links/）的台账 ----
+# 全部可从公开渠道重建（几十分钟），上千条 URL 没必要入库；要留档用 report --csv。
+_work/links/
