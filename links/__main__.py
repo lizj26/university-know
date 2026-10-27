@@ -64,6 +64,7 @@ def cmd_harvest(args) -> int:
             timeout=args.timeout,
             extra_queries=args.account_queries,
             probe_albums=args.probe_albums,
+            seeds=not args.no_seeds,
         )
         summary = collect.summarize(lib)
         collect.save_report(campus, summary)
@@ -191,6 +192,8 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("harvest", help="汇总渠道，更新台账")
     campus_args(p)
     p.add_argument("--no-sogou", action="store_true", help="不跑搜狗（只做合集+种子）")
+    p.add_argument("--no-seeds", action="store_true",
+                   help="不抓种子文章页（每页 3.5MB；云端定时任务只需要合集产物时用它）")
     p.add_argument("--sogou-pages", type=int, default=1, help="每个查询翻几页（默认 1）")
     p.add_argument("--sogou-pace", type=float, default=3.0, help="搜狗请求间隔秒（默认 3）")
     p.add_argument("--max-hits", type=int, default=120, help="每校区最多收多少条搜狗命中")

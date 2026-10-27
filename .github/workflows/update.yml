@@ -14,7 +14,12 @@
 # - GitHub 的 cron 用 UTC（比北京时间早 8 小时）：下面三个时刻 =
 #   北京时间 09:00 / 12:00 / 22:00（对应 UTC 01:00 / 04:00 / 14:00）；
 #   高峰期可能延迟几分钟到十几分钟触发，属正常现象。
-# - 只抓网站内容，不抓公众号（fetch_campus.py 里 kind=wechat 的来源已全部移除）。
+# - 只抓网站内容，**不含**公众号后台（fetch_campus.py 里 kind=wechat 的来源已全部移除）。
+#   公众号内容走「公开合集」这条零凭据通道：`python -m albums fetch` 只调
+#   appmsgalbum 接口，不受账号级限流影响，因此可以安全地放进定时任务。
+# - 合集增量放在 build job 里**顺序**跑，不塞进 fetch 矩阵：_work/albums/state.json
+#   是单一文件（三校共用一份水位），三个腿并行各写一份会在 artifact 平铺时互相覆盖，
+#   丢掉另外两个校区的水位。三校增量合计约 10 秒，没必要并行。
 # - 浙大站群 WAF 按来源 IP 对整个 zju.edu.cn 域名累计限流，故 zju 腿用
 #   --workers 2 + --domain-delay 1.0 + --rotate 压低速率；来源已精简到 6 个
 #   （过去 44 个学院站），WAF 压力小得多。
@@ -109,6 +114,36 @@ jobs:
           mkdir -p data _work
           find incoming -name '*.json' -path '*/data/*' -exec cp -v {} data/ \;
           find incoming -name '*.json' -path '*/_work/*' -exec cp -v {} _work/ \;
+
+      # 公开合集增量：只看最近 60 天内有更新的合集（albums/albums.json 的 max_age_days），
+      # 每个合集翻到上次的 msgid 水位就停。水位存在 _work/albums/state.json，跨轮靠缓存延续。
+      # 缓存丢了也只是退回一次全量翻页（三校约 15 秒），不会漏也不会重复。
+      # 允许失败：合集接口抽风不该连带这一轮的官网数据都出不了页面。
+      - name: 恢复合集增量水位
+        uses: actions/cache@v4
+        with:
+          path: _work/albums/state.json
+          # 每轮都存一份新缓存（key 带 run_id），restore 时取最近的一份。
+          # 不把 state.json 提交进仓库是因为它含 last_run 时间戳、每轮必变，
+          # 入库等于每天多 3 个纯噪声提交。
+          key: albums-state-${{ github.run_id }}
+          restore-keys: |
+            albums-state-
+
+      - name: 公开合集增量
+        continue-on-error: true
+        run: python -m albums fetch --all
+
+      # 合集产物 → 站点 item → 并入 data/<校区>.json。
+      # --no-sogou / --no-seeds：云端只做「合集 → data」这一段。种子页每篇 3.5MB、
+      # 搜狗会反爬并按分钟级签名失效，两者都是**人工扩量**用的，不适合放进定时任务。
+      # 合并口径在 links/collect.py 的 merge_into_data：按 i 去重、只追加、写前留 .bak、
+      # 只对公众号来源套 90 天保留期（官网条目的生命周期归 fetch_campus.py 管）。
+      - name: 合集并入站点数据
+        continue-on-error: true
+        run: |
+          python -m links harvest --all --no-sogou --no-seeds
+          python -m links export --all --merge
 
       # 重建页面时会顺带写出 data/shard/*.json（首屏索引 + 按需分片）
       - name: 统一重建 index.html 与分片

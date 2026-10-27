@@ -177,7 +177,7 @@ python -m albums add --campus zju --ref "https://mp.weixin.qq.com/mp/appmsgalbum
 ## 六、测试
 
 ```bash
-python tests/test_albums.py      # 25 个用例，全离线
+python tests/test_albums.py      # 29 个用例，全离线
 ```
 
 覆盖：接口解析（含 `ret=10004`）/ 合集链接两种顺序与 `%3D%3D` 归一 / 游标翻页 /
@@ -202,3 +202,33 @@ python tests/test_albums.py      # 25 个用例，全离线
 
 自检用 `python -m albums check`：逐个合集取第一页，打印 `ret`、条数、总篇数，
 以及 `has_url/has_time/has_key` 三个字段断言——字段哪天变了会立刻显形。
+
+---
+
+## 八、云端定时任务里怎么跑
+
+`.github/workflows/update.yml` 的 **build job** 里顺序跑三步（不是塞进 fetch 矩阵）：
+
+```yaml
+- name: 恢复合集增量水位
+  uses: actions/cache@v4
+  with: { path: _work/albums/state.json, key: albums-state-${{ github.run_id }}, restore-keys: "albums-state-" }
+- run: python -m albums fetch --all          # 增量，三校合计约 10 秒
+- run: |
+    python -m links harvest --all --no-sogou --no-seeds
+    python -m links export --all --merge      # 并入 data/<校区>.json
+```
+
+三个刻意的选择：
+
+1. **放 build job、不放 fetch 矩阵**：`state.json` 是**单一文件**（三校共用一份水位）。
+   三个腿并行各写一份，artifact 平铺回工作区时会互相覆盖，丢掉另外两个校区的水位。
+   三校增量合计 10 秒，并行没有意义。
+2. **水位走 `actions/cache`，不进仓库**：`state.json` 含 `last_run` 时间戳，每轮必变，
+   提交进仓库等于每天多 3 个纯噪声提交（`registry-*.json` 能提交是因为它只在状态变化时才变）。
+   缓存丢了只是退回一次全量翻页（15 秒），不漏也不重复 —— 合并是按 URL 幂等的。
+3. **两步都 `continue-on-error`**：合集接口抽风不该连带这一轮的官网数据都出不了页面。
+   真挂了的话 `links export` 会因台账为空直接退出，`data/` 保持原样。
+
+云端**只做「合集 → data」这一段**：`--no-seeds`（种子页每篇 3.5MB）和 `--no-sogou`
+（会反爬、签名按分钟失效）都是人工扩量手段，不适合放进定时任务。

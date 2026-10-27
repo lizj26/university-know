@@ -522,7 +522,8 @@ def expand_related(campus: str, lib: dict, rules: dict, *, budget: int = 0,
 def harvest(campus: str, *, use_sogou: bool = True, sogou_pages: int = 1,
             sogou_pace: float = 3.0, max_hits: int = 120, verify: bool = False,
             expand: int = 0, timeout: float = 25, quiet: bool = False,
-            extra_queries: int = 8, probe_albums: int = 0) -> dict:
+            extra_queries: int = 8, probe_albums: int = 0,
+            seeds: bool = True) -> dict:
     cfg = load_config()
     rules = campus_rules(cfg, campus)
     lib = load_library(campus)
@@ -546,10 +547,11 @@ def harvest(campus: str, *, use_sogou: bool = True, sogou_pages: int = 1,
     log(f"  · 合集：+{st['added']}{extra}"
         + (f"（{st.get('note')}）" if st.get("note") else ""))
 
-    st = harvest_seeds(campus, lib, timeout=timeout)
-    steps.append(st)
-    log(f"  · 种子：{st['seeds']} 条种子，+{st['added']}"
-        f"（撞墙 {st['wall']}、失败 {st['failed']}）")
+    if seeds:
+        st = harvest_seeds(campus, lib, timeout=timeout)
+        steps.append(st)
+        log(f"  · 种子：{st['seeds']} 条种子，+{st['added']}"
+            f"（撞墙 {st['wall']}、失败 {st['failed']}）")
 
     if expand:
         st = expand_related(campus, lib, rules, budget=expand, timeout=timeout,

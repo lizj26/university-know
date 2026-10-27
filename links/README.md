@@ -139,6 +139,10 @@ python -m links harvest --campus zju --expand 40
 python -m links report --all --top 20
 python -m links report --campus zju --csv _work/links/publishers-zju.csv
 
+# 云端定时任务只跑这一段（合集产物 → data），不碰种子与搜狗
+python -m links harvest --all --no-sogou --no-seeds
+python -m links export  --all --merge
+
 # 接进站点
 python -m links export --all --merge
 python refresh.py --build-only

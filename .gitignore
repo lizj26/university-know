@@ -54,7 +54,9 @@ _work/wechat/history-seen-*.json
 _work/_archive/
 
 # ---- 公开合集链路（albums/）的产物 ----
-# state.json 每轮都变（含上千个文章 key），入库只会制造噪声；删掉 = 下次全量重抓。
+# state.json **不提交**：它是增量水位（每集抓到哪个 msgid），带 last_run 时间戳，
+#   每轮都变 —— 入库就是每天 3 个纯噪声提交。云端改用 actions/cache 跨轮延续
+#   （见 .github/workflows/update.yml），缓存丢了只是退回一次全量翻页。
 # albums-*.json 是抓取产物（每轮都变、近 600KB），`python -m albums fetch` 一分钟就能重建。
 # discovered-*.json **要提交**：那是搜狗开页挖出来的合集线索，重挖要几十次 3.5MB 请求。
 # site-*.json 是 export 的纯派生结果，能随时重算。
