@@ -1,21 +1,21 @@
 {
  "campus": "zju",
  "campus_name": "浙大知道",
- "scraped_at": "2026-10-27T13:50:57+08:00",
- "site_last_sync": "2026-10-27T13:50:57+08:00",
+ "scraped_at": "2026-10-27T17:25:17+08:00",
+ "site_last_sync": "2026-10-27T17:25:17+08:00",
  "interval_minutes": null,
- "total_all": 68,
- "fetched": 68,
+ "total_all": 109,
+ "fetched": 109,
  "truncated": false,
  "import_source": "items-zju.json",
  "append_only": true,
  "last_import": {
-  "at": "2026-10-27T13:50:57+08:00",
-  "added": 20,
+  "at": "2026-10-27T17:25:17+08:00",
+  "added": 17,
   "updated": 0,
-  "items": 68,
+  "items": 109,
   "source": "items-zju.json",
-  "crawl_new": 20
+  "crawl_new": 17
  },
  "wechat_accounts": [
   "浙大体育与艺术",
@@ -28,8 +28,8 @@
    "first_seen": "2026-10-11T19:00:15+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-10-27T13:48:51+08:00",
-   "last_new": "2026-10-27T13:48:51+08:00",
+   "last_checked": "2026-10-27T17:23:05+08:00",
+   "last_new": "2026-10-27T17:23:05+08:00",
    "name": "浙江大学研究生院",
    "new": 7,
    "source_id": "zju_grs",
@@ -41,12 +41,12 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-10-27T13:48:51+08:00",
+   "last_checked": "2026-10-27T17:23:05+08:00",
    "last_new": "2026-10-27T13:48:51+08:00",
    "name": "浙江大学图书馆",
-   "new": 1,
+   "new": 0,
    "source_id": "zju_lib",
-   "status": "ok",
+   "status": "no_recent",
    "url": "https://libweb.zju.edu.cn/"
   },
   "zju_news": {
@@ -54,12 +54,12 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-10-27T13:48:51+08:00",
+   "last_checked": "2026-10-27T17:23:05+08:00",
    "last_new": "2026-10-27T13:48:51+08:00",
    "name": "浙江大学求是新闻网",
-   "new": 1,
+   "new": 0,
    "source_id": "zju_news",
-   "status": "ok",
+   "status": "no_recent",
    "url": "http://www.news.zju.edu.cn/"
   },
   "zju_news_kxtt": {
@@ -67,10 +67,10 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-10-27T13:48:51+08:00",
-   "last_new": "2026-10-27T13:48:51+08:00",
+   "last_checked": "2026-10-27T17:23:05+08:00",
+   "last_new": "2026-10-27T17:23:05+08:00",
    "name": "浙大求是新闻网·科学头条",
-   "new": 10,
+   "new": 9,
    "source_id": "zju_news_kxtt",
    "status": "ok",
    "url": "http://www.news.zju.edu.cn/kxtt/list.htm"
@@ -80,7 +80,7 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-10-27T13:48:51+08:00",
+   "last_checked": "2026-10-27T17:23:05+08:00",
    "last_new": "2026-10-27T03:40:35+08:00",
    "name": "浙大求是新闻网·要闻",
    "new": 0,
@@ -93,8 +93,8 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-10-27T13:48:51+08:00",
-   "last_new": "2026-10-27T13:48:51+08:00",
+   "last_checked": "2026-10-27T17:23:05+08:00",
+   "last_new": "2026-10-27T17:23:05+08:00",
    "name": "浙江大学本科招生",
    "new": 1,
    "source_id": "zju_zdzsc",
@@ -108,8 +108,8 @@
    "count": 37,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-10-27T15:05:49+08:00",
-   "first_seen": "2026-10-27T15:05:49+08:00",
+   "last_checked": "2026-10-27T17:25:55+08:00",
+   "first_seen": "2026-10-27T17:25:55+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -121,8 +121,8 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-10-27T15:05:49+08:00",
-   "first_seen": "2026-10-27T15:05:49+08:00",
+   "last_checked": "2026-10-27T17:25:55+08:00",
+   "first_seen": "2026-10-27T17:25:55+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -134,15 +134,15 @@
    "count": 3,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-10-27T15:05:49+08:00",
-   "first_seen": "2026-10-27T15:05:49+08:00",
+   "last_checked": "2026-10-27T17:25:55+08:00",
+   "first_seen": "2026-10-27T17:25:55+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
   }
  },
  "fetch_warnings": [
-  "由 items-zju.json 导入：新增 20 条 / 更新 0 条 / 现有 68 条"
+  "由 items-zju.json 导入：新增 17 条 / 更新 0 条 / 现有 109 条"
  ],
  "items": [
   {
@@ -2022,28 +2022,34 @@
    "name": "浙江大学求是新闻网",
    "source_group": "official",
    "count": 44,
-   "status": "ok",
-   "last_checked": "2026-10-27T13:48:51+08:00",
+   "status": "no_recent",
+   "last_checked": "2026-10-27T17:23:05+08:00",
    "last_new": "2026-10-27T13:48:51+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "http://www.news.zju.edu.cn/",
    "source_id": "zju_news",
    "kind": "list",
-   "new": 1
+   "new": 0
+  },
+  {
+   "key": "src:浙江大学",
+   "name": "浙江大学",
+   "source_group": "wechat",
+   "count": 37
   },
   {
    "key": "zju_lib",
    "name": "浙江大学图书馆",
    "source_group": "official",
    "count": 12,
-   "status": "ok",
-   "last_checked": "2026-10-27T13:48:51+08:00",
+   "status": "no_recent",
+   "last_checked": "2026-10-27T17:23:05+08:00",
    "last_new": "2026-10-27T13:48:51+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "https://libweb.zju.edu.cn/",
    "source_id": "zju_lib",
    "kind": "list",
-   "new": 1
+   "new": 0
   },
   {
    "key": "zju_news_yw",
@@ -2051,7 +2057,7 @@
    "source_group": "official",
    "count": 6,
    "status": "no_recent",
-   "last_checked": "2026-10-27T13:48:51+08:00",
+   "last_checked": "2026-10-27T17:23:05+08:00",
    "last_new": "2026-10-27T03:40:35+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "http://www.news.zju.edu.cn/24344/list.htm",
@@ -2065,13 +2071,19 @@
    "source_group": "official",
    "count": 4,
    "status": "ok",
-   "last_checked": "2026-10-27T13:48:51+08:00",
-   "last_new": "2026-10-27T13:48:51+08:00",
+   "last_checked": "2026-10-27T17:23:05+08:00",
+   "last_new": "2026-10-27T17:23:05+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "http://www.news.zju.edu.cn/kxtt/list.htm",
    "source_id": "zju_news_kxtt",
    "kind": "list",
-   "new": 10
+   "new": 9
+  },
+  {
+   "key": "src:浙大体育与艺术",
+   "name": "浙大体育与艺术",
+   "source_group": "wechat",
+   "count": 3
   },
   {
    "key": "zju_grs",
@@ -2079,8 +2091,8 @@
    "source_group": "official",
    "count": 2,
    "status": "ok",
-   "last_checked": "2026-10-27T13:48:51+08:00",
-   "last_new": "2026-10-27T13:48:51+08:00",
+   "last_checked": "2026-10-27T17:23:05+08:00",
+   "last_new": "2026-10-27T17:23:05+08:00",
    "first_seen": "2026-10-11T19:00:15+08:00",
    "url": "http://www.grs.zju.edu.cn/",
    "source_id": "zju_grs",
@@ -2088,13 +2100,19 @@
    "new": 7
   },
   {
+   "key": "src:浙江大学材料科学与工程学院",
+   "name": "浙江大学材料科学与工程学院",
+   "source_group": "wechat",
+   "count": 1
+  },
+  {
    "key": "zju_zdzsc",
    "name": "浙江大学本科招生",
    "source_group": "official",
    "count": 0,
    "status": "ok",
-   "last_checked": "2026-10-27T13:48:51+08:00",
-   "last_new": "2026-10-27T13:48:51+08:00",
+   "last_checked": "2026-10-27T17:23:05+08:00",
+   "last_new": "2026-10-27T17:23:05+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "https://zdzsc.zju.edu.cn/",
    "source_id": "zju_zdzsc",
@@ -2104,6 +2122,11 @@
  ],
  "groups": [
   {
+   "id": "wechat",
+   "sources": 3,
+   "count": 41
+  },
+  {
    "id": "official",
    "sources": 5,
    "count": 68
@@ -2111,12 +2134,12 @@
  ],
  "category_totals": [
   {
-   "name": "院系资讯",
-   "count": 21
+   "name": "校园动态",
+   "count": 48
   },
   {
-   "name": "校园动态",
-   "count": 13
+   "name": "院系资讯",
+   "count": 23
   },
   {
    "name": "讲座活动",
@@ -2124,11 +2147,11 @@
   },
   {
    "name": "学业教务",
-   "count": 8
+   "count": 10
   },
   {
    "name": "学术科研",
-   "count": 5
+   "count": 6
   },
   {
    "name": "校园服务",
@@ -2145,16 +2168,20 @@
   {
    "name": "学习成长",
    "count": 1
+  },
+  {
+   "name": "社团公益",
+   "count": 1
   }
  ],
  "intent_totals": [
   {
    "intent_group": "information",
-   "count": 52
+   "count": 92
   },
   {
    "intent_group": "activity",
-   "count": 16
+   "count": 17
   }
  ]
 }
