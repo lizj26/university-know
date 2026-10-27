@@ -83,6 +83,13 @@
 来源筛选、数据概览和信息来源抽屉；某个校区没有数据时会显示「信息源待接入」的占位页，
 而不是空白或者报错。
 
+分类导航下方还有一条 **「<校区>学习资料汇总」入口**：列出该校区学生社区维护的课程攻略 /
+笔记 / 往年题仓库（浙大 zju-icicles、上交 SJTU-Courses、西交 XJTU-Share 等），点开是一个
+外链清单，**本站只做索引，不存储、不镜像任何资料文件**。清单单独放在
+**`data/study/materials.json`**，按校区配置，构建时注入页面（`<script id="study-data">`）；
+加链接只改这个 JSON 再 `--build-only`，见
+[docs/修改指南.md 1.10](docs/修改指南.md)。没有配置的校区（如作为外链的清华知道）不显示入口。
+
 **再加一个校区**：完整步骤见 **[docs/添加新大学.md](docs/添加新大学.md)**（调研来源 →
 写进 `SOURCES` → 登记校区名 → 本地验证 → 接入定时任务）。最省事的下限是两步：
 把数据按 `data/xjtu.json` 的字段写成 `data/<key>.json`，再运行 `python refresh.py --build-only`，
@@ -98,11 +105,12 @@ university-know/
 ├── fetch_campus.py       抓浙大/上交/西交的官网与职能部门
 ├── fetch_wechat.py       按公众号成批拉历史文章（不稳定，可选）
 ├── cloud_update.py       无人值守唯一入口（云端 / 定时任务用）
-├── template.html         页面模板（含 __NOTICE_DATA__ 等占位符）
+├── template.html         页面模板（含 __NOTICE_DATA__ / __STUDY_DATA__ 等占位符）
 ├── sources_more.py       批量发现的信息源（可留空；由 tools/discover_sources.py 生成，fetch_campus.py 自动合并）
 ├── index.html            成品站点（自动生成，勿手改）
 ├── data/<校区>.json      两条链路的共同产物
-├── tests/                回归测试（6 个套件，全部离线）
+├── data/study/materials.json  各校学习资料外链清单（手工维护，构建时注入页面）
+├── tests/                回归测试（7 个套件，全部离线）
 ├── tools/dev/            开发辅助脚本（来源侦察、截图、体检）
 ├── tools/oneshot/        已完成使命的一次性脚本（留档）
 ├── deploy/               云上部署（serverless / edgeone）
@@ -192,7 +200,7 @@ university-know/
 
 ## 测试
 
-六个套件全部**离线**（不联网），改完代码先跑一遍再提交：
+七个套件全部**离线**（不联网），改完代码先跑一遍再提交：
 
 ```bash
 python tests/unit_fetch.py      # 标题清洗 / 日期解析 / 正文抽取  —— 44 项
@@ -200,6 +208,7 @@ python tests/pipeline_test.py   # refresh.py 写入保护 / 合并逻辑  ——
 python tests/unit_wechat.py     # 公众号名单 / 缓存 / 迁移        —— 131 项
 python tests/test_handler.py    # 云函数 handler 端到端（含 mock OSS）
 python tests/test_oss_min.py    # 自写 OSS 客户端签名与官方 SDK 对拍
+python tests/test_study.py      # 学习资料清单校验 / 注入结果     —— 27 项
 node tests/test_lazy_load.js    # 页面按需加载 / 索引与分片合并  —— 15 项
 ```
 
@@ -275,6 +284,9 @@ Python 3.8+，官网链路**仅用标准库**，无需 `pip install`。**唯一�
   附件列表，以及复制链接 / 阅读原文；支持 `#notice=<id>` 深链
 - **筛选工具栏**：来源分组（微信公众号 / 官方网站）、时间范围、排序、每行列数、重新渲染
 - **近期活动视图**：从详情里抽出带明确活动时间的通知，按开始时间正序排列
+- **学习资料汇总入口**：分类导航下方常驻一条本校区资料入口，弹窗内是按校整理的课程攻略 /
+  笔记 / 往年题仓库清单（浙大 zju-icicles、上交 SJTU-Courses、西交 XJTU-Share 等），
+  全部为外链，站点本身不落地任何资料文件
 - **空校区占位页**：某个校区还没有数据时说明「信息源待接入」并提供「先看浙大知道 / 如何接入信息源」两个入口
 - **来源状态与 90 天保留期**：每轮只追加新发布的官网内容，超过 90 天的历史条目自动清除；每个来源带状态徽标，
   「数据概览」按状态汇总，并显示最近一轮新增 / 更新条数
@@ -288,5 +300,11 @@ Python 3.8+，官网链路**仅用标准库**，无需 `pip install`。**唯一�
   （新闻网 / 教务处 / 研究生院 / 招生 / 学工 / 图书馆 / 国际交流等栏目）。
 
 所有内容版权归原作者与发布单位所有，本页仅作展示与检索之用，请勿用于商业用途。
+
+「学习资料汇总」入口只是指向各校学生社区仓库的链接集合（例如
+[qsctech/zju-icicles](https://github.com/QSCTech/zju-icicles)、
+[kxxwz/SJTU-Courses](https://github.com/kxxwz/SJTU-Courses)、
+[cantjie/XJTU-Share](https://github.com/cantjie/XJTU-Share)），
+本仓库不包含、不镜像其中的任何资料；资料的许可与可用性以各仓库自身说明为准。
 
 想让数据保持新鲜：跑 `python fetch_campus.py`（或 `python cloud_update.py`）即可更新三校并重建页面。

@@ -1,0 +1,92 @@
+{
+  "_readme": [
+    "各校「学习资料汇总」入口的清单。本站只收录链接，资料本体都在下列仓库/站点，不存储、不镜像任何文件。",
+    "改完直接运行 python refresh.py --build-only 重新生成 index.html，无需改模板或 JS。",
+    "结构：顶层 key = 校区（zju / sjtu / xjtu，对应 CAMPUS_ORDER）；每个校区 = { title, note, items[] }。",
+    "条目字段：name 名称、tag 小标签、desc 一句话说明（三者必填）；site/siteLabel 在线站点、repo GitHub 仓库、mirror {label,url} 镜像，三者至少给一个。",
+    "数组顺序即页面里的显示顺序；以 _ 开头的顶层字段会被忽略（本说明就是这样）。",
+    "校验：缺字段、URL 不是 http(s)、条目不是对象的，构建时会打印警告并跳过该条，其余照常渲染。"
+  ],
+
+  "zju": {
+    "title": "浙大学习资料汇总",
+    "note": "课程攻略、课堂笔记、往年题与选课经验，由浙大学生社区长期维护",
+    "items": [
+      {
+        "name": "浙江大学课程攻略共享计划",
+        "tag": "课程攻略 · 主站",
+        "desc": "覆盖全校通识课与专业课的攻略、笔记、往年试卷和电子书，可按课程名或开课院系检索，是目前最完整的浙大资料库。",
+        "site": "https://qsctech.github.io/zju-icicles/",
+        "siteLabel": "在线浏览",
+        "repo": "https://github.com/QSCTech/zju-icicles"
+      },
+      {
+        "name": "图灵班课程学习指南",
+        "tag": "计算机 · 指南",
+        "desc": "浙大图灵班各门课的学习路线、难度与工作量说明，附课程资料与参考书入口。",
+        "site": "https://zju-turing.github.io/TuringCourses/",
+        "siteLabel": "在线浏览",
+        "repo": "https://github.com/ZJU-Turing/TuringCourses"
+      },
+      {
+        "name": "ZJU_Course 课程资料整理",
+        "tag": "计算机 · 归档",
+        "desc": "计算机专业课程的作业、实验与复习资料归档，按课程分目录存放。",
+        "repo": "https://github.com/RyanFcr/ZJU_Course"
+      }
+    ]
+  },
+
+  "sjtu": {
+    "title": "上交学习资料汇总",
+    "note": "课件、试卷、课堂笔记与校园经验，由上交学生社区长期维护",
+    "items": [
+      {
+        "name": "SJTU-Courses 课程资料分享",
+        "tag": "课程资料 · 主站",
+        "desc": "按课号组织的课件、作业、试卷与复习提纲，是上交规模最大的课程资料汇总，仍在持续收录。",
+        "repo": "https://github.com/kxxwz/SJTU-Courses"
+      },
+      {
+        "name": "上海交通大学生存手册",
+        "tag": "经验 · 指南",
+        "desc": "选课、专业分流、保研与校园生活经验，2008 年版由学生持续更新至今，可在线阅读。",
+        "site": "https://survivesjtu.gitbook.io/survivesjtumanual",
+        "siteLabel": "在线阅读",
+        "repo": "https://github.com/SurviveSJTU/SurviveSJTUManual"
+      },
+      {
+        "name": "SJTU 课程笔记",
+        "tag": "计算机 · 笔记",
+        "desc": "计算机、数学、物理等 20 余门专业课的课堂笔记整理，按课号归档。",
+        "repo": "https://github.com/Galaxies99/SJTU-course-notes"
+      }
+    ]
+  },
+
+  "xjtu": {
+    "title": "西交学习资料汇总",
+    "note": "课程资料、实验报告、竞赛与毕设经验，由西交学生社区长期维护",
+    "items": [
+      {
+        "name": "西安交通大学课程资料共享计划",
+        "tag": "课程资料 · 主站",
+        "desc": "按「课程号-课程名」组织作业、实验与考试资料，也收录学科竞赛、毕业设计与经验分享。",
+        "repo": "https://github.com/cantjie/XJTU-Share",
+        "mirror": { "label": "Gitee 镜像", "url": "https://gitee.com/cantjie/XJTU-Share" }
+      },
+      {
+        "name": "电气工程及其自动化课程资料",
+        "tag": "电气 · 院系",
+        "desc": "电气专业本科课程的课件、往年真题与复习总结，覆盖电路、电机、电力系统等主干课。",
+        "repo": "https://github.com/HilbertRonAnju/XJTU_Electrical_Engineering_and_Automation"
+      },
+      {
+        "name": "西安交通大学计算机课程集",
+        "tag": "计算机 · 归档",
+        "desc": "计算机专业课程的笔记、实验与项目代码归档，按课程分目录整理。",
+        "repo": "https://github.com/DANNHIROAKI/XJTU-CS-Courses"
+      }
+    ]
+  }
+}

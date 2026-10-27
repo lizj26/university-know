@@ -60,6 +60,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(HERE, "data")
 TEMPLATE = os.path.join(HERE, "template.html")
 OUTPUT = os.path.join(HERE, "index.html")
+# 学习资料索引：独立成文件，人工增删链接只改它，不动模板与 JS。
+# 放在 data/study/ 子目录而不是 data/ 根下，是因为 data/*.json 会被当作「校区数据」
+# 参与合并与上传（cloud_update.py 也 glob 这一层）。
+STUDY_FILE = os.path.join(DATA_DIR, "study", "materials.json")
+STUDY_URL_PREFIXES = ("http://", "https://")
 # 打开 index.html 时默认落在哪个校区（顶栏第一项 thu 是外链，故默认给西交）
 DEFAULT_CAMPUS = "xjtu"
 
@@ -775,6 +780,101 @@ def write_shards(campuses):
 
 
 # --------------------------------------------------------------------------
+# 学习资料索引（data/study/materials.json）
+# --------------------------------------------------------------------------
+def normalize_study(raw):
+    """校验学习资料清单，返回 (干净数据, 问题清单)。
+
+    手工维护的清单最容易栽在漏字段、URL 写错上，所以坏条目只跳过并记一条问题，
+    不整份丢掉——否则改一个错字整页入口都不见了，很难查。
+    """
+    if not isinstance(raw, dict):
+        return {}, ["顶层不是对象，整份清单已忽略"]
+
+    clean, problems = {}, []
+    for key, val in raw.items():
+        if key.startswith("_"):                 # _readme 之类的说明字段
+            continue
+        if not isinstance(val, dict):
+            problems.append(f"{key}: 不是对象，已跳过")
+            continue
+        items = val.get("items")
+        if not isinstance(items, list):
+            problems.append(f"{key}: items 不是数组，该校区已跳过")
+            continue
+
+        kept = []
+        for idx, it in enumerate(items, 1):
+            where = f"{key}[{idx}]"
+            if not isinstance(it, dict):
+                problems.append(f"{where}: 不是对象，已跳过")
+                continue
+            fields = {k: str(it.get(k) or "").strip() for k in ("name", "tag", "desc")}
+            missing = [k for k, v in fields.items() if not v]
+            if missing:
+                problems.append(f"{where}: 缺少 {'/'.join(missing)}，已跳过")
+                continue
+
+            entry = dict(fields)
+            for f in ("site", "repo"):
+                url = str(it.get(f) or "").strip()
+                if not url:
+                    continue
+                if not url.lower().startswith(STUDY_URL_PREFIXES):
+                    problems.append(f"{where}.{f}: 不是 http(s) 链接（{url}），该按钮已忽略")
+                    continue
+                entry[f] = url
+            if it.get("siteLabel"):
+                entry["siteLabel"] = str(it["siteLabel"]).strip()
+
+            mirror = it.get("mirror")
+            if isinstance(mirror, dict):
+                url = str(mirror.get("url") or "").strip()
+                if url.lower().startswith(STUDY_URL_PREFIXES):
+                    entry["mirror"] = {"label": str(mirror.get("label") or "镜像").strip(), "url": url}
+                else:
+                    problems.append(f"{where}.mirror: 缺少合法的 url，已忽略")
+            elif mirror:
+                problems.append(f"{where}.mirror: 不是对象，已忽略")
+
+            if not any(entry.get(f) for f in ("site", "repo", "mirror")):
+                problems.append(f"{where}: site / repo / mirror 一个都没有，已跳过")
+                continue
+            kept.append(entry)
+
+        if kept:
+            clean[key] = {"title": str(val.get("title") or "").strip(),
+                          "note": str(val.get("note") or "").strip(),
+                          "items": kept}
+        elif items:
+            problems.append(f"{key}: 没有一条可用资料，该校区不显示入口")
+    return clean, problems
+
+
+def json_for_script(payload):
+    """内嵌进 <script type="application/json">，务必转义 < 与行分隔符。"""
+    blob = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
+    return blob.replace("<", "\\u003c").replace("\u2028", "\\u2028").replace("\u2029", "\\u2029")
+
+
+def load_study():
+    """读并校验学习资料清单。文件不存在不是错误——入口会整体隐藏。"""
+    rel = os.path.relpath(STUDY_FILE, HERE)
+    if not os.path.exists(STUDY_FILE):
+        print(f"! 没找到 {rel}，学习资料入口将不显示", file=sys.stderr)
+        return {}
+    try:
+        with open(STUDY_FILE, encoding="utf-8") as fh:
+            study, problems = normalize_study(json.load(fh))
+    except (OSError, ValueError) as exc:
+        print(f"! {rel} 读不出来（{exc}），学习资料入口将不显示", file=sys.stderr)
+        return {}
+    for p in problems:
+        print(f"! 学习资料 {p}", file=sys.stderr)
+    return study
+
+
+# --------------------------------------------------------------------------
 # 生成 index.html
 # --------------------------------------------------------------------------
 def build():
@@ -816,8 +916,7 @@ def build():
     payload = {"default_campus": default, "campuses": index_campuses}
 
     # 内嵌进 <script type="application/json">，务必转义 < 与行分隔符
-    blob = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
-    blob = blob.replace("<", "\\u003c").replace("\u2028", "\\u2028").replace("\u2029", "\\u2029")
+    blob = json_for_script(payload)
 
     # 分片：每校区一份。campus.json 是全量（切校区时按需加载），campus-d.json 是
     # 「只有详情才有用」的字段（点开某条通知时按需加载）。
@@ -829,6 +928,13 @@ def build():
         print("✗ template.html 里找不到 __NOTICE_DATA__ 占位符", file=sys.stderr)
         sys.exit(1)
     html = html.replace("__NOTICE_DATA__", blob)
+
+    # 学习资料入口：清单来自 data/study/materials.json（只放外链）
+    study = load_study()
+    if "__STUDY_DATA__" in html:
+        html = html.replace("__STUDY_DATA__", json_for_script(study))
+    elif study:
+        print("! template.html 里没有 __STUDY_DATA__ 占位符，学习资料入口未注入", file=sys.stderr)
 
     # 页脚展示「页面生成于」，让用户能一眼确认云端这轮有没有真的跑过。
     # 只替换第一次出现（<script> 赋值处）；后面 JS 里读的是 window.__BUILD_TIME__，
@@ -849,6 +955,9 @@ def build():
     print(f"✓ {OUTPUT}")
     print(f"  校区 {', '.join(campuses)} · 共 {sum(len(c.get('items', [])) for c in campuses.values())} 条"
           f" · 首屏 {os.path.getsize(OUTPUT)/1024:.0f} KB（内嵌轻量索引）")
+    if study:
+        print(f"  学习资料入口 {len(study)} 个校区 · {sum(len(v['items']) for v in study.values())} 条链接"
+              f" ← {os.path.relpath(STUDY_FILE, HERE)}")
     print(f"  按需分片 {len(shard_files)} 份 · {sum(os.path.getsize(f) for f in shard_files)/1024:.0f} KB"
           f" → {os.path.relpath(SHARD_DIR, HERE)}/")
     print("  本地直接双击 index.html 也能看：同目录有 data/shard/ 时按需加载，"

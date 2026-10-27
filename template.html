@@ -171,6 +171,37 @@ html[data-theme=light] .theme-to-light{display:none}
 .category-nav-all{opacity:.9}
 .cat-label-long{display:none}
 
+/* ============ 学习资料入口 ============ */
+.study-strip{margin:0 0 14px}
+.study-card{display:flex;align-items:center;gap:13px;width:100%;padding:12px 16px;text-align:left;
+  border:1px solid var(--tone-edge);border-radius:16px;background:var(--tone-surface);color:var(--tone-ink);
+  transition:transform .18s var(--ease-out),box-shadow .18s var(--ease-out),border-color .18s}
+.study-card:hover{transform:translateY(-1px);box-shadow:var(--shadow-md);border-color:var(--tone-ink)}
+.study-card:active{transform:scale(.995)}
+.study-mark{display:grid;place-items:center;flex:none;width:38px;height:38px;border-radius:12px;background:var(--tone-tint)}
+.study-mark svg{width:19px;height:19px}
+.study-copy{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1}
+.study-copy strong{font-size:14.5px;font-weight:750;line-height:1.4}
+.study-copy span{font-size:12.5px;line-height:1.5;color:var(--muted-foreground);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.study-meta{display:flex;align-items:center;gap:10px;flex:none}
+.study-count{padding:3px 9px;border-radius:999px;background:var(--tone-tint);font:650 11.5px/1.6 var(--font-numbers);white-space:nowrap}
+.study-go{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:700;white-space:nowrap}
+.study-go svg{width:14px;height:14px;transition:transform .18s var(--ease-out)}
+.study-card:hover .study-go svg{transform:translateX(2px)}
+.study-list{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
+.study-item{padding:14px 15px;border:1px solid var(--border);border-radius:14px;background:var(--muted)}
+.study-item-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.study-item-head h4{margin:0;font-size:14.5px;font-weight:750;line-height:1.45}
+.study-tag{padding:1px 8px;border-radius:999px;background:var(--accent);color:var(--accent-foreground);font-size:10.5px;font-weight:700;white-space:nowrap}
+.study-item p{margin:6px 0 0;font-size:13px;line-height:1.75;color:var(--muted-foreground)}
+.study-links{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.study-link{display:inline-flex;align-items:center;gap:5px;padding:6px 11px;border:1px solid var(--border);border-radius:999px;
+  background:var(--card);font-size:12px;font-weight:650;color:var(--foreground);transition:.16s}
+.study-link:hover{border-color:var(--primary);color:var(--primary);background:var(--accent)}
+.study-link svg{width:13px;height:13px}
+.study-note{display:flex;align-items:flex-start;gap:7px;margin:16px 0 0;font-size:12.5px;line-height:1.8;color:var(--muted-foreground)}
+.study-note svg{width:14px;height:14px;margin-top:3px;flex:none;color:var(--primary)}
+
 /* ============ 工具栏 ============ */
 .board-toolbar{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:12px;margin:0 0 14px;padding:2px 0}
 .board-title{display:flex;align-items:center;min-width:0;gap:9px}
@@ -381,6 +412,9 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
   .category-clusters{grid-template-columns:1fr}
   .source-filter-label{display:none}
   .board-select[data-hide-sm]{display:none}
+  .study-card{padding:11px 13px;gap:10px}
+  .study-copy span{white-space:normal}
+  .study-count{display:none}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001ms !important;transition-duration:.001ms !important}
@@ -470,6 +504,20 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
         </div>
       </nav>
     </div>
+
+    <section class="study-strip" id="study-strip" data-tone="amber" aria-label="学习资料汇总入口" hidden>
+      <button class="study-card" id="study-open" type="button">
+        <span class="study-mark" id="study-mark" aria-hidden="true"></span>
+        <span class="study-copy">
+          <strong id="study-title"></strong>
+          <span id="study-desc"></span>
+        </span>
+        <span class="study-meta">
+          <span class="study-count" id="study-count"></span>
+          <span class="study-go">查看 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></span>
+        </span>
+      </button>
+    </section>
 
     <div class="board-toolbar">
       <div class="board-title">
@@ -566,6 +614,7 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
 <div class="toast" id="toast" role="status"></div>
 
 <script id="notice-data" type="application/json">__NOTICE_DATA__</script>
+<script id="study-data" type="application/json">__STUDY_DATA__</script>
 <script>window["__BUILD_" + "TIME__"] = "__BUILD_TIME__";</script>
 <script>
 /* =====================================================================
@@ -697,6 +746,20 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
   };
   var CAMPUS_ORDER = ["thu", "zju", "sjtu", "xjtu"];
   var GROUP_LABEL = { wechat:"微信公众号", official:"官方网站", other:"其他来源" };
+
+  /* ---------- 学习资料汇总（本站只做索引，资料本体都在各校学生社区的仓库/站点） ----------
+     清单在 data/study/materials.json，构建时注入上面的 #study-data。
+     想加/改链接请改那个 JSON，再跑 python refresh.py --build-only，不要在这里改代码。
+     没有配置的校区（如「清华知道」是外链）不显示入口。 */
+  var STUDY = (function () {
+    var raw = "";
+    try { raw = document.getElementById("study-data").textContent || ""; } catch (e) { /* 无节点 */ }
+    if (!raw || raw.indexOf("__STUDY_") === 0) return {};   // 模板未构建：静默隐藏入口
+    try {
+      var parsed = JSON.parse(raw);
+      return parsed && typeof parsed === "object" ? parsed : {};
+    } catch (e) { return {}; }
+  })();
 
   // 数据里多出来的校区自动补进切换栏:以后加校区只要放一份 data/<key>.json
   Object.keys(PAYLOAD.campuses || {}).forEach(function (key) {
@@ -960,6 +1023,7 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
     updateBrandAvailability();   // official 分组的显示名依赖当前校区,必须在筛选器之前
     renderSourceFilter();
     renderClusters();
+    renderStudy();
     render();
     if (dialogDetail.open) dialogDetail.close();
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1450,6 +1514,13 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
   $("modal-close").addEventListener("click", function () { dialogModal.close(); });
   dialogModal.addEventListener("click", function (ev) { if (ev.target === dialogModal) dialogModal.close(); });
 
+  /* 学习资料入口：内容跟随当前校区，点开是一个外链清单 */
+  $("study-open").addEventListener("click", function () {
+    var s = studyOf(state.campus);
+    if (!s) return;
+    openModal(s.title, "book", studyHTML(s));
+  });
+
   function statsHTML() {
     var items = campusItems();
     var c = campus();
@@ -1566,6 +1637,51 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
     return '<i class="src-status" data-status="' + meta.tone + '">' + esc(meta.label) + "</i>";
   }
 
+  /* ---------- 学习资料入口 ---------- */
+  function studyOf(key) { return STUDY[key] || null; }
+
+  function renderStudy() {
+    var strip = $("study-strip");
+    if (!strip) return;
+    var s = studyOf(state.campus);
+    if (!s || !Array.isArray(s.items) || !s.items.length) { strip.hidden = true; return; }
+    strip.hidden = false;
+    var title = s.title || (campusName(state.campus).zh + "学习资料汇总");
+    $("study-mark").innerHTML = ic("book", 19);
+    $("study-title").textContent = title;
+    $("study-desc").textContent = s.note || "课程资料、笔记与往年题，由学生社区维护";
+    $("study-count").textContent = s.items.length + " 个入口";
+    $("study-open").setAttribute("aria-label", title + "：查看 " + s.items.length + " 个学习资料入口");
+  }
+
+  function studyHTML(s) {
+    var html = '<p style="margin:0 0 14px;font-size:13.5px;line-height:1.85">' +
+      esc(s.note || "以下资料由各校学生社区维护") +
+      "。点击即离开本站，直接进入对应仓库或站点。</p>";
+    html += '<ul class="study-list">' + s.items.map(function (it) {
+      var links = "";
+      if (it.site) {
+        links += '<a class="study-link" href="' + esc(it.site) + '" target="_blank" rel="noopener noreferrer">' +
+          ic("external", 13) + esc(it.siteLabel || "打开站点") + "</a>";
+      }
+      if (it.repo) {
+        links += '<a class="study-link" href="' + esc(it.repo) + '" target="_blank" rel="noopener noreferrer">' +
+          ic("link", 13) + "GitHub 仓库</a>";
+      }
+      if (it.mirror) {
+        links += '<a class="study-link" href="' + esc(it.mirror.url) + '" target="_blank" rel="noopener noreferrer">' +
+          ic("globe", 13) + esc(it.mirror.label) + "</a>";
+      }
+      return '<li class="study-item"><div class="study-item-head"><h4>' + esc(it.name) +
+        '</h4><span class="study-tag">' + esc(it.tag) + "</span></div><p>" + esc(it.desc) + "</p>" +
+        (links ? '<div class="study-links">' + links + "</div>" : "") + "</li>";
+    }).join("") + "</ul>";
+    html += '<p class="study-note">' + ic("info", 14) +
+      "<span>本站只收录链接，不存储、不镜像任何资料文件。内容由各仓库的贡献者维护，" +
+      "版权归原作者所有，下载与使用请遵守对应仓库的许可协议与学术诚信要求。</span></p>";
+    return html;
+  }
+
   function sourcesHTML() {
     var c = campus() || {};
     var counts = {}, countsByName = {};
@@ -1675,7 +1791,8 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
       "<li>分区卡片网格:标题 / 发布时间 / 来源，悬停放大与左侧色条</li>" +
       "<li>详情弹窗:发布时间、活动时间、地点、主办、截止、摘要、正文摘录、附件与原文跳转</li>" +
       "<li>来源筛选、时间范围、排序、列数切换、全文搜索、详情深链</li>" +
-      "<li>数据概览与信息来源抽屉</li></ul>" +
+      "<li>数据概览与信息来源抽屉</li>" +
+      "<li>每校一个「学习资料汇总」入口：只收录各校学生社区维护的课程攻略 / 笔记 / 往年题仓库链接，资料本体不落在本站</li></ul>" +
       '<h3 class="block-title">' + ic("info", 15) + "说明</h3>" +
       '<p style="margin:0;font-size:13px;color:var(--muted-foreground);line-height:1.85">' +
       "页面内嵌的数据由 <code>refresh.py</code> 抓取自上游公开接口，重新运行即可刷新。所有通知的版权归原作者与发布单位所有，本页仅作展示与检索之用。</p>";
@@ -1853,6 +1970,7 @@ dialog[open]{animation:dlg .22s var(--ease-out)}
   updateBrandAvailability();
   renderSourceFilter();
   renderClusters();
+  renderStudy();
   syncUpcomingButton();
   render();
   applyHash();
