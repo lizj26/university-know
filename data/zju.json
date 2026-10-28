@@ -1,21 +1,21 @@
 {
  "campus": "zju",
  "campus_name": "浙大知道",
- "scraped_at": "2026-10-28T03:11:20+08:00",
- "site_last_sync": "2026-10-28T03:11:20+08:00",
+ "scraped_at": "2026-10-28T14:29:20+08:00",
+ "site_last_sync": "2026-10-28T14:29:20+08:00",
  "interval_minutes": null,
- "total_all": 109,
- "fetched": 109,
+ "total_all": 111,
+ "fetched": 111,
  "truncated": false,
  "import_source": "items-zju.json",
  "append_only": true,
  "last_import": {
-  "at": "2026-10-28T03:11:20+08:00",
-  "added": 17,
+  "at": "2026-10-28T14:29:20+08:00",
+  "added": 19,
   "updated": 0,
-  "items": 109,
+  "items": 111,
   "source": "items-zju.json",
-  "crawl_new": 17
+  "crawl_new": 19
  },
  "wechat_accounts": [
   "浙大体育与艺术",
@@ -28,8 +28,8 @@
    "first_seen": "2026-10-11T19:00:15+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-10-28T03:09:30+08:00",
-   "last_new": "2026-10-28T03:09:30+08:00",
+   "last_checked": "2026-10-28T14:27:19+08:00",
+   "last_new": "2026-10-28T14:27:19+08:00",
    "name": "浙江大学研究生院",
    "new": 7,
    "source_id": "zju_grs",
@@ -41,7 +41,7 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-10-28T03:09:30+08:00",
+   "last_checked": "2026-10-28T14:27:19+08:00",
    "last_new": "2026-10-27T13:48:51+08:00",
    "name": "浙江大学图书馆",
    "new": 0,
@@ -54,12 +54,12 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-10-28T03:09:30+08:00",
-   "last_new": "2026-10-27T13:48:51+08:00",
+   "last_checked": "2026-10-28T14:27:19+08:00",
+   "last_new": "2026-10-28T14:27:19+08:00",
    "name": "浙江大学求是新闻网",
-   "new": 0,
+   "new": 2,
    "source_id": "zju_news",
-   "status": "no_recent",
+   "status": "ok",
    "url": "http://www.news.zju.edu.cn/"
   },
   "zju_news_kxtt": {
@@ -67,8 +67,8 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-10-28T03:09:30+08:00",
-   "last_new": "2026-10-28T03:09:30+08:00",
+   "last_checked": "2026-10-28T14:27:19+08:00",
+   "last_new": "2026-10-28T14:27:19+08:00",
    "name": "浙大求是新闻网·科学头条",
    "new": 9,
    "source_id": "zju_news_kxtt",
@@ -80,7 +80,7 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-10-28T03:09:30+08:00",
+   "last_checked": "2026-10-28T14:27:19+08:00",
    "last_new": "2026-10-27T03:40:35+08:00",
    "name": "浙大求是新闻网·要闻",
    "new": 0,
@@ -93,8 +93,8 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-10-28T03:09:30+08:00",
-   "last_new": "2026-10-28T03:09:30+08:00",
+   "last_checked": "2026-10-28T14:27:19+08:00",
+   "last_new": "2026-10-28T14:27:19+08:00",
    "name": "浙江大学本科招生",
    "new": 1,
    "source_id": "zju_zdzsc",
@@ -108,8 +108,8 @@
    "count": 37,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-10-28T03:11:47+08:00",
-   "first_seen": "2026-10-28T03:11:47+08:00",
+   "last_checked": "2026-10-28T14:29:49+08:00",
+   "first_seen": "2026-10-28T14:29:49+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -121,8 +121,8 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-10-28T03:11:47+08:00",
-   "first_seen": "2026-10-28T03:11:47+08:00",
+   "last_checked": "2026-10-28T14:29:49+08:00",
+   "first_seen": "2026-10-28T14:29:49+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -134,15 +134,15 @@
    "count": 3,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-10-28T03:11:47+08:00",
-   "first_seen": "2026-10-28T03:11:47+08:00",
+   "last_checked": "2026-10-28T14:29:49+08:00",
+   "first_seen": "2026-10-28T14:29:49+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
   }
  },
  "fetch_warnings": [
-  "由 items-zju.json 导入：新增 17 条 / 更新 0 条 / 现有 109 条"
+  "由 items-zju.json 导入：新增 19 条 / 更新 0 条 / 现有 111 条"
  ],
  "items": [
   {
@@ -193,6 +193,40 @@
    "dt": {
     "tx": "中央第五巡视组巡视浙江大学党委工作动员会召开 图说浙大 当前位置： 首页 图说浙大 中央第五巡视组巡视浙江大学党委工作动员会召开 发布时间：2026-10-26 来源：中央纪委国家监委网站 作者： 支持 键翻阅图片 列表查看 高清查看 大图 全屏观看 更多精彩： 中央第五巡视组巡视浙江大学党委工作动员会召开 图说浙大 更多>> [中央纪委国家监委网站] 中央第五巡视组巡视浙江大学党委工作动员会召开 热门新闻榜",
     "og": "浙大求是新闻网·科学头条",
+    "sg": "official"
+   }
+  },
+  {
+   "i": "http://www.news.zju.edu.cn/2026/1024/c777a3218865/page.htm",
+   "t": "近代物理中心张乾研究团队在《原子能科学技术》发文：基于随机特征线方法的高保真辐射屏蔽计算程序THETA研发及应用",
+   "s": "浙江大学求是新闻网",
+   "si": "zju_news",
+   "d": "2026-10-24T09:00:00+08:00",
+   "u": "http://www.news.zju.edu.cn/2026/1024/c777a3218865/page.htm",
+   "c": "院系资讯",
+   "g": "information",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "近日，《原子能科学技术》2026年第10期以《基于随机特征线方法的高保真辐射屏蔽计算程序THETA研发及应用》为封面文章，集中介绍浙江大学物理学院、浙江近代物理中心张乾研究团队在中子输运理论与核工程辐射屏蔽计算领域的系列进展。这是浙江大学首次在国内核科学技术领域学术期刊发表封面论文，也是物理学院在这一研究方向取得的一项具有标志性意义的成果。 《原子能科学技术》2026年第10期封面 直面难题：让复杂条件下的中子输运计算更可靠 辐射屏蔽计算是核设施设计、运行评估与安全分析的重要技术基础。对于反应堆等复杂工程系统，中子穿越结构材料后可能经历多次散射与吸收，局部通量极低，准确预测其分布十分困难。传统离散纵标方法虽然具有较高的全局计算效率，却可能因角度离散产生“射线效应”；蒙特卡罗方法能较好描述复杂几何与粒子输运，但在深穿透、低通量区域常面临有效采样不足、统计效率下降的问题。 方法突破：随机采样与确定性输运优势互补 围绕这一难题，研究团队系统发展了随机特征线方法（the random ray method，TRRM）：在特征线方法框架中随机选取空间起点和飞行方向，再沿特征线开展确定性输运扫描，以随机相空间求积与确定性求解相结合的方式…",
+    "og": "浙江大学求是新闻网",
+    "sg": "official"
+   }
+  },
+  {
+   "i": "http://www.news.zju.edu.cn/2026/1022/c777a3218863/page.htm",
+   "t": "跨越山海寻医，轮椅上的阿联酋老人在杭州重获行走的力量",
+   "s": "浙江大学求是新闻网",
+   "si": "zju_news",
+   "d": "2026-10-24T09:00:00+08:00",
+   "u": "http://www.news.zju.edu.cn/2026/1022/c777a3218863/page.htm",
+   "c": "校园动态",
+   "g": "information",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "“Amazing!（太不可思议！）” 术后第二天，当65岁的阿联酋患者法蒂玛（化名）在病房里稳稳站起，一步步向前挪动脚步时，难掩内心的激动，一遍遍发出赞叹。而就在几天前，行走对她而言还是奢望，日常起居只能依靠轮椅。 跨越数千公里山海，从阿联酋远赴杭州，从困于轮椅到独立行走，这段跨越数千公里的求医之旅，在浙江大学医学院附属邵逸夫医院（下简称浙大邵逸夫医院）骨科赵凤东主任团队的诊疗下，画上了一个超出预期的句号。 腰痛伴随右下肢疼痛麻木，已经折磨了法蒂玛整整六年。起初只是腰部酸胀，她没太当回事，虽然在当地看过医生，但始终没有进行系统治疗。半年前，症状陡然加重，右侧臀部和右下肢的疼痛变得剧烈，她再也无法下地行走，轮椅成了她寸步不离的依靠。 半年里，病痛日夜纠缠，法蒂玛生活的边界被牢牢禁锢在一方轮椅之上。 转机来自她远在杭州当外教的儿子。深知母亲被病痛苦苦折磨，他下定决心接母亲来到中国治疗，并慕名联系上了浙大邵逸夫医院骨科赵凤东主任团队。 这个决定为法蒂玛长达六年的病痛撬开了希望的缺口。 接诊的是赵凤东主任团队的刘军辉副主任医师。刘军辉长期专注于脊柱疾病的微创治疗，尤其擅长腰椎椎管狭窄症、腰椎间盘突出症等退行性脊柱疾患的精准诊治。 他…",
+    "og": "浙江大学求是新闻网",
     "sg": "official"
    }
   },
@@ -2021,15 +2055,15 @@
    "key": "zju_news",
    "name": "浙江大学求是新闻网",
    "source_group": "official",
-   "count": 44,
-   "status": "no_recent",
-   "last_checked": "2026-10-28T03:09:30+08:00",
-   "last_new": "2026-10-27T13:48:51+08:00",
+   "count": 46,
+   "status": "ok",
+   "last_checked": "2026-10-28T14:27:19+08:00",
+   "last_new": "2026-10-28T14:27:19+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "http://www.news.zju.edu.cn/",
    "source_id": "zju_news",
    "kind": "list",
-   "new": 0
+   "new": 2
   },
   {
    "key": "src:浙江大学",
@@ -2043,7 +2077,7 @@
    "source_group": "official",
    "count": 12,
    "status": "no_recent",
-   "last_checked": "2026-10-28T03:09:30+08:00",
+   "last_checked": "2026-10-28T14:27:19+08:00",
    "last_new": "2026-10-27T13:48:51+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "https://libweb.zju.edu.cn/",
@@ -2057,7 +2091,7 @@
    "source_group": "official",
    "count": 6,
    "status": "no_recent",
-   "last_checked": "2026-10-28T03:09:30+08:00",
+   "last_checked": "2026-10-28T14:27:19+08:00",
    "last_new": "2026-10-27T03:40:35+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "http://www.news.zju.edu.cn/24344/list.htm",
@@ -2071,8 +2105,8 @@
    "source_group": "official",
    "count": 4,
    "status": "ok",
-   "last_checked": "2026-10-28T03:09:30+08:00",
-   "last_new": "2026-10-28T03:09:30+08:00",
+   "last_checked": "2026-10-28T14:27:19+08:00",
+   "last_new": "2026-10-28T14:27:19+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "http://www.news.zju.edu.cn/kxtt/list.htm",
    "source_id": "zju_news_kxtt",
@@ -2091,8 +2125,8 @@
    "source_group": "official",
    "count": 2,
    "status": "ok",
-   "last_checked": "2026-10-28T03:09:30+08:00",
-   "last_new": "2026-10-28T03:09:30+08:00",
+   "last_checked": "2026-10-28T14:27:19+08:00",
+   "last_new": "2026-10-28T14:27:19+08:00",
    "first_seen": "2026-10-11T19:00:15+08:00",
    "url": "http://www.grs.zju.edu.cn/",
    "source_id": "zju_grs",
@@ -2111,8 +2145,8 @@
    "source_group": "official",
    "count": 0,
    "status": "ok",
-   "last_checked": "2026-10-28T03:09:30+08:00",
-   "last_new": "2026-10-28T03:09:30+08:00",
+   "last_checked": "2026-10-28T14:27:19+08:00",
+   "last_new": "2026-10-28T14:27:19+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "https://zdzsc.zju.edu.cn/",
    "source_id": "zju_zdzsc",
@@ -2129,17 +2163,17 @@
   {
    "id": "official",
    "sources": 5,
-   "count": 68
+   "count": 70
   }
  ],
  "category_totals": [
   {
    "name": "校园动态",
-   "count": 48
+   "count": 49
   },
   {
    "name": "院系资讯",
-   "count": 23
+   "count": 24
   },
   {
    "name": "讲座活动",
@@ -2177,7 +2211,7 @@
  "intent_totals": [
   {
    "intent_group": "information",
-   "count": 92
+   "count": 94
   },
   {
    "intent_group": "activity",
