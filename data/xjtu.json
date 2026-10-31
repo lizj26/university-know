@@ -1,21 +1,21 @@
 {
  "campus": "xjtu",
  "campus_name": "西交知道",
- "scraped_at": "2026-10-31T02:56:31+08:00",
- "site_last_sync": "2026-10-31T02:56:31+08:00",
+ "scraped_at": "2026-10-31T14:28:39+08:00",
+ "site_last_sync": "2026-10-31T14:28:39+08:00",
  "interval_minutes": null,
- "total_all": 243,
- "fetched": 243,
+ "total_all": 244,
+ "fetched": 244,
  "truncated": false,
  "import_source": "items-xjtu.json",
  "append_only": true,
  "last_import": {
-  "at": "2026-10-31T02:56:31+08:00",
-  "added": 11,
+  "at": "2026-10-31T14:28:39+08:00",
+  "added": 10,
   "updated": 0,
-  "items": 243,
+  "items": 244,
   "source": "items-xjtu.json",
-  "crawl_new": 11
+  "crawl_new": 10
  },
  "wechat_accounts": [
   "西安交大网信中心",
@@ -29,7 +29,7 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-10-31T02:56:19+08:00",
+   "last_checked": "2026-10-31T14:28:28+08:00",
    "last_new": "2026-10-30T18:29:42+08:00",
    "name": "西安交大研究生院",
    "new": 0,
@@ -42,7 +42,7 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-10-31T02:56:19+08:00",
+   "last_checked": "2026-10-31T14:28:28+08:00",
    "last_new": "2026-10-30T18:29:42+08:00",
    "name": "西安交大教务处",
    "new": 0,
@@ -51,14 +51,14 @@
    "url": "https://jwc.xjtu.edu.cn/"
   },
   "xjtu_news": {
-   "count": 6,
+   "count": 7,
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-10-31T02:56:19+08:00",
-   "last_new": "2026-10-31T02:56:19+08:00",
+   "last_checked": "2026-10-31T14:28:28+08:00",
+   "last_new": "2026-10-31T14:28:28+08:00",
    "name": "西安交大新闻网·主页新闻",
-   "new": 2,
+   "new": 1,
    "source_id": "xjtu_news",
    "status": "ok",
    "url": "https://news.xjtu.edu.cn/zyxw.htm"
@@ -68,8 +68,8 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-10-31T02:56:19+08:00",
-   "last_new": "2026-10-31T02:56:19+08:00",
+   "last_checked": "2026-10-31T14:28:28+08:00",
+   "last_new": "2026-10-31T14:28:28+08:00",
    "name": "西安交大学生工作部（处）",
    "new": 1,
    "source_id": "xjtu_xsc",
@@ -81,7 +81,7 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-10-31T02:56:19+08:00",
+   "last_checked": "2026-10-31T14:28:28+08:00",
    "last_new": "2026-10-23T16:52:42+08:00",
    "name": "西安交大研究生招生",
    "new": 0,
@@ -94,8 +94,8 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-10-31T02:56:19+08:00",
-   "last_new": "2026-10-31T02:56:19+08:00",
+   "last_checked": "2026-10-31T14:28:28+08:00",
+   "last_new": "2026-10-31T14:28:28+08:00",
    "name": "西安交大本科招生",
    "new": 8,
    "source_id": "xjtu_zs",
@@ -109,8 +109,8 @@
    "count": 22,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-10-31T02:58:31+08:00",
-   "first_seen": "2026-10-31T02:58:31+08:00",
+   "last_checked": "2026-10-31T14:30:35+08:00",
+   "first_seen": "2026-10-31T14:30:35+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -122,8 +122,8 @@
    "count": 4,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-10-31T02:58:31+08:00",
-   "first_seen": "2026-10-31T02:58:31+08:00",
+   "last_checked": "2026-10-31T14:30:35+08:00",
+   "first_seen": "2026-10-31T14:30:35+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -135,8 +135,8 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-10-31T02:58:31+08:00",
-   "first_seen": "2026-10-31T02:58:31+08:00",
+   "last_checked": "2026-10-31T14:30:35+08:00",
+   "first_seen": "2026-10-31T14:30:35+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -148,15 +148,15 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-10-31T02:58:31+08:00",
-   "first_seen": "2026-10-31T02:58:31+08:00",
+   "last_checked": "2026-10-31T14:30:35+08:00",
+   "first_seen": "2026-10-31T14:30:35+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
   }
  },
  "fetch_warnings": [
-  "由 items-xjtu.json 导入：新增 11 条 / 更新 0 条 / 现有 243 条"
+  "由 items-xjtu.json 导入：新增 10 条 / 更新 0 条 / 现有 244 条"
  ],
  "items": [
   {
@@ -2699,6 +2699,23 @@
    }
   },
   {
+   "i": "https://news.xjtu.edu.cn/info/1033/235875.htm",
+   "t": "西安交大干部师生学习热议党的二十届五中全会精神",
+   "s": "西安交大新闻网·主页新闻",
+   "si": "xjtu_news",
+   "d": "2026-10-01T09:00:00+08:00",
+   "u": "https://news.xjtu.edu.cn/info/1033/235875.htm",
+   "c": "院系资讯",
+   "g": "information",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "中国共产党第二十届中央委员会第五次全体会议，于2026年10月26日至29日在北京举行。 全会听取和讨论了习近平总书记受中央政治局委托所作的工作报告，审议通过了《中共中央关于持之以恒推进全面从严治党若干重大问题的决定》。习近平总书记就《决定（讨论稿）》向全会作了说明。 西安交通大学干部师生第一时间学习领会全会精神，交流学习感悟。大家纷纷表示，要更加自觉把思想和行动统一到党中央决策部署上来，把全面从严治党要求落实到教学、科研、管理等各环节，立足本职务实奋进，以担当作为交出服务强国建设的合格答卷。 党委书记吴国生： 党的二十届五中全会专题研究持之以恒推进全面从严治党重大问题，审议通过《中共中央关于持之以恒推进全面从严治党若干重大问题的决定》，充分彰显了以习近平同志为核心的党中央以彻底的自我革命精神管党治党、兴党强党的坚定决心，为新时代新征程学校全面从严治党向纵深发展提供了根本遵循。 学校党委将把学习贯彻全会精神作为当前和今后一个时期的重大政治任务，全面贯彻落实习近平党建思想，把坚持和加强党的全面领导落实到办学治校、教书育人全过程各方面。坚持党性党风党纪一起抓，锲而不舍落实中央八项规定精神，深化师德师风、医德医风和科研诚信建设，一…",
+    "og": "西安交大新闻网·主页新闻",
+    "sg": "official"
+   }
+  },
+  {
    "i": "https://news.xjtu.edu.cn/info/1033/235793.htm",
    "t": "融具身之智 强装备之能",
    "s": "西安交大新闻网·主页新闻",
@@ -4352,15 +4369,15 @@
    "key": "xjtu_news",
    "name": "西安交大新闻网·主页新闻",
    "source_group": "official",
-   "count": 119,
+   "count": 120,
    "status": "ok",
-   "last_checked": "2026-10-31T02:56:19+08:00",
-   "last_new": "2026-10-31T02:56:19+08:00",
+   "last_checked": "2026-10-31T14:28:28+08:00",
+   "last_new": "2026-10-31T14:28:28+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://news.xjtu.edu.cn/zyxw.htm",
    "source_id": "xjtu_news",
    "kind": "list",
-   "new": 2
+   "new": 1
   },
   {
    "key": "xjtu_jwc",
@@ -4368,7 +4385,7 @@
    "source_group": "official",
    "count": 28,
    "status": "no_recent",
-   "last_checked": "2026-10-31T02:56:19+08:00",
+   "last_checked": "2026-10-31T14:28:28+08:00",
    "last_new": "2026-10-30T18:29:42+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://jwc.xjtu.edu.cn/",
@@ -4382,7 +4399,7 @@
    "source_group": "official",
    "count": 28,
    "status": "no_recent",
-   "last_checked": "2026-10-31T02:56:19+08:00",
+   "last_checked": "2026-10-31T14:28:28+08:00",
    "last_new": "2026-10-30T18:29:42+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://gs.xjtu.edu.cn/",
@@ -4396,8 +4413,8 @@
    "source_group": "official",
    "count": 25,
    "status": "ok",
-   "last_checked": "2026-10-31T02:56:19+08:00",
-   "last_new": "2026-10-31T02:56:19+08:00",
+   "last_checked": "2026-10-31T14:28:28+08:00",
+   "last_new": "2026-10-31T14:28:28+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://xsc.xjtu.edu.cn/",
    "source_id": "xjtu_xsc",
@@ -4416,7 +4433,7 @@
    "source_group": "official",
    "count": 15,
    "status": "no_recent",
-   "last_checked": "2026-10-31T02:56:19+08:00",
+   "last_checked": "2026-10-31T14:28:28+08:00",
    "last_new": "2026-10-23T16:52:42+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://yz.xjtu.edu.cn/",
@@ -4448,8 +4465,8 @@
    "source_group": "official",
    "count": 0,
    "status": "ok",
-   "last_checked": "2026-10-31T02:56:19+08:00",
-   "last_new": "2026-10-31T02:56:19+08:00",
+   "last_checked": "2026-10-31T14:28:28+08:00",
+   "last_new": "2026-10-31T14:28:28+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://zs.xjtu.edu.cn/",
    "source_id": "xjtu_zs",
@@ -4466,7 +4483,7 @@
   {
    "id": "official",
    "sources": 5,
-   "count": 215
+   "count": 216
   }
  ],
  "category_totals": [
@@ -4476,7 +4493,7 @@
   },
   {
    "name": "院系资讯",
-   "count": 45
+   "count": 46
   },
   {
    "name": "讲座活动",
@@ -4522,7 +4539,7 @@
  "intent_totals": [
   {
    "intent_group": "information",
-   "count": 152
+   "count": 153
   },
   {
    "intent_group": "activity",
