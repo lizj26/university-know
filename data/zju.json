@@ -1,21 +1,21 @@
 {
  "campus": "zju",
  "campus_name": "浙大知道",
- "scraped_at": "2026-11-01T15:02:01+08:00",
- "site_last_sync": "2026-11-01T15:02:01+08:00",
+ "scraped_at": "2026-11-01T18:52:34+08:00",
+ "site_last_sync": "2026-11-01T18:52:34+08:00",
  "interval_minutes": null,
- "total_all": 115,
- "fetched": 115,
+ "total_all": 117,
+ "fetched": 117,
  "truncated": false,
  "import_source": "items-zju.json",
  "append_only": true,
  "last_import": {
-  "at": "2026-11-01T15:02:01+08:00",
-  "added": 17,
+  "at": "2026-11-01T18:52:34+08:00",
+  "added": 19,
   "updated": 0,
-  "items": 115,
+  "items": 117,
   "source": "items-zju.json",
-  "crawl_new": 17
+  "crawl_new": 21
  },
  "wechat_accounts": [
   "浙大体育与艺术",
@@ -28,8 +28,8 @@
    "first_seen": "2026-10-11T19:00:15+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-01T15:00:04+08:00",
-   "last_new": "2026-11-01T15:00:04+08:00",
+   "last_checked": "2026-11-01T18:50:14+08:00",
+   "last_new": "2026-11-01T18:50:14+08:00",
    "name": "浙江大学研究生院",
    "new": 7,
    "source_id": "zju_grs",
@@ -41,7 +41,7 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-01T15:00:04+08:00",
+   "last_checked": "2026-11-01T18:50:14+08:00",
    "last_new": "2026-10-27T13:48:51+08:00",
    "name": "浙江大学图书馆",
    "new": 0,
@@ -54,12 +54,12 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-01T15:00:04+08:00",
-   "last_new": "2026-11-01T02:05:56+08:00",
+   "last_checked": "2026-11-01T18:50:14+08:00",
+   "last_new": "2026-11-01T18:50:14+08:00",
    "name": "浙江大学求是新闻网",
-   "new": 0,
+   "new": 2,
    "source_id": "zju_news",
-   "status": "no_recent",
+   "status": "ok",
    "url": "http://www.news.zju.edu.cn/"
   },
   "zju_news_kxtt": {
@@ -67,8 +67,8 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-01T15:00:04+08:00",
-   "last_new": "2026-11-01T15:00:04+08:00",
+   "last_checked": "2026-11-01T18:50:14+08:00",
+   "last_new": "2026-11-01T18:50:14+08:00",
    "name": "浙大求是新闻网·科学头条",
    "new": 9,
    "source_id": "zju_news_kxtt",
@@ -80,12 +80,12 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-01T15:00:04+08:00",
-   "last_new": "2026-11-01T02:05:56+08:00",
+   "last_checked": "2026-11-01T18:50:14+08:00",
+   "last_new": "2026-11-01T18:50:14+08:00",
    "name": "浙大求是新闻网·要闻",
-   "new": 0,
+   "new": 2,
    "source_id": "zju_news_yw",
-   "status": "no_recent",
+   "status": "ok",
    "url": "http://www.news.zju.edu.cn/24344/list.htm"
   },
   "zju_zdzsc": {
@@ -93,8 +93,8 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-01T15:00:04+08:00",
-   "last_new": "2026-11-01T15:00:04+08:00",
+   "last_checked": "2026-11-01T18:50:14+08:00",
+   "last_new": "2026-11-01T18:50:14+08:00",
    "name": "浙江大学本科招生",
    "new": 1,
    "source_id": "zju_zdzsc",
@@ -105,11 +105,11 @@
    "key": "wx:浙江大学",
    "name": "浙江大学",
    "source_group": "wechat",
-   "count": 37,
+   "count": 38,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-01T15:02:31+08:00",
-   "first_seen": "2026-11-01T15:02:31+08:00",
+   "last_checked": "2026-11-01T18:53:03+08:00",
+   "first_seen": "2026-11-01T18:53:03+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -121,8 +121,8 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-01T15:02:31+08:00",
-   "first_seen": "2026-11-01T15:02:31+08:00",
+   "last_checked": "2026-11-01T18:53:03+08:00",
+   "first_seen": "2026-11-01T18:53:03+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -134,17 +134,68 @@
    "count": 3,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-01T15:02:31+08:00",
-   "first_seen": "2026-11-01T15:02:31+08:00",
+   "last_checked": "2026-11-01T18:53:03+08:00",
+   "first_seen": "2026-11-01T18:53:03+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
   }
  },
  "fetch_warnings": [
-  "由 items-zju.json 导入：新增 17 条 / 更新 0 条 / 现有 115 条"
+  "由 items-zju.json 导入：新增 19 条 / 更新 0 条 / 现有 117 条"
  ],
  "items": [
+  {
+   "i": "https://mp.weixin.qq.com/s?__biz=MjM5NDgxNTQwNQ==&mid=2651031461&idx=1&sn=26af547b4870c8370a4fdcfbd5f878d4&chksm=bd752b678a02a271ac2e12114ebd1eba45cafd5b6396b3c60b733740a7dc230bc5a553a0af88",
+   "t": "Michael Berry被授予浙江大学名誉博士学位！",
+   "s": "浙江大学",
+   "si": null,
+   "d": "2026-11-01T18:31:43+08:00",
+   "u": "https://mp.weixin.qq.com/s?__biz=MjM5NDgxNTQwNQ==&mid=2651031461&idx=1&sn=26af547b4870c8370a4fdcfbd5f878d4&chksm=bd752b678a02a271ac2e12114ebd1eba45cafd5b6396b3c60b733740a7dc230bc5a553a0af88",
+   "c": "学业教务",
+   "g": "information",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "sg": "wechat",
+    "og": "浙江大学",
+    "ab": "强国担当"
+   }
+  },
+  {
+   "i": "http://www.news.zju.edu.cn/2026/1101/c24344a3221259/page.htm",
+   "t": "校长马琰铭会见圣安德鲁斯大学校长一行",
+   "s": "浙江大学求是新闻网",
+   "si": "zju_news",
+   "d": "2026-11-01T09:00:00+08:00",
+   "u": "http://www.news.zju.edu.cn/2026/1101/c24344a3221259/page.htm",
+   "c": "校园动态",
+   "g": "information",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "10月29日，英国圣安德鲁斯大学校长萨莉·马普斯通（Sally Mapstone）一行访问浙江大学，校长马琰铭院士在紫金港校区会见来宾，双方就推进务实合作举行会谈，并签署校级合作备忘录。 马琰铭对马普斯通一行到访表示热烈欢迎，并介绍了学校的发展情况。他表示，浙江大学高度重视全球伙伴网络建设，期待以此次签署校级协议为契机，与圣安德鲁斯大学发挥双方学科优势，在人才培养、科学研究等方面开展务实合作，携手培养未来创新人才。 马普斯通感谢浙江大学的热情接待。她表示，两校同为历史悠久的大学，高度重视学生体验、科研创新与国际合作。海宁国际校区富有想象力的办学理念与积极活跃的学习氛围令人印象深刻，期待双方进一步探讨合作办学，并探索开展多边协同合作。 访问期间，代表团先后参观国际联合学院（海宁国际校区）和未来学习中心，并举行多场合作交流会，对接具体合作事宜。 国际合作与交流处、国际联合学院（海宁国际校区）、哲学学院、公共管理学院、心理与行为科学系等单位相关负责人及教授代表参加会见。",
+    "og": "浙江大学求是新闻网",
+    "sg": "official"
+   }
+  },
+  {
+   "i": "http://www.news.zju.edu.cn/2026/1101/c24344a3221255/page.htm",
+   "t": "第五届国家战略与区域发展论坛举行",
+   "s": "浙江大学求是新闻网",
+   "si": "zju_news",
+   "d": "2026-10-31T09:00:00+08:00",
+   "u": "http://www.news.zju.edu.cn/2026/1101/c24344a3221255/page.htm",
+   "c": "讲座活动",
+   "g": "activity",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "10月29日，第五届国家战略与区域发展论坛在浙江大学中国西部发展研究院大楼举行。本届论坛以“从西部大开发走向区域协调发展”为主题，汇聚国内区域发展领域专家学者，深入研讨新时代区域协调发展的前沿议题，为统筹推进西部高质量发展、构建优势互补的区域发展格局，提供理论支撑与决策参考。 浙江大学党委书记、国家战略与区域发展研究院理事长任少波，中国科学院院士杨卫，浙江省社会科学界联合会党组书记、副主席范庆瑜出席并致辞。浙江大学国家战略与区域发展研究院院长、全球发展学院院长黄先海主持开幕仪式。 任少波指出，区域协调发展是推动高质量发展的关键支撑。浙江大学始终心怀“国之大者”，发挥多学科优势，打通基础研究、应用研究、决策咨询研究链条，努力打造服务国家战略的高端智库。浙江大学中国西部发展研究院成立20年来，始终坚守初心使命，沿着国家区域战略发展大势，从深耕西部大开发战略研究，迈向服务东西联动、南北协同、优势互补的区域协调发展新格局，逐步成长为西部大开发和区域协调发展研究的领先智库。他希望论坛的举办，为服务国家战略、推动区域协调发展作出新贡献。 杨卫回顾了浙江大学中国西部发展研究院成立20周年的发展历程。他表示，中国西部发展研究院紧跟时代步伐，…",
+    "og": "浙江大学求是新闻网",
+    "sg": "official"
+   }
+  },
   {
    "i": "http://www.news.zju.edu.cn/2026/1031/c24344a3221200/page.htm",
    "t": "浙大师生学习热议党的二十届五中全会精神",
@@ -2123,15 +2174,15 @@
    "key": "zju_news",
    "name": "浙江大学求是新闻网",
    "source_group": "official",
-   "count": 50,
-   "status": "no_recent",
-   "last_checked": "2026-11-01T15:00:04+08:00",
-   "last_new": "2026-11-01T02:05:56+08:00",
+   "count": 52,
+   "status": "ok",
+   "last_checked": "2026-11-01T18:50:14+08:00",
+   "last_new": "2026-11-01T18:50:14+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "http://www.news.zju.edu.cn/",
    "source_id": "zju_news",
    "kind": "list",
-   "new": 0
+   "new": 2
   },
   {
    "key": "src:浙江大学",
@@ -2145,7 +2196,7 @@
    "source_group": "official",
    "count": 12,
    "status": "no_recent",
-   "last_checked": "2026-11-01T15:00:04+08:00",
+   "last_checked": "2026-11-01T18:50:14+08:00",
    "last_new": "2026-10-27T13:48:51+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "https://libweb.zju.edu.cn/",
@@ -2158,14 +2209,14 @@
    "name": "浙大求是新闻网·要闻",
    "source_group": "official",
    "count": 6,
-   "status": "no_recent",
-   "last_checked": "2026-11-01T15:00:04+08:00",
-   "last_new": "2026-11-01T02:05:56+08:00",
+   "status": "ok",
+   "last_checked": "2026-11-01T18:50:14+08:00",
+   "last_new": "2026-11-01T18:50:14+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "http://www.news.zju.edu.cn/24344/list.htm",
    "source_id": "zju_news_yw",
    "kind": "list",
-   "new": 0
+   "new": 2
   },
   {
    "key": "zju_news_kxtt",
@@ -2173,8 +2224,8 @@
    "source_group": "official",
    "count": 4,
    "status": "ok",
-   "last_checked": "2026-11-01T15:00:04+08:00",
-   "last_new": "2026-11-01T15:00:04+08:00",
+   "last_checked": "2026-11-01T18:50:14+08:00",
+   "last_new": "2026-11-01T18:50:14+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "http://www.news.zju.edu.cn/kxtt/list.htm",
    "source_id": "zju_news_kxtt",
@@ -2193,8 +2244,8 @@
    "source_group": "official",
    "count": 2,
    "status": "ok",
-   "last_checked": "2026-11-01T15:00:04+08:00",
-   "last_new": "2026-11-01T15:00:04+08:00",
+   "last_checked": "2026-11-01T18:50:14+08:00",
+   "last_new": "2026-11-01T18:50:14+08:00",
    "first_seen": "2026-10-11T19:00:15+08:00",
    "url": "http://www.grs.zju.edu.cn/",
    "source_id": "zju_grs",
@@ -2213,8 +2264,8 @@
    "source_group": "official",
    "count": 0,
    "status": "ok",
-   "last_checked": "2026-11-01T15:00:04+08:00",
-   "last_new": "2026-11-01T15:00:04+08:00",
+   "last_checked": "2026-11-01T18:50:14+08:00",
+   "last_new": "2026-11-01T18:50:14+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "https://zdzsc.zju.edu.cn/",
    "source_id": "zju_zdzsc",
@@ -2231,13 +2282,13 @@
   {
    "id": "official",
    "sources": 5,
-   "count": 74
+   "count": 76
   }
  ],
  "category_totals": [
   {
    "name": "校园动态",
-   "count": 49
+   "count": 50
   },
   {
    "name": "院系资讯",
@@ -2245,7 +2296,7 @@
   },
   {
    "name": "讲座活动",
-   "count": 12
+   "count": 13
   },
   {
    "name": "学业教务",
@@ -2279,11 +2330,11 @@
  "intent_totals": [
   {
    "intent_group": "information",
-   "count": 98
+   "count": 99
   },
   {
    "intent_group": "activity",
-   "count": 17
+   "count": 18
   }
  ]
 }
