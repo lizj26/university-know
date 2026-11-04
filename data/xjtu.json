@@ -1,21 +1,21 @@
 {
  "campus": "xjtu",
  "campus_name": "西交知道",
- "scraped_at": "2026-11-04T15:06:11+08:00",
- "site_last_sync": "2026-11-04T15:06:11+08:00",
+ "scraped_at": "2026-11-04T19:38:27+08:00",
+ "site_last_sync": "2026-11-04T19:38:27+08:00",
  "interval_minutes": null,
- "total_all": 277,
- "fetched": 277,
+ "total_all": 278,
+ "fetched": 278,
  "truncated": false,
  "import_source": "items-xjtu.json",
  "append_only": true,
  "last_import": {
-  "at": "2026-11-04T15:06:11+08:00",
-  "added": 16,
+  "at": "2026-11-04T19:38:27+08:00",
+  "added": 9,
   "updated": 0,
-  "items": 277,
+  "items": 278,
   "source": "items-xjtu.json",
-  "crawl_new": 16
+  "crawl_new": 9
  },
  "wechat_accounts": [
   "西安交大网信中心",
@@ -29,12 +29,12 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-04T15:05:59+08:00",
+   "last_checked": "2026-11-04T19:38:14+08:00",
    "last_new": "2026-11-04T15:05:59+08:00",
    "name": "西安交大研究生院",
-   "new": 2,
+   "new": 0,
    "source_id": "xjtu_gs",
-   "status": "ok",
+   "status": "no_recent",
    "url": "https://gs.xjtu.edu.cn/"
   },
   "xjtu_jwc": {
@@ -42,12 +42,12 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-04T15:05:59+08:00",
+   "last_checked": "2026-11-04T19:38:14+08:00",
    "last_new": "2026-11-04T15:05:59+08:00",
    "name": "西安交大教务处",
-   "new": 1,
+   "new": 0,
    "source_id": "xjtu_jwc",
-   "status": "ok",
+   "status": "no_recent",
    "url": "https://jwc.xjtu.edu.cn/"
   },
   "xjtu_news": {
@@ -55,7 +55,7 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-04T15:05:59+08:00",
+   "last_checked": "2026-11-04T19:38:14+08:00",
    "last_new": "2026-11-04T04:22:27+08:00",
    "name": "西安交大新闻网·主页新闻",
    "new": 0,
@@ -68,10 +68,10 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-04T15:05:59+08:00",
-   "last_new": "2026-11-04T15:05:59+08:00",
+   "last_checked": "2026-11-04T19:38:14+08:00",
+   "last_new": "2026-11-04T19:38:14+08:00",
    "name": "西安交大学生工作部（处）",
-   "new": 5,
+   "new": 1,
    "source_id": "xjtu_xsc",
    "status": "ok",
    "url": "https://xsc.xjtu.edu.cn/"
@@ -81,7 +81,7 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-04T15:05:59+08:00",
+   "last_checked": "2026-11-04T19:38:14+08:00",
    "last_new": "2026-11-03T19:25:42+08:00",
    "name": "西安交大研究生招生",
    "new": 0,
@@ -94,8 +94,8 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-04T15:05:59+08:00",
-   "last_new": "2026-11-04T15:05:59+08:00",
+   "last_checked": "2026-11-04T19:38:14+08:00",
+   "last_new": "2026-11-04T19:38:14+08:00",
    "name": "西安交大本科招生",
    "new": 8,
    "source_id": "xjtu_zs",
@@ -109,8 +109,8 @@
    "count": 20,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-04T15:08:28+08:00",
-   "first_seen": "2026-11-04T15:08:28+08:00",
+   "last_checked": "2026-11-04T19:40:41+08:00",
+   "first_seen": "2026-11-04T19:40:41+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -122,8 +122,8 @@
    "count": 4,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-04T15:08:28+08:00",
-   "first_seen": "2026-11-04T15:08:28+08:00",
+   "last_checked": "2026-11-04T19:40:41+08:00",
+   "first_seen": "2026-11-04T19:40:41+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -135,8 +135,8 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-04T15:08:28+08:00",
-   "first_seen": "2026-11-04T15:08:28+08:00",
+   "last_checked": "2026-11-04T19:40:41+08:00",
+   "first_seen": "2026-11-04T19:40:41+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -148,17 +148,34 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-04T15:08:28+08:00",
-   "first_seen": "2026-11-04T15:08:28+08:00",
+   "last_checked": "2026-11-04T19:40:41+08:00",
+   "first_seen": "2026-11-04T19:40:41+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
   }
  },
  "fetch_warnings": [
-  "由 items-xjtu.json 导入：新增 16 条 / 更新 0 条 / 现有 277 条"
+  "由 items-xjtu.json 导入：新增 9 条 / 更新 0 条 / 现有 278 条"
  ],
  "items": [
+  {
+   "i": "https://xsc.xjtu.edu.cn/info/1060/16675.htm",
+   "t": "关于开展2026年小学期和暑期勤工助学岗位设置的通知-知心网",
+   "s": "西安交大学生工作部（处）",
+   "si": "xjtu_xsc",
+   "d": "2026-11-04T09:00:00+08:00",
+   "u": "https://xsc.xjtu.edu.cn/info/1060/16675.htm",
+   "c": "实习就业",
+   "g": "activity",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "各单位： 为充分发挥勤工助学的育人功能，帮助学生提升综合素质、减轻生活负担，规范全校勤工助学岗位管理，根据教育部、财政部印发的《高等学校勤工助学管理办法》（教财〔2018〕12号），结合《西安交通大学勤工助学管理办法》（西交学〔2019〕17号）的相关规定，现面向全校各单位开展2026年小学期和暑期勤工助学岗位设置工作。具体事宜通知如下： 一、岗位设置原则 1.按需设岗：各单位立足小学期、暑期阶段性工作需要，合理设置勤工助学岗位，明确岗位职责和工作内容。 2.资助育人：岗位设置应注重培养学生的劳动意识和实践能力，优先考虑家庭经济困难学生。 3.规范管理：严格按照学校勤工助学管理办法要求，明确岗位工作时间、酬金标准及考核方式。 二、岗位酬金标准 根据相关文件要求，结合我校实际，当前我校勤工助学岗位酬金标准为15元/小时，小学期工作时间原则上不超过40小时，暑期工作时间原则上不超过60小时。学生勤工助学工资由用工单位与学生处共同承担，具体如下： 1.用工单位承担部分：4元/小时 2.学生处承担部分：11元/小时 各单位在申报岗位时，需结合工作实际合理测算岗位需求。 三、 工作时间 小学期7月6日——8月2日，共计4周 暑期8月3…",
+    "og": "西安交大学生工作部（处）",
+    "sg": "official"
+   }
+  },
   {
    "i": "https://xsc.xjtu.edu.cn/info/1047/16849.htm",
    "t": "西安交大崇实书院教工党支部开展“传承弘扬长征精神，走好新时代长征路”主题党日活动-知心网",
@@ -4944,7 +4961,7 @@
    "source_group": "official",
    "count": 138,
    "status": "no_recent",
-   "last_checked": "2026-11-04T15:05:59+08:00",
+   "last_checked": "2026-11-04T19:38:14+08:00",
    "last_new": "2026-11-04T04:22:27+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://news.xjtu.edu.cn/zyxw.htm",
@@ -4957,42 +4974,42 @@
    "name": "西安交大研究生院",
    "source_group": "official",
    "count": 35,
-   "status": "ok",
-   "last_checked": "2026-11-04T15:05:59+08:00",
+   "status": "no_recent",
+   "last_checked": "2026-11-04T19:38:14+08:00",
    "last_new": "2026-11-04T15:05:59+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://gs.xjtu.edu.cn/",
    "source_id": "xjtu_gs",
    "kind": "list",
-   "new": 2
+   "new": 0
   },
   {
    "key": "xjtu_jwc",
    "name": "西安交大教务处",
    "source_group": "official",
    "count": 33,
-   "status": "ok",
-   "last_checked": "2026-11-04T15:05:59+08:00",
+   "status": "no_recent",
+   "last_checked": "2026-11-04T19:38:14+08:00",
    "last_new": "2026-11-04T15:05:59+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://jwc.xjtu.edu.cn/",
    "source_id": "xjtu_jwc",
    "kind": "list",
-   "new": 1
+   "new": 0
   },
   {
    "key": "xjtu_xsc",
    "name": "西安交大学生工作部（处）",
    "source_group": "official",
-   "count": 29,
+   "count": 30,
    "status": "ok",
-   "last_checked": "2026-11-04T15:05:59+08:00",
-   "last_new": "2026-11-04T15:05:59+08:00",
+   "last_checked": "2026-11-04T19:38:14+08:00",
+   "last_new": "2026-11-04T19:38:14+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://xsc.xjtu.edu.cn/",
    "source_id": "xjtu_xsc",
    "kind": "list",
-   "new": 5
+   "new": 1
   },
   {
    "key": "src:西安交通大学机械工程学院",
@@ -5006,7 +5023,7 @@
    "source_group": "official",
    "count": 16,
    "status": "no_recent",
-   "last_checked": "2026-11-04T15:05:59+08:00",
+   "last_checked": "2026-11-04T19:38:14+08:00",
    "last_new": "2026-11-03T19:25:42+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://yz.xjtu.edu.cn/",
@@ -5038,8 +5055,8 @@
    "source_group": "official",
    "count": 0,
    "status": "ok",
-   "last_checked": "2026-11-04T15:05:59+08:00",
-   "last_new": "2026-11-04T15:05:59+08:00",
+   "last_checked": "2026-11-04T19:38:14+08:00",
+   "last_new": "2026-11-04T19:38:14+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://zs.xjtu.edu.cn/",
    "source_id": "xjtu_zs",
@@ -5056,7 +5073,7 @@
   {
    "id": "official",
    "sources": 5,
-   "count": 251
+   "count": 252
   }
  ],
  "category_totals": [
@@ -5090,7 +5107,7 @@
   },
   {
    "name": "实习就业",
-   "count": 10
+   "count": 11
   },
   {
    "name": "交流访学",
@@ -5116,7 +5133,7 @@
   },
   {
    "intent_group": "activity",
-   "count": 106
+   "count": 107
   }
  ]
 }
