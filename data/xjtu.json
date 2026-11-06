@@ -1,21 +1,21 @@
 {
  "campus": "xjtu",
  "campus_name": "西交知道",
- "scraped_at": "2026-11-06T19:38:25+08:00",
- "site_last_sync": "2026-11-06T19:38:25+08:00",
+ "scraped_at": "2026-11-07T04:12:22+08:00",
+ "site_last_sync": "2026-11-07T04:12:22+08:00",
  "interval_minutes": null,
- "total_all": 296,
- "fetched": 296,
+ "total_all": 297,
+ "fetched": 297,
  "truncated": false,
  "import_source": "items-xjtu.json",
  "append_only": true,
  "last_import": {
-  "at": "2026-11-06T19:38:25+08:00",
-  "added": 12,
+  "at": "2026-11-07T04:12:22+08:00",
+  "added": 9,
   "updated": 0,
-  "items": 296,
+  "items": 297,
   "source": "items-xjtu.json",
-  "crawl_new": 12
+  "crawl_new": 9
  },
  "wechat_accounts": [
   "西安交大网信中心",
@@ -29,7 +29,7 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-06T19:38:12+08:00",
+   "last_checked": "2026-11-07T04:12:10+08:00",
    "last_new": "2026-11-04T15:05:59+08:00",
    "name": "西安交大研究生院",
    "new": 0,
@@ -42,7 +42,7 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-06T19:38:12+08:00",
+   "last_checked": "2026-11-07T04:12:10+08:00",
    "last_new": "2026-11-06T04:53:47+08:00",
    "name": "西安交大教务处",
    "new": 0,
@@ -51,14 +51,14 @@
    "url": "https://jwc.xjtu.edu.cn/"
   },
   "xjtu_news": {
-   "count": 8,
+   "count": 7,
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-06T19:38:12+08:00",
-   "last_new": "2026-11-06T19:38:12+08:00",
+   "last_checked": "2026-11-07T04:12:10+08:00",
+   "last_new": "2026-11-07T04:12:10+08:00",
    "name": "西安交大新闻网·主页新闻",
-   "new": 3,
+   "new": 1,
    "source_id": "xjtu_news",
    "status": "ok",
    "url": "https://news.xjtu.edu.cn/zyxw.htm"
@@ -68,12 +68,12 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-06T19:38:12+08:00",
+   "last_checked": "2026-11-07T04:12:10+08:00",
    "last_new": "2026-11-06T19:38:12+08:00",
    "name": "西安交大学生工作部（处）",
-   "new": 1,
+   "new": 0,
    "source_id": "xjtu_xsc",
-   "status": "ok",
+   "status": "no_recent",
    "url": "https://xsc.xjtu.edu.cn/"
   },
   "xjtu_yz": {
@@ -81,7 +81,7 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-06T19:38:12+08:00",
+   "last_checked": "2026-11-07T04:12:10+08:00",
    "last_new": "2026-11-05T15:34:08+08:00",
    "name": "西安交大研究生招生",
    "new": 0,
@@ -94,8 +94,8 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-06T19:38:12+08:00",
-   "last_new": "2026-11-06T19:38:12+08:00",
+   "last_checked": "2026-11-07T04:12:10+08:00",
+   "last_new": "2026-11-07T04:12:10+08:00",
    "name": "西安交大本科招生",
    "new": 8,
    "source_id": "xjtu_zs",
@@ -109,8 +109,8 @@
    "count": 21,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-06T19:40:17+08:00",
-   "first_seen": "2026-11-06T19:40:17+08:00",
+   "last_checked": "2026-11-07T04:14:33+08:00",
+   "first_seen": "2026-11-07T04:14:33+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -122,8 +122,8 @@
    "count": 4,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-06T19:40:17+08:00",
-   "first_seen": "2026-11-06T19:40:17+08:00",
+   "last_checked": "2026-11-07T04:14:33+08:00",
+   "first_seen": "2026-11-07T04:14:33+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -135,8 +135,8 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-06T19:40:17+08:00",
-   "first_seen": "2026-11-06T19:40:17+08:00",
+   "last_checked": "2026-11-07T04:14:33+08:00",
+   "first_seen": "2026-11-07T04:14:33+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -148,15 +148,15 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-06T19:40:17+08:00",
-   "first_seen": "2026-11-06T19:40:17+08:00",
+   "last_checked": "2026-11-07T04:14:33+08:00",
+   "first_seen": "2026-11-07T04:14:33+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
   }
  },
  "fetch_warnings": [
-  "由 items-xjtu.json 导入：新增 12 条 / 更新 0 条 / 现有 296 条"
+  "由 items-xjtu.json 导入：新增 9 条 / 更新 0 条 / 现有 297 条"
  ],
  "items": [
   {
@@ -1346,6 +1346,23 @@
    "ens": "",
    "dt": {
     "tx": "在西安交通大学电气工程学院，有一位深耕教坛四十一载的教育工作者，她坚守教学科研一线，潜心育人、攻关克难、传承文脉，她就是电气工程学院二级教授、博士生导师王秀丽。 王秀丽，1961年出生，中共党员，国务院政府特殊津贴获得者。1985年硕士毕业留校任教，后获博士学位，四十一载从教生涯，她热爱教师岗位，在教学、科研、学科建设与文化传承中努力工作，兢兢业业，默默奉献，书写着教育工作者的责任与担当。 教学为本，潜心培育电力栋梁 作为国家二级重点学科——电力系统及其自动化学科的学术带头人中的一员，王秀丽担任过三门核心课程负责人，始终紧跟行业前沿，将最新科研成果融入课堂，授课质量广受赞誉。她深耕教材建设，主编、参编教材5部，其中3部本科生教材均入选中国电力教育协会精品教材，2017年荣获王宽诚育才奖。在人才培养中，她关注不同学生的成长特点，全方位指导学生科研、竞赛与就业，所带学生斩获人民网一等奖学金、国家奖学金等多项重磅荣誉，指导学生团队在国家级竞赛中取得金奖佳绩。四十一年来，她累计培养博士、硕士研究生120余名，众多毕业生已成为电力行业中坚力量，为我国电力事业输送了大批优秀人才。 科研攻坚，助力国家能源发展 王秀丽立足国家重大需求，聚焦…",
+    "og": "西安交大新闻网·主页新闻",
+    "sg": "official"
+   }
+  },
+  {
+   "i": "https://news.xjtu.edu.cn/info/1219/236076.htm",
+   "t": "第五届储能与节能国际研讨会在中国香港举办",
+   "s": "西安交大新闻网·主页新闻",
+   "si": "xjtu_news",
+   "d": "2026-10-26T09:00:00+08:00",
+   "u": "https://news.xjtu.edu.cn/info/1219/236076.htm",
+   "c": "讲座活动",
+   "g": "activity",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "10月30日至11月2日，第五届储能与节能国际研讨会（5th International Conference on Energy Storage and Saving, ICENSS 2026）在中国香港举办。作为西安交通大学主办期刊《储能与节能（英文）》期刊的同名国际会议，研讨会自2022年起每年度举办一次，旨在汇聚能源领域专家学者，共同探索能源科技创新发展新路径。本届会议与国际传热研讨会（International Workshop on Heat Transfer, IWHT）联合召开，由西安交通大学、香港理工大学、国际传热传质中心、中国工程热物理学会联合举办。 中国科学院院士、《储能与节能（英文）》期刊荣誉主编、西安交通大学教授陶文铨担任大会名誉主席，中国科学院院士、西安交通大学教授何雅玲担任会议国际科学与咨询委员会主席，美国内华达大学拉斯维加斯分校教授Yi-Tung Chen、香港理工大学教授Lin Vivien Lu、西安交通大学教授王秋旺共同担任大会主席。来自中国、英国、美国、法国、俄罗斯、日本等多个国家和地区的230余名专家学者参会。与会代表围绕先进储能技术、高效传热传质、可再生能源利用、能源系统优化及低碳…",
     "og": "西安交大新闻网·主页新闻",
     "sg": "official"
    }
@@ -5269,15 +5286,15 @@
    "key": "xjtu_news",
    "name": "西安交大新闻网·主页新闻",
    "source_group": "official",
-   "count": 146,
+   "count": 147,
    "status": "ok",
-   "last_checked": "2026-11-06T19:38:12+08:00",
-   "last_new": "2026-11-06T19:38:12+08:00",
+   "last_checked": "2026-11-07T04:12:10+08:00",
+   "last_new": "2026-11-07T04:12:10+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://news.xjtu.edu.cn/zyxw.htm",
    "source_id": "xjtu_news",
    "kind": "list",
-   "new": 3
+   "new": 1
   },
   {
    "key": "xjtu_jwc",
@@ -5285,7 +5302,7 @@
    "source_group": "official",
    "count": 37,
    "status": "no_recent",
-   "last_checked": "2026-11-06T19:38:12+08:00",
+   "last_checked": "2026-11-07T04:12:10+08:00",
    "last_new": "2026-11-06T04:53:47+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://jwc.xjtu.edu.cn/",
@@ -5299,7 +5316,7 @@
    "source_group": "official",
    "count": 35,
    "status": "no_recent",
-   "last_checked": "2026-11-06T19:38:12+08:00",
+   "last_checked": "2026-11-07T04:12:10+08:00",
    "last_new": "2026-11-04T15:05:59+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://gs.xjtu.edu.cn/",
@@ -5312,14 +5329,14 @@
    "name": "西安交大学生工作部（处）",
    "source_group": "official",
    "count": 34,
-   "status": "ok",
-   "last_checked": "2026-11-06T19:38:12+08:00",
+   "status": "no_recent",
+   "last_checked": "2026-11-07T04:12:10+08:00",
    "last_new": "2026-11-06T19:38:12+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://xsc.xjtu.edu.cn/",
    "source_id": "xjtu_xsc",
    "kind": "list",
-   "new": 1
+   "new": 0
   },
   {
    "key": "src:西安交通大学机械工程学院",
@@ -5333,7 +5350,7 @@
    "source_group": "official",
    "count": 17,
    "status": "no_recent",
-   "last_checked": "2026-11-06T19:38:12+08:00",
+   "last_checked": "2026-11-07T04:12:10+08:00",
    "last_new": "2026-11-05T15:34:08+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://yz.xjtu.edu.cn/",
@@ -5365,8 +5382,8 @@
    "source_group": "official",
    "count": 0,
    "status": "ok",
-   "last_checked": "2026-11-06T19:38:12+08:00",
-   "last_new": "2026-11-06T19:38:12+08:00",
+   "last_checked": "2026-11-07T04:12:10+08:00",
+   "last_new": "2026-11-07T04:12:10+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://zs.xjtu.edu.cn/",
    "source_id": "xjtu_zs",
@@ -5383,7 +5400,7 @@
   {
    "id": "official",
    "sources": 5,
-   "count": 269
+   "count": 270
   }
  ],
  "category_totals": [
@@ -5397,7 +5414,7 @@
   },
   {
    "name": "讲座活动",
-   "count": 38
+   "count": 39
   },
   {
    "name": "校园动态",
@@ -5443,7 +5460,7 @@
   },
   {
    "intent_group": "activity",
-   "count": 113
+   "count": 114
   }
  ]
 }
