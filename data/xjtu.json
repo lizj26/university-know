@@ -1,21 +1,21 @@
 {
  "campus": "xjtu",
  "campus_name": "西交知道",
- "scraped_at": "2026-11-09T15:27:53+08:00",
- "site_last_sync": "2026-11-09T15:27:53+08:00",
+ "scraped_at": "2026-11-09T20:13:13+08:00",
+ "site_last_sync": "2026-11-09T20:13:13+08:00",
  "interval_minutes": null,
- "total_all": 307,
- "fetched": 307,
+ "total_all": 309,
+ "fetched": 309,
  "truncated": false,
  "import_source": "items-xjtu.json",
  "append_only": true,
  "last_import": {
-  "at": "2026-11-09T15:27:53+08:00",
-  "added": 13,
+  "at": "2026-11-09T20:13:13+08:00",
+  "added": 10,
   "updated": 0,
-  "items": 307,
+  "items": 309,
   "source": "items-xjtu.json",
-  "crawl_new": 13
+  "crawl_new": 10
  },
  "wechat_accounts": [
   "西安交大网信中心",
@@ -29,10 +29,10 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-09T15:27:39+08:00",
-   "last_new": "2026-11-09T15:27:39+08:00",
+   "last_checked": "2026-11-09T20:12:55+08:00",
+   "last_new": "2026-11-09T20:12:55+08:00",
    "name": "西安交大研究生院",
-   "new": 2,
+   "new": 1,
    "source_id": "xjtu_gs",
    "status": "ok",
    "url": "https://gs.xjtu.edu.cn/"
@@ -42,12 +42,12 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-09T15:27:39+08:00",
+   "last_checked": "2026-11-09T20:12:55+08:00",
    "last_new": "2026-11-09T15:27:39+08:00",
    "name": "西安交大教务处",
-   "new": 1,
+   "new": 0,
    "source_id": "xjtu_jwc",
-   "status": "ok",
+   "status": "no_recent",
    "url": "https://jwc.xjtu.edu.cn/"
   },
   "xjtu_news": {
@@ -55,8 +55,8 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-09T15:27:39+08:00",
-   "last_new": "2026-11-09T15:27:39+08:00",
+   "last_checked": "2026-11-09T20:12:55+08:00",
+   "last_new": "2026-11-09T20:12:55+08:00",
    "name": "西安交大新闻网·主页新闻",
    "new": 1,
    "source_id": "xjtu_news",
@@ -68,12 +68,12 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-09T15:27:39+08:00",
+   "last_checked": "2026-11-09T20:12:55+08:00",
    "last_new": "2026-11-09T15:27:39+08:00",
    "name": "西安交大学生工作部（处）",
-   "new": 1,
+   "new": 0,
    "source_id": "xjtu_xsc",
-   "status": "ok",
+   "status": "no_recent",
    "url": "https://xsc.xjtu.edu.cn/"
   },
   "xjtu_yz": {
@@ -81,7 +81,7 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-09T15:27:39+08:00",
+   "last_checked": "2026-11-09T20:12:55+08:00",
    "last_new": "2026-11-05T15:34:08+08:00",
    "name": "西安交大研究生招生",
    "new": 0,
@@ -94,8 +94,8 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-09T15:27:39+08:00",
-   "last_new": "2026-11-09T15:27:39+08:00",
+   "last_checked": "2026-11-09T20:12:55+08:00",
+   "last_new": "2026-11-09T20:12:55+08:00",
    "name": "西安交大本科招生",
    "new": 8,
    "source_id": "xjtu_zs",
@@ -106,11 +106,11 @@
    "key": "wx:西安交通大学机械工程学院",
    "name": "西安交通大学机械工程学院",
    "source_group": "wechat",
-   "count": 21,
+   "count": 22,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-09T15:29:19+08:00",
-   "first_seen": "2026-11-09T15:29:19+08:00",
+   "last_checked": "2026-11-09T20:14:51+08:00",
+   "first_seen": "2026-11-09T20:14:51+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -122,8 +122,8 @@
    "count": 4,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-09T15:29:19+08:00",
-   "first_seen": "2026-11-09T15:29:19+08:00",
+   "last_checked": "2026-11-09T20:14:51+08:00",
+   "first_seen": "2026-11-09T20:14:51+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -135,8 +135,8 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-09T15:29:19+08:00",
-   "first_seen": "2026-11-09T15:29:19+08:00",
+   "last_checked": "2026-11-09T20:14:51+08:00",
+   "first_seen": "2026-11-09T20:14:51+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -148,17 +148,34 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-09T15:29:19+08:00",
-   "first_seen": "2026-11-09T15:29:19+08:00",
+   "last_checked": "2026-11-09T20:14:51+08:00",
+   "first_seen": "2026-11-09T20:14:51+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
   }
  },
  "fetch_warnings": [
-  "由 items-xjtu.json 导入：新增 13 条 / 更新 0 条 / 现有 307 条"
+  "由 items-xjtu.json 导入：新增 10 条 / 更新 0 条 / 现有 309 条"
  ],
  "items": [
+  {
+   "i": "https://mp.weixin.qq.com/s?__biz=MzUyMDM3NzE3Nw==&mid=2247504550&idx=1&sn=5878bb196a00e8d84731664eb11b88d2&chksm=f9e9d490ce9e5d86b44c2c39ff62c846469b7f14c45f702c6fab7ff12dab884ebd1f8b9922a4",
+   "t": "机械工程学院国际学生在首届国际大学生智能制造创新大赛中获佳绩",
+   "s": "西安交通大学机械工程学院",
+   "si": null,
+   "d": "2026-11-09T17:45:50+08:00",
+   "u": "https://mp.weixin.qq.com/s?__biz=MzUyMDM3NzE3Nw==&mid=2247504550&idx=1&sn=5878bb196a00e8d84731664eb11b88d2&chksm=f9e9d490ce9e5d86b44c2c39ff62c846469b7f14c45f702c6fab7ff12dab884ebd1f8b9922a4",
+   "c": "院系资讯",
+   "g": "information",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "sg": "wechat",
+    "og": "西安交通大学机械工程学院",
+    "ab": "学院新闻"
+   }
+  },
   {
    "i": "https://xsc.xjtu.edu.cn/info/1047/16860.htm",
    "t": "崇实书院赴科大讯飞丝路总部参观交流-知心网",
@@ -173,6 +190,28 @@
    "dt": {
     "tx": "为帮助学生了解人工智能产业发展前沿，打通课堂所学与产业实践之间的认知隔阂，11月4日下午，知行学社联合“崇”问生涯工作室、崇实书院各党支部及崇实书院职业规划大赛选手代表赴科大讯飞丝路总部参访交流。科大讯飞成立于1999年，是亚太领先的智能语音与人工智能上市企业，深耕语音、视觉、认知智能等前沿核心技术。本次活动以“人工智能如何走进千行百业”为主线，同学们走进展厅、体验终端、观摩演示，并与企业工作人员交流技术落地与人才需求。 展厅入口处，一位“数字接待官”——虚拟人主播以中、英等多语种向师生致意，并现场演示实时翻译与同声传译，语种切换自然流畅。开场语“以星火为根，结出数字生态的万象”，点出了其背后的大模型技术。据介绍，数字人凭借可定制形象和多语种播报能力，已应用于央视等平台的虚拟主播，并拓展至数字接待、导览讲解等场景。 走进展厅深处，讲解人手持麦克风，现场却没有扩音——声音来自身后，讯飞听见正在实时转写与翻译。据介绍，其同声传译在主题内容上的准确率约98%，并针对中文习惯过滤语气词、理顺语序，可用于会议记录、课程笔记与学术会议。 从大模型底座到智能终端，人工智能正加速进入具体应用。企业以自研星火大模型提供技术支撑，推出集翻译、工…",
     "og": "西安交大学生工作部（处）",
+    "sg": "official"
+   }
+  },
+  {
+   "i": "https://gs.xjtu.edu.cn/info/1149/11811.htm",
+   "t": "关于2027年预毕业研究生图像信息补采集工作的通知",
+   "s": "西安交大研究生院",
+   "si": "xjtu_gs",
+   "d": "2026-11-09T09:00:00+08:00",
+   "u": "https://gs.xjtu.edu.cn/info/1149/11811.htm",
+   "c": "院系资讯",
+   "g": "information",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "各学院（部、中心） ： 按照 2027年预毕业研究生图像信息采集工作安排，研究生院已于11月3日-6日组织完成了集中采集，现面向 确有 客观原因未参加集中采集的研究生开展 补 采集工作，具体通知如下： 一、采集 安排 1. 补 采集对象： 2027年预毕业 且 未参加集中采集 的 学历教育研究生 2. 补 采集时间： 2027年11月9日—12月1日 3. 服务 费用： 图像采集服务费用每人 18元，学生本人在“毕业证照”小程序中支付 。 请各单位务必通知所有 2027年预计毕业研究生按时完成补采集，逾期将不再统一安排。 二、采集 流程 1.通过学信网微信公众号、 学信网 APP、学信网 官网三种方式均可 获取学信网图像采集码 （ 见图 1） ， 获取方法详见 附件 1：毕业证照-如何获取学信网图像采集码。 图1 学信网图像采集码 2. 学生使用 手机微信扫描二维码 （ 见图 2） ， 进入【毕业证照】专用小程序 即刻 开启照片采集服务 。 采集流程：身份核验 —>关联学籍—>拍照—>照片标准化—>照片上传 ， 详见 附件 2 ： 毕业证照 -基于采集码图像采集操作指南。 图 2“毕业证照”微信二维码 采集过程中如遇问题请致…",
+    "tm": "2027年11月9日—12月1日",
+    "og": "西安交大研究生院",
+    "ev": [
+     "2027-11-09T09:00:00+08:00",
+     null
+    ],
     "sg": "official"
    }
   },
@@ -564,6 +603,23 @@
    "dt": {
     "tx": "各学院（部、中心）、竞赛工作室负责人： 研究生院对2025年西安交通大学研究生教育改革项目（新成立竞赛工作室）进行了中期检查，现将有关情况公布如下： 1.经专家组综合评审，所有项目均通过中期检查（见附件）。 2.请项目负责人结合专家意见，对照立项工作任务和结题要求，扎实推进后续项目建设。 研究生院 2026年1 1 月 3 日",
     "og": "西安交大研究生院",
+    "sg": "official"
+   }
+  },
+  {
+   "i": "https://news.xjtu.edu.cn/info/1219/236115.htm",
+   "t": "【科技自立自强】西安交大李冬民/张明真/韩省力教授合作在TLR2靶向炎症性肠病治疗研究中取得重要进展",
+   "s": "西安交大新闻网·主页新闻",
+   "si": "xjtu_news",
+   "d": "2026-11-02T09:00:00+08:00",
+   "u": "https://news.xjtu.edu.cn/info/1219/236115.htm",
+   "c": "校园服务",
+   "g": "information",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "炎症性肠病（IBD）具有反复发作、迁延难愈的特点，目前临床靶向治疗药物选择有限，开发安全有效的新型候选药物是该领域亟待解决的问题。TLR2是定位于细胞膜表面的模式识别受体，在IBD炎症启动与放大过程中发挥关键调控作用，是IBD极具潜力的膜靶点。然而，膜受体靶点筛选长期面临难点：离体重组蛋白体系容易丢失受体天然构象，筛选结果与真实细胞膜环境存在偏差，假阳性偏高。细胞膜色谱（CMC）以完整细胞膜为固定相，能够保留TLR2在膜上的天然空间构象及膜微环境，适合定向捕获可与TLR2特异性结合的小分子，为发掘IBD靶向活性单体提供了独特筛选手段。近日，题为“ Schisandrin B identified by CMC ameliorates PGN-induced immune colitis and DSS-triggered ulcerative colitis by targeting TLR2 and blocking TLR2 heterodimerization ”的研究成果在 Journal of Pharmaceutical Analysis 发表。该刊2025年影响因子11.2，位列全球药理学与药学类期刊前4%，入…",
+    "og": "西安交大新闻网·主页新闻",
     "sg": "official"
    }
   },
@@ -5462,10 +5518,10 @@
    "key": "xjtu_news",
    "name": "西安交大新闻网·主页新闻",
    "source_group": "official",
-   "count": 153,
+   "count": 154,
    "status": "ok",
-   "last_checked": "2026-11-09T15:27:39+08:00",
-   "last_new": "2026-11-09T15:27:39+08:00",
+   "last_checked": "2026-11-09T20:12:55+08:00",
+   "last_new": "2026-11-09T20:12:55+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://news.xjtu.edu.cn/zyxw.htm",
    "source_id": "xjtu_news",
@@ -5477,42 +5533,42 @@
    "name": "西安交大教务处",
    "source_group": "official",
    "count": 38,
-   "status": "ok",
-   "last_checked": "2026-11-09T15:27:39+08:00",
+   "status": "no_recent",
+   "last_checked": "2026-11-09T20:12:55+08:00",
    "last_new": "2026-11-09T15:27:39+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://jwc.xjtu.edu.cn/",
    "source_id": "xjtu_jwc",
    "kind": "list",
-   "new": 1
+   "new": 0
   },
   {
    "key": "xjtu_gs",
    "name": "西安交大研究生院",
    "source_group": "official",
-   "count": 37,
+   "count": 38,
    "status": "ok",
-   "last_checked": "2026-11-09T15:27:39+08:00",
-   "last_new": "2026-11-09T15:27:39+08:00",
+   "last_checked": "2026-11-09T20:12:55+08:00",
+   "last_new": "2026-11-09T20:12:55+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://gs.xjtu.edu.cn/",
    "source_id": "xjtu_gs",
    "kind": "list",
-   "new": 2
+   "new": 1
   },
   {
    "key": "xjtu_xsc",
    "name": "西安交大学生工作部（处）",
    "source_group": "official",
    "count": 35,
-   "status": "ok",
-   "last_checked": "2026-11-09T15:27:39+08:00",
+   "status": "no_recent",
+   "last_checked": "2026-11-09T20:12:55+08:00",
    "last_new": "2026-11-09T15:27:39+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://xsc.xjtu.edu.cn/",
    "source_id": "xjtu_xsc",
    "kind": "list",
-   "new": 1
+   "new": 0
   },
   {
    "key": "src:西安交通大学机械工程学院",
@@ -5526,7 +5582,7 @@
    "source_group": "official",
    "count": 17,
    "status": "no_recent",
-   "last_checked": "2026-11-09T15:27:39+08:00",
+   "last_checked": "2026-11-09T20:12:55+08:00",
    "last_new": "2026-11-05T15:34:08+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://yz.xjtu.edu.cn/",
@@ -5558,8 +5614,8 @@
    "source_group": "official",
    "count": 0,
    "status": "ok",
-   "last_checked": "2026-11-09T15:27:39+08:00",
-   "last_new": "2026-11-09T15:27:39+08:00",
+   "last_checked": "2026-11-09T20:12:55+08:00",
+   "last_new": "2026-11-09T20:12:55+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://zs.xjtu.edu.cn/",
    "source_id": "xjtu_zs",
@@ -5576,7 +5632,7 @@
   {
    "id": "official",
    "sources": 5,
-   "count": 280
+   "count": 282
   }
  ],
  "category_totals": [
@@ -5586,7 +5642,7 @@
   },
   {
    "name": "院系资讯",
-   "count": 56
+   "count": 57
   },
   {
    "name": "讲座活动",
@@ -5618,7 +5674,7 @@
   },
   {
    "name": "校园服务",
-   "count": 7
+   "count": 8
   },
   {
    "name": "奖助评优",
@@ -5632,7 +5688,7 @@
  "intent_totals": [
   {
    "intent_group": "information",
-   "count": 190
+   "count": 192
   },
   {
    "intent_group": "activity",
