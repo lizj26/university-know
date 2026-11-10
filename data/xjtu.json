@@ -1,21 +1,21 @@
 {
  "campus": "xjtu",
  "campus_name": "西交知道",
- "scraped_at": "2026-11-10T07:14:19+08:00",
- "site_last_sync": "2026-11-10T07:14:19+08:00",
+ "scraped_at": "2026-11-10T15:54:14+08:00",
+ "site_last_sync": "2026-11-10T15:54:14+08:00",
  "interval_minutes": null,
- "total_all": 310,
- "fetched": 310,
+ "total_all": 312,
+ "fetched": 312,
  "truncated": false,
  "import_source": "items-xjtu.json",
  "append_only": true,
  "last_import": {
-  "at": "2026-11-10T07:14:19+08:00",
-  "added": 8,
+  "at": "2026-11-10T15:54:14+08:00",
+  "added": 10,
   "updated": 0,
-  "items": 310,
+  "items": 312,
   "source": "items-xjtu.json",
-  "crawl_new": 8
+  "crawl_new": 10
  },
  "wechat_accounts": [
   "西安交大网信中心",
@@ -29,7 +29,7 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-10T07:14:07+08:00",
+   "last_checked": "2026-11-10T15:53:55+08:00",
    "last_new": "2026-11-09T20:12:55+08:00",
    "name": "西安交大研究生院",
    "new": 0,
@@ -42,12 +42,12 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-10T07:14:07+08:00",
-   "last_new": "2026-11-09T15:27:39+08:00",
+   "last_checked": "2026-11-10T15:53:55+08:00",
+   "last_new": "2026-11-10T15:53:55+08:00",
    "name": "西安交大教务处",
-   "new": 0,
+   "new": 1,
    "source_id": "xjtu_jwc",
-   "status": "no_recent",
+   "status": "ok",
    "url": "https://jwc.xjtu.edu.cn/"
   },
   "xjtu_news": {
@@ -55,12 +55,12 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-10T07:14:07+08:00",
-   "last_new": "2026-11-09T20:12:55+08:00",
+   "last_checked": "2026-11-10T15:53:55+08:00",
+   "last_new": "2026-11-10T15:53:55+08:00",
    "name": "西安交大新闻网·主页新闻",
-   "new": 0,
+   "new": 1,
    "source_id": "xjtu_news",
-   "status": "no_recent",
+   "status": "ok",
    "url": "https://news.xjtu.edu.cn/zyxw.htm"
   },
   "xjtu_xsc": {
@@ -68,7 +68,7 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-10T07:14:07+08:00",
+   "last_checked": "2026-11-10T15:53:55+08:00",
    "last_new": "2026-11-09T15:27:39+08:00",
    "name": "西安交大学生工作部（处）",
    "new": 0,
@@ -81,7 +81,7 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-10T07:14:07+08:00",
+   "last_checked": "2026-11-10T15:53:55+08:00",
    "last_new": "2026-11-05T15:34:08+08:00",
    "name": "西安交大研究生招生",
    "new": 0,
@@ -94,8 +94,8 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-10T07:14:07+08:00",
-   "last_new": "2026-11-10T07:14:07+08:00",
+   "last_checked": "2026-11-10T15:53:55+08:00",
+   "last_new": "2026-11-10T15:53:55+08:00",
    "name": "西安交大本科招生",
    "new": 8,
    "source_id": "xjtu_zs",
@@ -106,11 +106,11 @@
    "key": "wx:西安交通大学机械工程学院",
    "name": "西安交通大学机械工程学院",
    "source_group": "wechat",
-   "count": 22,
+   "count": 23,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-10T07:15:46+08:00",
-   "first_seen": "2026-11-10T07:15:46+08:00",
+   "last_checked": "2026-11-10T15:56:17+08:00",
+   "first_seen": "2026-11-10T15:56:17+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -122,8 +122,8 @@
    "count": 4,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-10T07:15:46+08:00",
-   "first_seen": "2026-11-10T07:15:46+08:00",
+   "last_checked": "2026-11-10T15:56:17+08:00",
+   "first_seen": "2026-11-10T15:56:17+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -135,8 +135,8 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-10T07:15:46+08:00",
-   "first_seen": "2026-11-10T07:15:46+08:00",
+   "last_checked": "2026-11-10T15:56:17+08:00",
+   "first_seen": "2026-11-10T15:56:17+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -148,17 +148,51 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-10T07:15:46+08:00",
-   "first_seen": "2026-11-10T07:15:46+08:00",
+   "last_checked": "2026-11-10T15:56:17+08:00",
+   "first_seen": "2026-11-10T15:56:17+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
   }
  },
  "fetch_warnings": [
-  "由 items-xjtu.json 导入：新增 8 条 / 更新 0 条 / 现有 310 条"
+  "由 items-xjtu.json 导入：新增 10 条 / 更新 0 条 / 现有 312 条"
  ],
  "items": [
+  {
+   "i": "https://mp.weixin.qq.com/s?__biz=MzUyMDM3NzE3Nw==&mid=2247504579&idx=1&sn=1aca4446cf0fe6af5848c4bd4c748242&chksm=f9e9d4f5ce9e5de3a69f3e17f68b50e51e57563fd2bb40daffe365538d044e56377b09acb057",
+   "t": "10项一等奖！西安交大连续三年全国双第一",
+   "s": "西安交通大学机械工程学院",
+   "si": null,
+   "d": "2026-11-10T11:59:40+08:00",
+   "u": "https://mp.weixin.qq.com/s?__biz=MzUyMDM3NzE3Nw==&mid=2247504579&idx=1&sn=1aca4446cf0fe6af5848c4bd4c748242&chksm=f9e9d4f5ce9e5de3a69f3e17f68b50e51e57563fd2bb40daffe365538d044e56377b09acb057",
+   "c": "校园动态",
+   "g": "information",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "sg": "wechat",
+    "og": "西安交通大学机械工程学院",
+    "ab": "学院新闻"
+   }
+  },
+  {
+   "i": "https://jwc.xjtu.edu.cn/info/1177/10638.htm",
+   "t": "关于开展2026年“我最喜爱的老师”评选表彰活动的通知",
+   "s": "西安交大教务处",
+   "si": "xjtu_jwc",
+   "d": "2026-11-10T09:00:00+08:00",
+   "u": "https://jwc.xjtu.edu.cn/info/1177/10638.htm",
+   "c": "学业教务",
+   "g": "information",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "各 学院、 书院： 为 大力弘扬教育家精神， 促进 广大 教师进一步弘扬高尚师德，增强教书育人的责任感和使命感，扩大先进典型的引领和示范作用，同时充分发挥学生在教师队伍建设和教学质量提升中的主体评价作用，增进和谐的师生关系，营造良好的育人环境，学校决定开展 20 2 6 年 “我最喜爱的老师”评选表彰活动。现将有关事项通知如下： 一、评选范围 连续 3年以上在教育教学一线主讲本科生课程的专职教师。 二、评选条件 1.热爱教育事业，恪守职业道德规范， 为人师表， 坚持严谨自律的治学态度，乐于奉献，有强烈的主人翁责任感和事业心， 师德师风受到学生的 充分肯定和广泛好评。 2.坚持立德树人，以本为本，能充分发挥课堂育人作用，关心学生的全面发展，在学生学业发展、大学生涯和职业规划或其它方面给予指导和帮助。 3. 全身心投入 教育 教学工作， 遵循教育教学和人才培养规律，不断更新和完善知识结构及教学方法，积极探索教育教学新方式，能创造性地开展课堂教学工作，提高教学工作的实效性、吸引力和感染力， 教学效果显著 ，学生对教师课堂教学的满意度高。 4. 无任何教学事故， 或因教学相关违纪受到通报批评。 注： 近两届获评 “我最喜爱的老师”者…",
+    "og": "西安交大教务处",
+    "sg": "official"
+   }
+  },
   {
    "i": "https://mp.weixin.qq.com/s?__biz=MzUyMDM3NzE3Nw==&mid=2247504550&idx=1&sn=5878bb196a00e8d84731664eb11b88d2&chksm=f9e9d490ce9e5d86b44c2c39ff62c846469b7f14c45f702c6fab7ff12dab884ebd1f8b9922a4",
    "t": "机械工程学院国际学生在首届国际大学生智能制造创新大赛中获佳绩",
@@ -603,6 +637,23 @@
    "dt": {
     "tx": "各学院（部、中心）、竞赛工作室负责人： 研究生院对2025年西安交通大学研究生教育改革项目（新成立竞赛工作室）进行了中期检查，现将有关情况公布如下： 1.经专家组综合评审，所有项目均通过中期检查（见附件）。 2.请项目负责人结合专家意见，对照立项工作任务和结题要求，扎实推进后续项目建设。 研究生院 2026年1 1 月 3 日",
     "og": "西安交大研究生院",
+    "sg": "official"
+   }
+  },
+  {
+   "i": "https://news.xjtu.edu.cn/info/1219/236151.htm",
+   "t": "数智赋能拓新局 档案育人启新篇",
+   "s": "西安交大新闻网·主页新闻",
+   "si": "xjtu_news",
+   "d": "2026-11-02T09:00:00+08:00",
+   "u": "https://news.xjtu.edu.cn/info/1219/236151.htm",
+   "c": "校园动态",
+   "g": "information",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "11月4日-7日，西部地区高校档案工作联盟第三届学术年会在西安召开。本次会议以“转型与创新：国家‘十五五’规划引领下的高校档案工作高质量发展”为主题，来自西部十三省（区、市）百余家高校档案工作者、行业专家齐聚一堂，共同研讨新时代高校档案事业改革发展路径。西安交大档案馆杨澜涛副馆长等6人受邀参会，南锋霞在大会作交流报告，分享学校档案育人创新实践成果。 南锋霞以《数智赋能·IP活化·青年共创——新时代高校档案育人的创新实践与路径探索》为题作报告。报告直面当前高校档案馆由“存史资政”向“文化育人”拓展过程中的现实困境，围绕资源活化不足、叙事表达陈旧、技术应用滞后、育人场域受限、主体意识薄弱等现实问题，结合当代青年群体认知行为特征，系统介绍学校构建“数智赋能-IP活化-青年共创”三位一体档案育人新范式的探索与实践。 西安交大档案育人创新实践引发大会同行广泛关注。参会代表认为，西安交大探索形成的技术底座+内容转化+主体激活的实践模式，为西部高校开展档案文化育人工作提供了积极借鉴。 此次参会交流，既是学校档案育人工作成果的一次展示，也为档案馆学习借鉴西部兄弟高校先进经验搭建良好平台。下一步，档案馆将继续立足存史、资政、育人根本使命，深耕…",
+    "og": "西安交大新闻网·主页新闻",
     "sg": "official"
    }
   },
@@ -5518,29 +5569,29 @@
    "key": "xjtu_news",
    "name": "西安交大新闻网·主页新闻",
    "source_group": "official",
-   "count": 154,
-   "status": "no_recent",
-   "last_checked": "2026-11-10T07:14:07+08:00",
-   "last_new": "2026-11-09T20:12:55+08:00",
+   "count": 155,
+   "status": "ok",
+   "last_checked": "2026-11-10T15:53:55+08:00",
+   "last_new": "2026-11-10T15:53:55+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://news.xjtu.edu.cn/zyxw.htm",
    "source_id": "xjtu_news",
    "kind": "list",
-   "new": 0
+   "new": 1
   },
   {
    "key": "xjtu_jwc",
    "name": "西安交大教务处",
    "source_group": "official",
-   "count": 38,
-   "status": "no_recent",
-   "last_checked": "2026-11-10T07:14:07+08:00",
-   "last_new": "2026-11-09T15:27:39+08:00",
+   "count": 39,
+   "status": "ok",
+   "last_checked": "2026-11-10T15:53:55+08:00",
+   "last_new": "2026-11-10T15:53:55+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://jwc.xjtu.edu.cn/",
    "source_id": "xjtu_jwc",
    "kind": "list",
-   "new": 0
+   "new": 1
   },
   {
    "key": "xjtu_gs",
@@ -5548,7 +5599,7 @@
    "source_group": "official",
    "count": 38,
    "status": "no_recent",
-   "last_checked": "2026-11-10T07:14:07+08:00",
+   "last_checked": "2026-11-10T15:53:55+08:00",
    "last_new": "2026-11-09T20:12:55+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://gs.xjtu.edu.cn/",
@@ -5562,7 +5613,7 @@
    "source_group": "official",
    "count": 35,
    "status": "no_recent",
-   "last_checked": "2026-11-10T07:14:07+08:00",
+   "last_checked": "2026-11-10T15:53:55+08:00",
    "last_new": "2026-11-09T15:27:39+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://xsc.xjtu.edu.cn/",
@@ -5582,7 +5633,7 @@
    "source_group": "official",
    "count": 17,
    "status": "no_recent",
-   "last_checked": "2026-11-10T07:14:07+08:00",
+   "last_checked": "2026-11-10T15:53:55+08:00",
    "last_new": "2026-11-05T15:34:08+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://yz.xjtu.edu.cn/",
@@ -5614,8 +5665,8 @@
    "source_group": "official",
    "count": 0,
    "status": "ok",
-   "last_checked": "2026-11-10T07:14:07+08:00",
-   "last_new": "2026-11-10T07:14:07+08:00",
+   "last_checked": "2026-11-10T15:53:55+08:00",
+   "last_new": "2026-11-10T15:53:55+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://zs.xjtu.edu.cn/",
    "source_id": "xjtu_zs",
@@ -5632,25 +5683,25 @@
   {
    "id": "official",
    "sources": 5,
-   "count": 282
+   "count": 284
   }
  ],
  "category_totals": [
   {
    "name": "学业教务",
-   "count": 65
+   "count": 66
   },
   {
    "name": "院系资讯",
    "count": 58
   },
   {
-   "name": "讲座活动",
+   "name": "校园动态",
    "count": 39
   },
   {
-   "name": "校园动态",
-   "count": 38
+   "name": "讲座活动",
+   "count": 39
   },
   {
    "name": "学习成长",
@@ -5688,7 +5739,7 @@
  "intent_totals": [
   {
    "intent_group": "information",
-   "count": 193
+   "count": 195
   },
   {
    "intent_group": "activity",
