@@ -1,21 +1,21 @@
 {
  "campus": "xjtu",
  "campus_name": "西交知道",
- "scraped_at": "2026-11-15T15:22:20+08:00",
- "site_last_sync": "2026-11-15T15:22:20+08:00",
+ "scraped_at": "2026-11-15T19:34:42+08:00",
+ "site_last_sync": "2026-11-15T19:34:42+08:00",
  "interval_minutes": null,
- "total_all": 355,
- "fetched": 355,
+ "total_all": 356,
+ "fetched": 356,
  "truncated": false,
  "import_source": "items-xjtu.json",
  "append_only": true,
  "last_import": {
-  "at": "2026-11-15T15:22:20+08:00",
-  "added": 6,
+  "at": "2026-11-15T19:34:42+08:00",
+  "added": 7,
   "updated": 0,
-  "items": 355,
+  "items": 356,
   "source": "items-xjtu.json",
-  "crawl_new": 6
+  "crawl_new": 7
  },
  "wechat_accounts": [
   "西安交大网信中心",
@@ -29,7 +29,7 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-15T15:22:10+08:00",
+   "last_checked": "2026-11-15T19:34:34+08:00",
    "last_new": "2026-11-13T19:39:08+08:00",
    "name": "西安交大研究生院",
    "new": 0,
@@ -42,7 +42,7 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-15T15:22:10+08:00",
+   "last_checked": "2026-11-15T19:34:34+08:00",
    "last_new": "2026-11-11T15:22:14+08:00",
    "name": "西安交大教务处",
    "new": 0,
@@ -55,12 +55,12 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-15T15:22:10+08:00",
-   "last_new": "2026-11-15T02:54:53+08:00",
+   "last_checked": "2026-11-15T19:34:34+08:00",
+   "last_new": "2026-11-15T19:34:34+08:00",
    "name": "西安交大新闻网·主页新闻",
-   "new": 0,
+   "new": 1,
    "source_id": "xjtu_news",
-   "status": "no_recent",
+   "status": "ok",
    "url": "https://news.xjtu.edu.cn/zyxw.htm"
   },
   "xjtu_xsc": {
@@ -68,7 +68,7 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-15T15:22:10+08:00",
+   "last_checked": "2026-11-15T19:34:34+08:00",
    "last_new": "2026-11-09T15:27:39+08:00",
    "name": "西安交大学生工作部（处）",
    "new": 0,
@@ -81,7 +81,7 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-15T15:22:10+08:00",
+   "last_checked": "2026-11-15T19:34:34+08:00",
    "last_new": "2026-11-05T15:34:08+08:00",
    "name": "西安交大研究生招生",
    "new": 0,
@@ -94,8 +94,8 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-15T15:22:10+08:00",
-   "last_new": "2026-11-15T15:22:10+08:00",
+   "last_checked": "2026-11-15T19:34:34+08:00",
+   "last_new": "2026-11-15T19:34:34+08:00",
    "name": "西安交大本科招生",
    "new": 6,
    "source_id": "xjtu_zs",
@@ -109,8 +109,8 @@
    "count": 24,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-15T15:27:11+08:00",
-   "first_seen": "2026-11-15T15:27:11+08:00",
+   "last_checked": "2026-11-15T19:36:08+08:00",
+   "first_seen": "2026-11-15T19:36:08+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -122,8 +122,8 @@
    "count": 4,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-15T15:27:11+08:00",
-   "first_seen": "2026-11-15T15:27:11+08:00",
+   "last_checked": "2026-11-15T19:36:08+08:00",
+   "first_seen": "2026-11-15T19:36:08+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -135,8 +135,8 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-15T15:27:11+08:00",
-   "first_seen": "2026-11-15T15:27:11+08:00",
+   "last_checked": "2026-11-15T19:36:08+08:00",
+   "first_seen": "2026-11-15T19:36:08+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -148,15 +148,15 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-15T15:27:11+08:00",
-   "first_seen": "2026-11-15T15:27:11+08:00",
+   "last_checked": "2026-11-15T19:36:08+08:00",
+   "first_seen": "2026-11-15T19:36:08+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
   }
  },
  "fetch_warnings": [
-  "由 items-xjtu.json 导入：新增 6 条 / 更新 0 条 / 现有 355 条"
+  "由 items-xjtu.json 导入：新增 7 条 / 更新 0 条 / 现有 356 条"
  ],
  "items": [
   {
@@ -172,6 +172,23 @@
    "ens": "",
    "dt": {
     "tx": "近日，青海省科学技术协会学会学术部部长王文丽率青海省科技期刊代表团到访西安交通大学期刊中心，双方围绕期刊集约化管理、特色期刊培育、期刊质量管控等议题开展座谈交流。中国科学院青海盐湖研究所、西北高原生物研究所，青海省林学会，青海省畜牧兽医学会，以及来自青海省、陕西省的17家科技期刊代表参加会议。座谈会由西安交通大学期刊中心主任张丛主持。 会上，王文丽介绍了青海省科技期刊发展整体情况。目前青海省共有科技期刊19种，期刊从业人员九十余人，期刊分布以医学类为主，包含具有高原特色的藏医药类期刊。青海省着力搭建省内期刊同行交流平台，希望学习借鉴西安交大在期刊集约化改革、刊群运营、新刊培育等方面的成熟经验，加强期刊合作交流，共促学术质量提升。 张丛对青海省科技期刊代表团一行来访表示欢迎。她介绍，西安交大自2020年全面推进期刊集约化改革以来，建立起期刊纵横联动管理体系，统一办刊理念、统一规章制度、统一资源配置，实现了期刊专业化、特色化、集群化发展。目前学校共有38种期刊，其中2刊入选世界一流科技期刊目录，12刊入选科技期刊世界影响力指数（WJCI）报告，16刊入选中国科技期刊卓越行动计划；牵头发起成立的丝路期刊集群现已吸纳128种期刊入驻…",
+    "og": "西安交大新闻网·主页新闻",
+    "sg": "official"
+   }
+  },
+  {
+   "i": "https://news.xjtu.edu.cn/info/1219/236336.htm",
+   "t": "薪传五届，同心逐梦",
+   "s": "西安交大新闻网·主页新闻",
+   "si": "xjtu_news",
+   "d": "2026-11-13T09:00:00+08:00",
+   "u": "https://news.xjtu.edu.cn/info/1219/236336.htm",
+   "c": "文体活动",
+   "g": "activity",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "11月14日，由中共陕西省委统战部、中共陕西省委教育工委、陕西省民族宗教事务委员会、陕西省体育局主办，西安交通大学、陕西省学生体育协会民族传统体育专业委员会承办的陕西省高校第五届民族传统体育项目交流会暨陕西省高校第二届民族传统体育运动会在西安交通大学兴庆校区举行。 本次活动以“薪传五届，同心逐梦”为主题，来自58所高校各民族师生共赴民族体育之约。 省委统战部副部长、省民族宗教事务委员会主任董劲威，中共陕西省委统战部副部长王永军，省民族宗教事务委员会一级巡视员王晓斐，省委教育工委、省教育厅二级巡视员李享阳，省体育局副局长李长军，西安交通大学党委副书记王欢，赛事主办单位领导出席活动，各兄弟院校代表参加活动。大会开幕式由西安交通大学党委常委、宣传部部长、统战部部长成进主持。 王欢在致辞中代表西安交大向嘉宾们表示欢迎，向运动员、裁判员与工作人员致以敬意。她表示，陕西省高校民族传统体育交流会从最初的项目交流切磋，逐步发展为影响力突出的高校民族体育品牌活动，一批又一批学子在赛场上相识相知，共同绘就三秦高校民族团结的生动图景。作为承办方，西安交大将全力做好各项服务保障工作，为各代表团营造公平、公正、安全、舒心的竞赛环境。希望参赛运动员尽情…",
     "og": "西安交大新闻网·主页新闻",
     "sg": "official"
    }
@@ -6288,15 +6305,15 @@
    "key": "xjtu_news",
    "name": "西安交大新闻网·主页新闻",
    "source_group": "official",
-   "count": 191,
-   "status": "no_recent",
-   "last_checked": "2026-11-15T15:22:10+08:00",
-   "last_new": "2026-11-15T02:54:53+08:00",
+   "count": 192,
+   "status": "ok",
+   "last_checked": "2026-11-15T19:34:34+08:00",
+   "last_new": "2026-11-15T19:34:34+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://news.xjtu.edu.cn/zyxw.htm",
    "source_id": "xjtu_news",
    "kind": "list",
-   "new": 0
+   "new": 1
   },
   {
    "key": "xjtu_jwc",
@@ -6304,7 +6321,7 @@
    "source_group": "official",
    "count": 41,
    "status": "no_recent",
-   "last_checked": "2026-11-15T15:22:10+08:00",
+   "last_checked": "2026-11-15T19:34:34+08:00",
    "last_new": "2026-11-11T15:22:14+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://jwc.xjtu.edu.cn/",
@@ -6318,7 +6335,7 @@
    "source_group": "official",
    "count": 39,
    "status": "no_recent",
-   "last_checked": "2026-11-15T15:22:10+08:00",
+   "last_checked": "2026-11-15T19:34:34+08:00",
    "last_new": "2026-11-13T19:39:08+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://gs.xjtu.edu.cn/",
@@ -6332,7 +6349,7 @@
    "source_group": "official",
    "count": 35,
    "status": "no_recent",
-   "last_checked": "2026-11-15T15:22:10+08:00",
+   "last_checked": "2026-11-15T19:34:34+08:00",
    "last_new": "2026-11-09T15:27:39+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://xsc.xjtu.edu.cn/",
@@ -6352,7 +6369,7 @@
    "source_group": "official",
    "count": 17,
    "status": "no_recent",
-   "last_checked": "2026-11-15T15:22:10+08:00",
+   "last_checked": "2026-11-15T19:34:34+08:00",
    "last_new": "2026-11-05T15:34:08+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://yz.xjtu.edu.cn/",
@@ -6372,8 +6389,8 @@
    "source_group": "official",
    "count": 2,
    "status": "ok",
-   "last_checked": "2026-11-15T15:22:10+08:00",
-   "last_new": "2026-11-15T15:22:10+08:00",
+   "last_checked": "2026-11-15T19:34:34+08:00",
+   "last_new": "2026-11-15T19:34:34+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://zs.xjtu.edu.cn/",
    "source_id": "xjtu_zs",
@@ -6402,7 +6419,7 @@
   {
    "id": "official",
    "sources": 6,
-   "count": 325
+   "count": 326
   }
  ],
  "category_totals": [
@@ -6432,7 +6449,7 @@
   },
   {
    "name": "文体活动",
-   "count": 20
+   "count": 21
   },
   {
    "name": "实习就业",
@@ -6462,7 +6479,7 @@
   },
   {
    "intent_group": "activity",
-   "count": 130
+   "count": 131
   }
  ]
 }
