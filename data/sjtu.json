@@ -1,21 +1,21 @@
 {
  "campus": "sjtu",
  "campus_name": "上交知道",
- "scraped_at": "2026-11-17T07:09:21+08:00",
- "site_last_sync": "2026-11-17T07:09:21+08:00",
+ "scraped_at": "2026-11-17T16:41:18+08:00",
+ "site_last_sync": "2026-11-17T16:41:18+08:00",
  "interval_minutes": null,
- "total_all": 344,
- "fetched": 344,
+ "total_all": 347,
+ "fetched": 347,
  "truncated": false,
  "import_source": "items-sjtu.json",
  "append_only": true,
  "last_import": {
-  "at": "2026-11-17T07:09:21+08:00",
-  "added": 13,
+  "at": "2026-11-17T16:41:18+08:00",
+  "added": 17,
   "updated": 0,
-  "items": 344,
+  "items": 347,
   "source": "items-sjtu.json",
-  "crawl_new": 13
+  "crawl_new": 17
  },
  "wechat_accounts": [
   "上交大皖招",
@@ -35,12 +35,12 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-17T07:08:55+08:00",
-   "last_new": "2026-11-14T19:00:03+08:00",
+   "last_checked": "2026-11-17T16:40:51+08:00",
+   "last_new": "2026-11-17T16:40:51+08:00",
    "name": "上海交大学生事务中心",
-   "new": 0,
+   "new": 1,
    "source_id": "sjtu_affairs",
-   "status": "no_recent",
+   "status": "ok",
    "url": "https://affairs.sjtu.edu.cn/"
   },
   "sjtu_global": {
@@ -48,8 +48,8 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-17T07:08:55+08:00",
-   "last_new": "2026-11-17T07:08:55+08:00",
+   "last_checked": "2026-11-17T16:40:51+08:00",
+   "last_new": "2026-11-17T16:40:51+08:00",
    "name": "上海交大国际合作与交流处",
    "new": 1,
    "source_id": "sjtu_global",
@@ -61,8 +61,8 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-17T07:08:55+08:00",
-   "last_new": "2026-11-17T07:08:55+08:00",
+   "last_checked": "2026-11-17T16:40:51+08:00",
+   "last_new": "2026-11-17T16:40:51+08:00",
    "name": "上海交大研究生院",
    "new": 2,
    "source_id": "sjtu_gs",
@@ -74,8 +74,8 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-17T07:08:55+08:00",
-   "last_new": "2026-11-17T07:08:55+08:00",
+   "last_checked": "2026-11-17T16:40:51+08:00",
+   "last_new": "2026-11-17T16:40:51+08:00",
    "name": "上海交大新闻网·交大要闻",
    "new": 1,
    "source_id": "sjtu_jdyw",
@@ -87,12 +87,12 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-17T07:08:55+08:00",
-   "last_new": "2026-11-16T15:28:14+08:00",
+   "last_checked": "2026-11-17T16:40:51+08:00",
+   "last_new": "2026-11-17T16:40:51+08:00",
    "name": "上海交大教务处",
-   "new": 0,
+   "new": 3,
    "source_id": "sjtu_jwc",
-   "status": "no_recent",
+   "status": "ok",
    "url": "https://jwc.sjtu.edu.cn/"
   },
   "sjtu_tg": {
@@ -100,7 +100,7 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-17T07:08:55+08:00",
+   "last_checked": "2026-11-17T16:40:51+08:00",
    "last_new": "2026-11-16T20:07:41+08:00",
    "name": "上海交通大学通知公告",
    "new": 0,
@@ -113,7 +113,7 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-17T07:08:55+08:00",
+   "last_checked": "2026-11-17T16:40:51+08:00",
    "last_new": "2026-11-16T03:30:31+08:00",
    "name": "上海交大新闻网·综合新闻",
    "new": 0,
@@ -126,8 +126,8 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-17T07:08:55+08:00",
-   "last_new": "2026-11-17T07:08:55+08:00",
+   "last_checked": "2026-11-17T16:40:51+08:00",
+   "last_new": "2026-11-17T16:40:51+08:00",
    "name": "上海交大本科招生",
    "new": 9,
    "source_id": "sjtu_zsb",
@@ -141,8 +141,8 @@
    "count": 35,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-17T07:11:13+08:00",
-   "first_seen": "2026-11-17T07:11:13+08:00",
+   "last_checked": "2026-11-17T16:43:02+08:00",
+   "first_seen": "2026-11-17T16:43:02+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -154,8 +154,8 @@
    "count": 6,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-17T07:11:13+08:00",
-   "first_seen": "2026-11-17T07:11:13+08:00",
+   "last_checked": "2026-11-17T16:43:02+08:00",
+   "first_seen": "2026-11-17T16:43:02+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -167,8 +167,8 @@
    "count": 3,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-17T07:11:13+08:00",
-   "first_seen": "2026-11-17T07:11:13+08:00",
+   "last_checked": "2026-11-17T16:43:02+08:00",
+   "first_seen": "2026-11-17T16:43:02+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -180,8 +180,8 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-17T07:11:13+08:00",
-   "first_seen": "2026-11-17T07:11:13+08:00",
+   "last_checked": "2026-11-17T16:43:02+08:00",
+   "first_seen": "2026-11-17T16:43:02+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -193,8 +193,8 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-17T07:11:13+08:00",
-   "first_seen": "2026-11-17T07:11:13+08:00",
+   "last_checked": "2026-11-17T16:43:02+08:00",
+   "first_seen": "2026-11-17T16:43:02+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -206,8 +206,8 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-17T07:11:13+08:00",
-   "first_seen": "2026-11-17T07:11:13+08:00",
+   "last_checked": "2026-11-17T16:43:02+08:00",
+   "first_seen": "2026-11-17T16:43:02+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -219,8 +219,8 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-17T07:11:13+08:00",
-   "first_seen": "2026-11-17T07:11:13+08:00",
+   "last_checked": "2026-11-17T16:43:02+08:00",
+   "first_seen": "2026-11-17T16:43:02+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -232,8 +232,8 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-17T07:11:13+08:00",
-   "first_seen": "2026-11-17T07:11:13+08:00",
+   "last_checked": "2026-11-17T16:43:02+08:00",
+   "first_seen": "2026-11-17T16:43:02+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -245,8 +245,8 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-17T07:11:13+08:00",
-   "first_seen": "2026-11-17T07:11:13+08:00",
+   "last_checked": "2026-11-17T16:43:02+08:00",
+   "first_seen": "2026-11-17T16:43:02+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -258,17 +258,85 @@
    "count": 2,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-17T07:11:13+08:00",
-   "first_seen": "2026-11-17T07:11:13+08:00",
+   "last_checked": "2026-11-17T16:43:02+08:00",
+   "first_seen": "2026-11-17T16:43:02+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
   }
  },
  "fetch_warnings": [
-  "由 items-sjtu.json 导入：新增 13 条 / 更新 0 条 / 现有 344 条"
+  "由 items-sjtu.json 导入：新增 17 条 / 更新 0 条 / 现有 347 条"
  ],
  "items": [
+  {
+   "i": "https://mp.weixin.qq.com/s?__biz=Mzg3NTg3ODAyNw==&mid=2247489447&idx=1&sn=457c20534b39a876928e4fe3b4b7a338&chksm=cf3b9443f84c1d55c235a6aa814186293a3f47c4c17196262493f0d209bc659efc97e93cf10d",
+   "t": "2027年上海交通大学人文艺术研修班（第十六期）招生简章",
+   "s": "上海交通大学非学历教育",
+   "si": null,
+   "d": "2026-11-17T09:00:00+08:00",
+   "u": "https://mp.weixin.qq.com/s?__biz=Mzg3NTg3ODAyNw==&mid=2247489447&idx=1&sn=457c20534b39a876928e4fe3b4b7a338&chksm=cf3b9443f84c1d55c235a6aa814186293a3f47c4c17196262493f0d209bc659efc97e93cf10d",
+   "c": "文体活动",
+   "g": "activity",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "sg": "wechat",
+    "og": "上海交通大学非学历教育",
+    "ab": "招生宣传"
+   }
+  },
+  {
+   "i": "https://jwc.sjtu.edu.cn/info/1025/129811.htm",
+   "t": "教务处党支部第二党小组集体参观顾诵芬校友纪念展汲取航空报国精神力量",
+   "s": "上海交大教务处",
+   "si": "sjtu_jwc",
+   "d": "2026-11-17T09:00:00+08:00",
+   "u": "https://jwc.sjtu.edu.cn/info/1025/129811.htm",
+   "c": "学业教务",
+   "g": "information",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "2026 年 7 月 21 日上午，教务处党支部第二党小组组织全体党员前往闵行校区文博楼，集中参观“咏其骏烈诵其清芬——国家最高科学技术奖获得者顾诵芬校友纪念展”。在仝月荣副处长的带领下，小组全体党员认真观展、交流感悟，以实地研学推动师德师风建设，传承先辈风骨，汲取精神力量。 本次展览以顾诵芬跌宕壮阔的人生轨迹为主线，设置“苏州名门 交大世家”“求学交大 启航空天”“航空报国 志在蓝天”“情系母校 赤子情怀”“沉痛悼念 深切缅怀”五大篇章，遴选大量珍贵历史照片、亲笔手稿、实物文献、纪实影像，立体呈现其少年立鸿志、求学夯根基、半生铸长空的壮阔人生。展览以一人奋斗征程映照新中国航空工业发展脉络，全景展现我国航空事业白手起家、自主攻坚、跨越腾飞的峥嵘历程与辉煌成就。 一件件珍贵实物、一段段攻坚史实、一句句赤诚寄语，让小组全体党员同志们深受触动、倍感振奋。大家在观展中深刻领会顾诵芬院士胸怀祖国、求真务实、勇攀高峰、敢为人先的科学家精神，真切感悟老一辈知识分子纯粹赤诚、终身报国的家国底色。党员们现场开展交流研讨，从学籍管理、教学运行、学业评价等实际工作出发，围绕人才培养这一核心业务积极分享各自学习体会。 本次展览立足深入学习贯彻习近平…",
+    "og": "上海交大教务处",
+    "sg": "official"
+   }
+  },
+  {
+   "i": "https://jwc.sjtu.edu.cn/info/1025/129801.htm",
+   "t": "党建引领促改革 互学互鉴提质效 ——教务处第二党小组赴清华大学、北京大学开展本科教育教学运行专题调研",
+   "s": "上海交大教务处",
+   "si": "sjtu_jwc",
+   "d": "2026-11-17T09:00:00+08:00",
+   "u": "https://jwc.sjtu.edu.cn/info/1025/129801.htm",
+   "c": "学业教务",
+   "g": "information",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "2026 年 4 月 17 日，在教务处副处长仝月荣同志带领下，教务处第二党小组赴北京开展专题走访交流，以党建引领业务融合为主线，对标顶尖高校清华大学、北京大学先进教学经验，为新时期本科教育教学改革提质增效、夯实基础。期间，第二党小组先后与北京大学教务部、清华大学教务处开展联合学习，研讨深入、成果丰硕。 上午，党小组一行赴北京大学开展学习，重点围绕本科生推免和AI排课深入探讨。北京大学介绍了在本科生教学运行管理中的先进经验。一是强化教学全过程管理与监管，减少过度细化，注重常态督导；二是改革学生评价方式，弱化单一GPA内卷，突出长板优势，给予容错空间，优化推免与培养机制，尊重学科差异，用数智化提升教务运行效率；三是通过“问题切块”，院系分担排课压力、简化流程，考试时间与排课时间一致等，实现少人力高效运转。另外，双方围绕教学资源保障与管理效能提升，AI排课、教学全过程管理、优化常态督导、精简过度细化要求、下放管理自主权等达成共识，着力激发院系在推免、转专业、缓考、毕业资格审批等工作中遇到的问题进行了探讨。 下午，调研团队前往清华大学，聚焦本研贯通培养与教务数智化转型开展深度研讨。清华重点分享 2022 年以来实施的推免综合评价体…",
+    "og": "上海交大教务处",
+    "sg": "official"
+   }
+  },
+  {
+   "i": "https://jwc.sjtu.edu.cn/info/1025/129791.htm",
+   "t": "教务处第二党小组组织党员集体参加 第五十六期教师沙龙：《躬耕教坛、强国有我-新时代高校教师的责任与追求》吴静怡老师专题分享",
+   "s": "上海交大教务处",
+   "si": "sjtu_jwc",
+   "d": "2026-11-17T09:00:00+08:00",
+   "u": "https://jwc.sjtu.edu.cn/info/1025/129791.htm",
+   "c": "讲座活动",
+   "g": "activity",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "2026年3月26日中午，教务处第二党小组组织全体党员前往闵行校区图书信息楼8楼多功能厅，参与第五十六期教师沙龙。本次沙龙以“躬耕教坛强国有我——新时代高校教师的责任与追求”为主题，由党委教师工作部、青年教师联谊会联合主办，特邀吴静怡教授作专题分享，旨在引导教师坚守育人初心、明确责任方向，助力高校教育高质量发展。各院系教师代表积极参与，其中第二党小组组织党员教师主动参会，认真聆听分享、深入交流探讨，切实将学习成果与党建工作、教学科研实践相结合。 主讲人吴静怡教授为博士、特聘教授，现任上海交通大学校务委员会副主任、教育学院院长等职，兼任多个学术团体副理事长，在高等教育管理、工程教育、航天热环境研究等领域造诣深厚、经验丰富，兼具突出的科研成就、教学成果与管理能力。 分享开始，吴静怡教授围绕“新时代高校教师的责任与追求”，重点阐释了新时代教师的育人使命与成长路径，强调教师是提升人才培养质量的核心关键。她明确界定了学业导师与任课教师的核心画像，二者均需坚守关爱学生、师德高尚的底线，其中学业导师要引领学生志存高远、探索学科前沿、指导学术就业，任课教师要优化教学设计、启发学生思考、激发学习兴趣。她着重指出，教师的治学态度、专业认同、育人…",
+    "og": "上海交大教务处",
+    "sg": "official"
+   }
+  },
   {
    "i": "https://www.sjtu.edu.cn/tg/20261116/227650.html",
    "t": "关于组织第21届“银鸽之光”上海市国际传播好作品好项目征集的通知",
@@ -2089,6 +2157,23 @@
    "dt": {
     "tx": "教务处通知[2026]020号 一、学费标准 以该学期所选课程总学分计，计费标准100元/学分。请各位同学自查本学期重修课程（课程代码一致的课程即认定为重修课程）及辅修课程（注意：英语、德语、法语、日语辅修专业课程为每学分120元），按时缴纳重新学习学费及辅修学费。 二、缴纳时间 2026 年 11 月 2 日至 11 月 30 日 三、缴纳方式 1、“交我办”APP点击“财务-业务办理-在线缴费”进行缴费； 2、“交我办”电脑端通过“财务-在线缴费”进入上海交通大学缴费系统，在线完成缴费； 3、通过微信公众号“上海交通大学财务计划处”，进入“交财服务-网上交费”缴费。 特别提醒： 1 、请于缴费时间内缴费完成，以免影响本学期的选课； 2 、逾期未缴费的课程，教务处不作退课处理。 3 、中期退课不退费，具体请查看中期退课通知内注意事项： 上海交通大学本科生中期退课通知 4 、缴费情况纳入离校系统，学生离校前须缴清学费，否则无法办理离校手续。 如对缴费数据有疑问可以邮件至：zhaohanhan @sjtu.edu.cn ，如对缴费操作有疑问可邮件至 cdfan@sjtu.edu.cn 注册与学务中心 2026 年 10 月 2…",
     "og": "上海交大教务处",
+    "sg": "official"
+   }
+  },
+  {
+   "i": "https://affairs.sjtu.edu.cn/index.php?m=app&mid=26&v=informationview&id=529",
+   "t": "2026年度上海交通大学同声奖学金评审结果公示_通知公告",
+   "s": "上海交大学生事务中心",
+   "si": "sjtu_affairs",
+   "d": "2026-11-01T09:00:00+08:00",
+   "u": "https://affairs.sjtu.edu.cn/index.php?m=app&mid=26&v=informationview&id=529",
+   "c": "奖助评优",
+   "g": "information",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "经学生个人申请、院系推荐、校级评审，产生2026年度上海交通大学同声奖学金获得者共8人。现予以公示（按姓氏笔画排序）。 公示期自2026年11月17日起至2026年11月19日，公示期内如有疑问，可联系邮箱zhuxuebu@sjtu.edu.cn。 © 版权所有2005-2025上海交通大学学生事务中心",
+    "og": "上海交大学生事务中心",
     "sg": "official"
    }
   },
@@ -5969,23 +6054,6 @@
    }
   },
   {
-   "i": "https://mp.weixin.qq.com/s?__biz=Mzg3NTg3ODAyNw==&mid=2247488924&idx=1&sn=c4db611f05c74561eadb7ad23b7145af&chksm=cf3b9678f84c1f6e36b47daba61ee4e78f571ac1ded88defc9f7f178c27218860108702010e0",
-   "t": "招生简章｜AI经营创新先锋人才精训班第1期",
-   "s": "上海交通大学非学历教育",
-   "si": null,
-   "d": "2026-08-19T09:00:00+08:00",
-   "u": "https://mp.weixin.qq.com/s?__biz=Mzg3NTg3ODAyNw==&mid=2247488924&idx=1&sn=c4db611f05c74561eadb7ad23b7145af&chksm=cf3b9678f84c1f6e36b47daba61ee4e78f571ac1ded88defc9f7f178c27218860108702010e0",
-   "c": "学业教务",
-   "g": "information",
-   "en": "",
-   "ens": "",
-   "dt": {
-    "sg": "wechat",
-    "og": "上海交通大学非学历教育",
-    "ab": "招生宣传"
-   }
-  },
-  {
    "i": "https://gs.sjtu.edu.cn/post/detail/Z3MzOTA=",
    "t": "教师个人主页上线公告",
    "s": "上海交大研究生院",
@@ -6216,7 +6284,7 @@
    "source_group": "official",
    "count": 119,
    "status": "no_recent",
-   "last_checked": "2026-11-17T07:08:55+08:00",
+   "last_checked": "2026-11-17T16:40:51+08:00",
    "last_new": "2026-11-16T03:30:31+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://news.sjtu.edu.cn/zhxw/",
@@ -6230,8 +6298,8 @@
    "source_group": "official",
    "count": 84,
    "status": "ok",
-   "last_checked": "2026-11-17T07:08:55+08:00",
-   "last_new": "2026-11-17T07:08:55+08:00",
+   "last_checked": "2026-11-17T16:40:51+08:00",
+   "last_new": "2026-11-17T16:40:51+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://news.sjtu.edu.cn/jdyw/",
    "source_id": "sjtu_jdyw",
@@ -6242,21 +6310,21 @@
    "key": "sjtu_jwc",
    "name": "上海交大教务处",
    "source_group": "official",
-   "count": 35,
-   "status": "no_recent",
-   "last_checked": "2026-11-17T07:08:55+08:00",
-   "last_new": "2026-11-16T15:28:14+08:00",
+   "count": 38,
+   "status": "ok",
+   "last_checked": "2026-11-17T16:40:51+08:00",
+   "last_new": "2026-11-17T16:40:51+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://jwc.sjtu.edu.cn/",
    "source_id": "sjtu_jwc",
    "kind": "list",
-   "new": 0
+   "new": 3
   },
   {
    "key": "src:上海交通大学非学历教育",
    "name": "上海交通大学非学历教育",
    "source_group": "wechat",
-   "count": 35
+   "count": 34
   },
   {
    "key": "sjtu_tg",
@@ -6264,7 +6332,7 @@
    "source_group": "official",
    "count": 25,
    "status": "no_recent",
-   "last_checked": "2026-11-17T07:08:55+08:00",
+   "last_checked": "2026-11-17T16:40:51+08:00",
    "last_new": "2026-11-16T20:07:41+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://www.sjtu.edu.cn/tg/",
@@ -6276,15 +6344,15 @@
    "key": "sjtu_affairs",
    "name": "上海交大学生事务中心",
    "source_group": "official",
-   "count": 15,
-   "status": "no_recent",
-   "last_checked": "2026-11-17T07:08:55+08:00",
-   "last_new": "2026-11-14T19:00:03+08:00",
+   "count": 16,
+   "status": "ok",
+   "last_checked": "2026-11-17T16:40:51+08:00",
+   "last_new": "2026-11-17T16:40:51+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://affairs.sjtu.edu.cn/",
    "source_id": "sjtu_affairs",
    "kind": "list",
-   "new": 0
+   "new": 1
   },
   {
    "key": "sjtu_global",
@@ -6292,8 +6360,8 @@
    "source_group": "official",
    "count": 9,
    "status": "ok",
-   "last_checked": "2026-11-17T07:08:55+08:00",
-   "last_new": "2026-11-17T07:08:55+08:00",
+   "last_checked": "2026-11-17T16:40:51+08:00",
+   "last_new": "2026-11-17T16:40:51+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://global.sjtu.edu.cn/announcement",
    "source_id": "sjtu_global",
@@ -6312,8 +6380,8 @@
    "source_group": "official",
    "count": 4,
    "status": "ok",
-   "last_checked": "2026-11-17T07:08:55+08:00",
-   "last_new": "2026-11-17T07:08:55+08:00",
+   "last_checked": "2026-11-17T16:40:51+08:00",
+   "last_new": "2026-11-17T16:40:51+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://gs.sjtu.edu.cn/announcement/work",
    "source_id": "sjtu_gs",
@@ -6344,8 +6412,8 @@
    "source_group": "official",
    "count": 1,
    "status": "ok",
-   "last_checked": "2026-11-17T07:08:55+08:00",
-   "last_new": "2026-11-17T07:08:55+08:00",
+   "last_checked": "2026-11-17T16:40:51+08:00",
+   "last_new": "2026-11-17T16:40:51+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://admissions.sjtu.edu.cn/",
    "source_id": "sjtu_zsb",
@@ -6387,12 +6455,12 @@
   {
    "id": "wechat",
    "sources": 10,
-   "count": 52
+   "count": 51
   },
   {
    "id": "official",
    "sources": 8,
-   "count": 292
+   "count": 296
   }
  ],
  "category_totals": [
@@ -6402,11 +6470,11 @@
   },
   {
    "name": "学业教务",
-   "count": 58
+   "count": 59
   },
   {
    "name": "讲座活动",
-   "count": 42
+   "count": 43
   },
   {
    "name": "校园动态",
@@ -6422,7 +6490,7 @@
   },
   {
    "name": "奖助评优",
-   "count": 19
+   "count": 20
   },
   {
    "name": "交流访学",
@@ -6448,11 +6516,11 @@
  "intent_totals": [
   {
    "intent_group": "information",
-   "count": 229
+   "count": 231
   },
   {
    "intent_group": "activity",
-   "count": 115
+   "count": 116
   }
  ]
 }

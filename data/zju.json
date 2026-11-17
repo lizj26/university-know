@@ -1,21 +1,21 @@
 {
  "campus": "zju",
  "campus_name": "浙大知道",
- "scraped_at": "2026-11-17T07:10:31+08:00",
- "site_last_sync": "2026-11-17T07:10:31+08:00",
+ "scraped_at": "2026-11-17T16:42:32+08:00",
+ "site_last_sync": "2026-11-17T16:42:32+08:00",
  "interval_minutes": null,
- "total_all": 144,
- "fetched": 144,
+ "total_all": 146,
+ "fetched": 146,
  "truncated": false,
  "import_source": "items-zju.json",
  "append_only": true,
  "last_import": {
-  "at": "2026-11-17T07:10:31+08:00",
-  "added": 12,
+  "at": "2026-11-17T16:42:32+08:00",
+  "added": 14,
   "updated": 0,
-  "items": 144,
+  "items": 146,
   "source": "items-zju.json",
-  "crawl_new": 12
+  "crawl_new": 14
  },
  "wechat_accounts": [
   "浙大体育与艺术",
@@ -28,8 +28,8 @@
    "first_seen": "2026-10-11T19:00:15+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-17T07:08:56+08:00",
-   "last_new": "2026-11-17T07:08:56+08:00",
+   "last_checked": "2026-11-17T16:40:50+08:00",
+   "last_new": "2026-11-17T16:40:50+08:00",
    "name": "浙江大学研究生院",
    "new": 2,
    "source_id": "zju_grs",
@@ -41,12 +41,12 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-17T07:08:56+08:00",
-   "last_new": "2026-11-12T15:52:08+08:00",
+   "last_checked": "2026-11-17T16:40:50+08:00",
+   "last_new": "2026-11-17T16:40:50+08:00",
    "name": "浙江大学图书馆",
-   "new": 0,
+   "new": 2,
    "source_id": "zju_lib",
-   "status": "no_recent",
+   "status": "ok",
    "url": "https://libweb.zju.edu.cn/"
   },
   "zju_news": {
@@ -54,8 +54,8 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-17T07:08:56+08:00",
-   "last_new": "2026-11-17T07:08:56+08:00",
+   "last_checked": "2026-11-17T16:40:50+08:00",
+   "last_new": "2026-11-17T16:40:50+08:00",
    "name": "浙江大学求是新闻网",
    "new": 2,
    "source_id": "zju_news",
@@ -67,8 +67,8 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-17T07:08:56+08:00",
-   "last_new": "2026-11-17T07:08:56+08:00",
+   "last_checked": "2026-11-17T16:40:50+08:00",
+   "last_new": "2026-11-17T16:40:50+08:00",
    "name": "浙大求是新闻网·科学头条",
    "new": 7,
    "source_id": "zju_news_kxtt",
@@ -80,7 +80,7 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-17T07:08:56+08:00",
+   "last_checked": "2026-11-17T16:40:50+08:00",
    "last_new": "2026-11-16T15:28:13+08:00",
    "name": "浙大求是新闻网·要闻",
    "new": 0,
@@ -93,8 +93,8 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-17T07:08:56+08:00",
-   "last_new": "2026-11-17T07:08:56+08:00",
+   "last_checked": "2026-11-17T16:40:50+08:00",
+   "last_new": "2026-11-17T16:40:50+08:00",
    "name": "浙江大学本科招生",
    "new": 1,
    "source_id": "zju_zdzsc",
@@ -108,8 +108,8 @@
    "count": 37,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-17T07:11:13+08:00",
-   "first_seen": "2026-11-17T07:11:13+08:00",
+   "last_checked": "2026-11-17T16:43:02+08:00",
+   "first_seen": "2026-11-17T16:43:02+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -121,8 +121,8 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-17T07:11:13+08:00",
-   "first_seen": "2026-11-17T07:11:13+08:00",
+   "last_checked": "2026-11-17T16:43:02+08:00",
+   "first_seen": "2026-11-17T16:43:02+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -134,17 +134,34 @@
    "count": 2,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-17T07:11:13+08:00",
-   "first_seen": "2026-11-17T07:11:13+08:00",
+   "last_checked": "2026-11-17T16:43:02+08:00",
+   "first_seen": "2026-11-17T16:43:02+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
   }
  },
  "fetch_warnings": [
-  "由 items-zju.json 导入：新增 12 条 / 更新 0 条 / 现有 144 条"
+  "由 items-zju.json 导入：新增 14 条 / 更新 0 条 / 现有 146 条"
  ],
  "items": [
+  {
+   "i": "https://libweb.zju.edu.cn/2026/1117/c53489a3228185/page.htm",
+   "t": "书香浙大·开卷有益报告会 | 贺西林：考古视野中的汉唐视觉文化",
+   "s": "浙江大学图书馆",
+   "si": "zju_lib",
+   "d": "2026-11-17T09:00:00+08:00",
+   "u": "https://libweb.zju.edu.cn/2026/1117/c53489a3228185/page.htm",
+   "c": "讲座活动",
+   "g": "activity",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "“书香浙大”阅读文化节之 “开卷有益” 报告会邀请来自各学科的阅读导师分享个人阅读经验，带领读者一起感受多学科、深阅读的魅力，激发同学们的阅读热情，让读者在书页翻动间，遇见更辽阔的自己。 史书落笔之外， 还有图像在诉说历史。 汉唐的丹青、石刻、器物， 深埋于黄土之下。 这些沉默的考古遗存， 怎样构筑起盛世的面貌、 生死的想象与文明的脉络？ 11月20日（周五）14:00 紫金港校区 农医馆二楼报告厅 我们特邀 贺西林教授 带领大家共读 《读图观史：考古发现与汉唐视觉文化研究》 依托一手考古材料 借图像考辨、思想释读、文化交融三条路径 由图入史，重回汉唐人的视觉世界 线下参与活动并提交300字心得体会 可获得 0.15美育二课分 哦！ 开卷有益报告会·第三十三讲 暨紫金港读书论坛·第四十六讲 01 讲座主题 考古视野中的汉唐视觉文化 02 活动时间 2026年11月20日（周五）14:00 03 活动地点 紫金港校区农医馆二楼报告厅 04 主讲人简介 贺西林 ， 浙江大学求是特聘教授、艺术与考古学院博士生导师，入选国家高层次人才。长期从事中国美术史、美术考古教学与研究，出版专著和教材多部，发表论文多篇，代表作有《读图观史：考古…",
+    "og": "浙江大学图书馆",
+    "sg": "official"
+   }
+  },
   {
    "i": "http://www.news.zju.edu.cn/2026/1116/c24344a3227591/page.htm",
    "t": "学科建设领导小组工作会议暨面向2030的学科会聚研究计划“十四五”总结评议会举行",
@@ -596,6 +613,29 @@
     "sg": "wechat",
     "og": "浙江大学",
     "ab": "强国担当"
+   }
+  },
+  {
+   "i": "https://libweb.zju.edu.cn/2026/1117/c53489a3228182/page.htm",
+   "t": "纯音时间第76期 | 舒曼《狂欢节》",
+   "s": "浙江大学图书馆",
+   "si": "zju_lib",
+   "d": "2026-11-01T09:00:00+08:00",
+   "u": "https://libweb.zju.edu.cn/2026/1117/c53489a3228182/page.htm",
+   "c": "校园动态",
+   "g": "information",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "当古典旋律邂逅假面舞会，音符便化作温柔的诗行。本期纯音时间，让我们走进浪漫主义音乐的经典之作，聆听罗伯特・舒曼（Robert Schumann，1810-1856年）的 《狂欢节》 ，在21首灵动小曲中，解锁藏在旋律里的温柔与热烈。 《狂欢节》创作于1834年，是舒曼极具代表性的自传性钢琴套曲，也是浪漫主义早期最富想象力的音乐作品之一。整首乐曲以假面舞会为创作底色，没有宏大厚重的叙事，却以细腻灵动的笔触，勾勒出一场盛大又温柔的音乐盛宴。 21首风格各异、环环相扣的小曲依次铺展，时而轻快灵动、俏皮鲜活，时而沉静温柔、略带怅然，如同一场沉浸式的舞会漫游。 整部作品最巧妙的巧思，是贯穿全程的音符密码：乐曲的核心旋律，源自波西米亚小镇阿什（Asch）的字母音组合，这座小镇是 舒曼 初恋女友的成长之地，这首温柔的乐章，最初便是作曲家赠予心意的浪漫献礼。 这场专属音乐的狂欢，藏着舒曼最真实的内心世界。作曲家巧妙塑造了多重鲜活的意象：有落寞独处的小丑皮埃罗、活泼戏谑的丑角阿尔勒坎，也对应着他自身的双重人格——热烈果敢的弗洛雷斯坦、温柔敏感的尤塞比乌斯。 乐曲中既有致敬肖邦、帕格尼尼的经典段落，复刻大师独有的音乐气质；也有细腻真挚的 《告白…",
+    "tm": "2026年11月19日（周四） 15:45~17:00",
+    "lo": "浙江大学图书馆农医馆二楼报告厅",
+    "og": "浙江大学图书馆",
+    "ev": [
+     "2026-11-19T15:45:00+08:00",
+     "2026-11-19T17:00:00+08:00"
+    ],
+    "sg": "official"
    }
   },
   {
@@ -2623,8 +2663,8 @@
    "source_group": "official",
    "count": 66,
    "status": "ok",
-   "last_checked": "2026-11-17T07:08:56+08:00",
-   "last_new": "2026-11-17T07:08:56+08:00",
+   "last_checked": "2026-11-17T16:40:50+08:00",
+   "last_new": "2026-11-17T16:40:50+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "http://www.news.zju.edu.cn/",
    "source_id": "zju_news",
@@ -2641,15 +2681,15 @@
    "key": "zju_lib",
    "name": "浙江大学图书馆",
    "source_group": "official",
-   "count": 17,
-   "status": "no_recent",
-   "last_checked": "2026-11-17T07:08:56+08:00",
-   "last_new": "2026-11-12T15:52:08+08:00",
+   "count": 19,
+   "status": "ok",
+   "last_checked": "2026-11-17T16:40:50+08:00",
+   "last_new": "2026-11-17T16:40:50+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "https://libweb.zju.edu.cn/",
    "source_id": "zju_lib",
    "kind": "list",
-   "new": 0
+   "new": 2
   },
   {
    "key": "zju_news_yw",
@@ -2657,7 +2697,7 @@
    "source_group": "official",
    "count": 8,
    "status": "no_recent",
-   "last_checked": "2026-11-17T07:08:56+08:00",
+   "last_checked": "2026-11-17T16:40:50+08:00",
    "last_new": "2026-11-16T15:28:13+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "http://www.news.zju.edu.cn/24344/list.htm",
@@ -2671,8 +2711,8 @@
    "source_group": "official",
    "count": 8,
    "status": "ok",
-   "last_checked": "2026-11-17T07:08:56+08:00",
-   "last_new": "2026-11-17T07:08:56+08:00",
+   "last_checked": "2026-11-17T16:40:50+08:00",
+   "last_new": "2026-11-17T16:40:50+08:00",
    "first_seen": "2026-10-11T19:00:15+08:00",
    "url": "http://www.grs.zju.edu.cn/",
    "source_id": "zju_grs",
@@ -2685,8 +2725,8 @@
    "source_group": "official",
    "count": 5,
    "status": "ok",
-   "last_checked": "2026-11-17T07:08:56+08:00",
-   "last_new": "2026-11-17T07:08:56+08:00",
+   "last_checked": "2026-11-17T16:40:50+08:00",
+   "last_new": "2026-11-17T16:40:50+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "http://www.news.zju.edu.cn/kxtt/list.htm",
    "source_id": "zju_news_kxtt",
@@ -2711,8 +2751,8 @@
    "source_group": "official",
    "count": 0,
    "status": "ok",
-   "last_checked": "2026-11-17T07:08:56+08:00",
-   "last_new": "2026-11-17T07:08:56+08:00",
+   "last_checked": "2026-11-17T16:40:50+08:00",
+   "last_new": "2026-11-17T16:40:50+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "https://zdzsc.zju.edu.cn/",
    "source_id": "zju_zdzsc",
@@ -2729,13 +2769,13 @@
   {
    "id": "official",
    "sources": 5,
-   "count": 104
+   "count": 106
   }
  ],
  "category_totals": [
   {
    "name": "校园动态",
-   "count": 50
+   "count": 51
   },
   {
    "name": "院系资讯",
@@ -2743,7 +2783,7 @@
   },
   {
    "name": "讲座活动",
-   "count": 21
+   "count": 22
   },
   {
    "name": "学业教务",
@@ -2777,11 +2817,11 @@
  "intent_totals": [
   {
    "intent_group": "information",
-   "count": 114
+   "count": 115
   },
   {
    "intent_group": "activity",
-   "count": 30
+   "count": 31
   }
  ]
 }
