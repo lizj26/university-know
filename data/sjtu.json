@@ -1,21 +1,21 @@
 {
  "campus": "sjtu",
  "campus_name": "上交知道",
- "scraped_at": "2026-11-23T04:32:59+08:00",
- "site_last_sync": "2026-11-23T04:32:59+08:00",
+ "scraped_at": "2026-11-23T16:26:41+08:00",
+ "site_last_sync": "2026-11-23T16:26:41+08:00",
  "interval_minutes": null,
- "total_all": 388,
- "fetched": 388,
+ "total_all": 389,
+ "fetched": 389,
  "truncated": false,
  "import_source": "items-sjtu.json",
  "append_only": true,
  "last_import": {
-  "at": "2026-11-23T04:32:59+08:00",
-  "added": 12,
+  "at": "2026-11-23T16:26:41+08:00",
+  "added": 16,
   "updated": 0,
-  "items": 388,
+  "items": 389,
   "source": "items-sjtu.json",
-  "crawl_new": 12
+  "crawl_new": 16
  },
  "wechat_accounts": [
   "上交大皖招",
@@ -35,12 +35,12 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-23T04:32:06+08:00",
-   "last_new": "2026-11-22T20:02:09+08:00",
+   "last_checked": "2026-11-23T16:26:13+08:00",
+   "last_new": "2026-11-23T16:26:13+08:00",
    "name": "上海交大学生事务中心",
-   "new": 0,
+   "new": 2,
    "source_id": "sjtu_affairs",
-   "status": "failed",
+   "status": "ok",
    "url": "https://affairs.sjtu.edu.cn/"
   },
   "sjtu_global": {
@@ -48,12 +48,12 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-23T04:32:06+08:00",
-   "last_new": "2026-11-22T20:02:09+08:00",
+   "last_checked": "2026-11-23T16:26:13+08:00",
+   "last_new": "2026-11-23T16:26:13+08:00",
    "name": "上海交大国际合作与交流处",
-   "new": 0,
+   "new": 1,
    "source_id": "sjtu_global",
-   "status": "failed",
+   "status": "ok",
    "url": "https://global.sjtu.edu.cn/announcement"
   },
   "sjtu_gs": {
@@ -61,10 +61,10 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-23T04:32:06+08:00",
-   "last_new": "2026-11-23T04:32:06+08:00",
+   "last_checked": "2026-11-23T16:26:13+08:00",
+   "last_new": "2026-11-23T16:26:13+08:00",
    "name": "上海交大研究生院",
-   "new": 2,
+   "new": 1,
    "source_id": "sjtu_gs",
    "status": "ok",
    "url": "https://gs.sjtu.edu.cn/announcement/work"
@@ -74,10 +74,10 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-23T04:32:06+08:00",
-   "last_new": "2026-11-23T04:32:06+08:00",
+   "last_checked": "2026-11-23T16:26:13+08:00",
+   "last_new": "2026-11-23T16:26:13+08:00",
    "name": "上海交大新闻网·交大要闻",
-   "new": 1,
+   "new": 3,
    "source_id": "sjtu_jdyw",
    "status": "ok",
    "url": "https://news.sjtu.edu.cn/jdyw/"
@@ -87,7 +87,7 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-23T04:32:06+08:00",
+   "last_checked": "2026-11-23T16:26:13+08:00",
    "last_new": "2026-11-17T16:40:51+08:00",
    "name": "上海交大教务处",
    "new": 0,
@@ -100,7 +100,7 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-23T04:32:06+08:00",
+   "last_checked": "2026-11-23T16:26:13+08:00",
    "last_new": "2026-11-20T15:53:39+08:00",
    "name": "上海交通大学通知公告",
    "new": 0,
@@ -113,7 +113,7 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-23T04:32:06+08:00",
+   "last_checked": "2026-11-23T16:26:13+08:00",
    "last_new": "2026-11-20T20:16:01+08:00",
    "name": "上海交大新闻网·综合新闻",
    "new": 0,
@@ -126,8 +126,8 @@
    "first_seen": "2026-10-11T22:45:42+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-23T04:32:06+08:00",
-   "last_new": "2026-11-23T04:32:06+08:00",
+   "last_checked": "2026-11-23T16:26:13+08:00",
+   "last_new": "2026-11-23T16:26:13+08:00",
    "name": "上海交大本科招生",
    "new": 9,
    "source_id": "sjtu_zsb",
@@ -138,11 +138,11 @@
    "key": "wx:上海交通大学非学历教育",
    "name": "上海交通大学非学历教育",
    "source_group": "wechat",
-   "count": 33,
+   "count": 32,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-23T04:34:11+08:00",
-   "first_seen": "2026-11-23T04:34:11+08:00",
+   "last_checked": "2026-11-23T16:28:52+08:00",
+   "first_seen": "2026-11-23T16:28:52+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -154,8 +154,8 @@
    "count": 4,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-23T04:34:11+08:00",
-   "first_seen": "2026-11-23T04:34:11+08:00",
+   "last_checked": "2026-11-23T16:28:52+08:00",
+   "first_seen": "2026-11-23T16:28:52+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -167,8 +167,8 @@
    "count": 6,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-23T04:34:11+08:00",
-   "first_seen": "2026-11-23T04:34:11+08:00",
+   "last_checked": "2026-11-23T16:28:52+08:00",
+   "first_seen": "2026-11-23T16:28:52+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -180,8 +180,8 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-23T04:34:11+08:00",
-   "first_seen": "2026-11-23T04:34:11+08:00",
+   "last_checked": "2026-11-23T16:28:52+08:00",
+   "first_seen": "2026-11-23T16:28:52+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -193,8 +193,8 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-23T04:34:11+08:00",
-   "first_seen": "2026-11-23T04:34:11+08:00",
+   "last_checked": "2026-11-23T16:28:52+08:00",
+   "first_seen": "2026-11-23T16:28:52+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -206,8 +206,8 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-23T04:34:11+08:00",
-   "first_seen": "2026-11-23T04:34:11+08:00",
+   "last_checked": "2026-11-23T16:28:52+08:00",
+   "first_seen": "2026-11-23T16:28:52+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -219,8 +219,8 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-23T04:34:11+08:00",
-   "first_seen": "2026-11-23T04:34:11+08:00",
+   "last_checked": "2026-11-23T16:28:52+08:00",
+   "first_seen": "2026-11-23T16:28:52+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -232,8 +232,8 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-23T04:34:11+08:00",
-   "first_seen": "2026-11-23T04:34:11+08:00",
+   "last_checked": "2026-11-23T16:28:52+08:00",
+   "first_seen": "2026-11-23T16:28:52+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -245,8 +245,8 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-23T04:34:11+08:00",
-   "first_seen": "2026-11-23T04:34:11+08:00",
+   "last_checked": "2026-11-23T16:28:52+08:00",
+   "first_seen": "2026-11-23T16:28:52+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -255,18 +255,18 @@
    "key": "wx:上海交大自动化与感知学院",
    "name": "上海交大自动化与感知学院",
    "source_group": "wechat",
-   "count": 2,
+   "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-23T04:34:11+08:00",
-   "first_seen": "2026-11-23T04:34:11+08:00",
+   "last_checked": "2026-11-23T16:28:52+08:00",
+   "first_seen": "2026-11-23T16:28:52+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
   }
  },
  "fetch_warnings": [
-  "由 items-sjtu.json 导入：新增 12 条 / 更新 0 条 / 现有 388 条"
+  "由 items-sjtu.json 导入：新增 16 条 / 更新 0 条 / 现有 389 条"
  ],
  "items": [
   {
@@ -406,6 +406,23 @@
    "dt": {
     "tx": "为深入学习贯彻党的二十届五中全会精神，持续巩固深化主题教育学习成果，推动警示教育常态化，11月18日，学生创新中心与出版社、期刊中心、巴黎卓越工程师学院联合开展“学全会精神·守纪律底线·促协同创新”主题党日活动。四家单位共80余位党员赴上海交通大学桐乡高等研究院，通过警示教育专题学习与党性教育现场教学相结合的形式，接受了一次主题鲜明、内容充实的集中教育。 上午，全体党员走进上海交通大学桐乡高等研究院，实地参观院区沙盘和科研成果展厅，详细了解桐高院的建设历程、科研平台布局、成果转化等情况，切身感受校地携手打造创新共同体、服务长三角一体化发展的生动实践。 桐乡高等研究院执行院长徐兵对大家的到来表示热烈欢迎，并介绍了桐高院建设发展情况。作为学校服务长三角一体化发展战略的重要举措，桐高院坚持“科技创新+人才培养+产业服务”三位一体定位，聚焦新一代信息技术、新材料与能源、生命健康三大重点领域。同时，研究院联合地方打造环桐高院产业生态圈，推动产学研深度融合，以科技创新培育新质生产力。 上海交通大学总经济师王光艳作《深入学习贯彻党的二十届五中全会精神，持之以恒推进全面从严治党》专题报告。报告围绕学习贯彻党的二十届五中全会精神，从高校内部控…",
     "og": "上海交大新闻网·综合新闻",
+    "sg": "official"
+   }
+  },
+  {
+   "i": "https://news.sjtu.edu.cn/jdyw/20261120/227824.html",
+   "t": "中国航天科工集团来校举办校园招聘宣讲会",
+   "s": "上海交大新闻网·交大要闻",
+   "si": "sjtu_jdyw",
+   "d": "2026-11-20T09:00:00+08:00",
+   "u": "https://news.sjtu.edu.cn/jdyw/20261120/227824.html",
+   "c": "实习就业",
+   "g": "activity",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "11月16日下午，中国航天科工集团校园招聘宣讲会在上海交通大学闵行校区学生中心D200多功能厅举行。中国航天科工集团有限公司党组副书记、董事金炜，上海交通大学校党委副书记赵昕出席活动。中国航天科工集团相关部门领导及技术专家，学校相关部门负责人和师生代表参加活动。 赵昕代表学校致欢迎辞，对中国航天科工集团一行的到来表示欢迎。他指出，上海交通大学与中国航天科工集团渊源深厚、合作紧密。近年来，双方在关键技术联合攻关、科研项目申报、科技成果转化和人才培养等领域持续深化合作。他表示，希望同学们珍惜本次宣讲机会，将专业所长与国家战略需求相结合，把个人理想融入航天强国建设，在科技强军、航天报国的征程中贡献青春力量。 金炜对上海交通大学长期以来给予集团的支持表示感谢。他表示，航天科工始终坚持服务国家战略需求，积极推进科技创新和关键核心技术攻关，希望进一步深化与上海交通大学在人才培养、科技创新等领域的合作，携手培养更多优秀人才。 宣讲会上，我校在中国航天科工集团工作校友师娄宁、贾宝安结合自身工作经历，分享了航天科研一线的工作实践与职业成长体会，介绍了相关岗位特点和人才发展需求，帮助同学们进一步了解航天行业发展前景和职业成长路径。 当晚，由中国…",
+    "og": "上海交大新闻网·交大要闻",
     "sg": "official"
    }
   },
@@ -2794,6 +2811,23 @@
    }
   },
   {
+   "i": "https://affairs.sjtu.edu.cn/index.php?m=app&mid=26&v=informationview&id=532",
+   "t": "2026年度上海交通大学小米特等奖学金评审结果公示_通知公告",
+   "s": "上海交大学生事务中心",
+   "si": "sjtu_affairs",
+   "d": "2026-11-01T09:00:00+08:00",
+   "u": "https://affairs.sjtu.edu.cn/index.php?m=app&mid=26&v=informationview&id=532",
+   "c": "奖助评优",
+   "g": "information",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "经学生个人申请、院系初审、校级审核、设奖方评选，共选出10位同学获评2026年度上海交通大学小米特等奖学金。现将评审结果公示如下(姓氏笔画排序)： 公示期自2026年11月23日起至2026年11月25日，公示期内如有疑问，可联系邮箱zhuxuebu@sjtu.edu.cn。 © 版权所有2005-2025上海交通大学学生事务中心",
+    "og": "上海交大学生事务中心",
+    "sg": "official"
+   }
+  },
+  {
    "i": "https://affairs.sjtu.edu.cn/index.php?m=app&mid=26&v=informationview&id=531",
    "t": "2026年度上海交通大学詹家骏奖学金评审结果公示_通知公告",
    "s": "上海交大学生事务中心",
@@ -3595,6 +3629,23 @@
    "dt": {
     "tx": "为深入贯彻新时代人才强国战略，服务国家集成电路产业高质量发展需求，引导毕业生面向国家战略重点领域择业就业，10月22日下午，上海交通大学“青春报国 责任担当”2027届毕业生国家重点行业招聘双选会（集成电路专场）在闵行校区电信群楼东侧长廊举行。本次活动由学校学生就业服务和职业发展中心主办，集成电路学院（信息与电子工程学院）承办。 集成电路产业是支撑现代经济社会发展的战略性先导产业，也是实现高水平科技自立自强的关键领域。学生处副处长、就业中心主任、校党委组织部副部长（兼）韩海波，集成电路学院党委副书记季自军到场走访展位，与用人单位代表深入交流，对各单位长期以来支持学校人才培养和毕业生就业工作表示感谢，并对参会企业表示热烈欢迎和诚挚问候。 本次双选会紧密围绕集成电路全产业链用人需求，共邀请60余家重点用人单位参会，涵盖行业龙头企业、科研院所、设计服务企业和制造封测平台等，部分国投系被投企业、生态企业参会，为毕业生提供了一批专业匹配度高、成长空间广阔的优质岗位。 活动现场，用人单位通过岗位介绍、政策宣讲、现场答疑等方式，向毕业生展示企业发展方向、科研平台、人才培养体系和职业发展通道。参会学生围绕技术方向、岗位要求、培养机制、工作地…",
     "og": "上海交大新闻网·综合新闻",
+    "sg": "official"
+   }
+  },
+  {
+   "i": "https://news.sjtu.edu.cn/jdyw/20261122/227835.html",
+   "t": "上海交大医工交叉期刊联盟高质量发展研讨暨科技期刊主编联席会举行",
+   "s": "上海交大新闻网·交大要闻",
+   "si": "sjtu_jdyw",
+   "d": "2026-10-26T09:00:00+08:00",
+   "u": "https://news.sjtu.edu.cn/jdyw/20261122/227835.html",
+   "c": "院系资讯",
+   "g": "information",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "11月20日，上海交通大学医工交叉期刊联盟高质量发展研讨暨科技期刊主编联席会在徐汇校区凯原法学院202会议室举行。校党委副书记胡薇薇出席会议并致辞，原常务副校长盛焕烨及校内50种期刊的70余位代表参加会议。会议由期刊中心主任蔡云泽主持。 胡薇薇代表学校向长期关心支持交大期刊建设的专家和同仁表示感谢。她指出，学术期刊是开展学术交流、传播科研成果、提升学术影响力的重要载体，也是服务学校“双一流”建设和学科发展的重要支撑。希望各刊继续把牢办刊方向，严把学术质量关，发挥学术引领作用，加强队伍建设和协同合作；期刊中心做好统筹协调和专业服务，加强与院系、科研管理部门的联系，为期刊工作高质量发展提供有力支撑。 上海交通大学医工交叉期刊联盟秘书长库鑫作联盟年度工作总结报告。她回顾了联盟过去一年在提升期刊学术影响力、培养编辑人才、加强出版质量管理、优化作者服务、促进学术交流和协同传播等方面的工作与成效，并介绍了《全球医工交叉科学前沿蓝皮书（2025）》的策划背景和编撰成果。 胡薇薇、盛焕烨为《超声诊断与治疗进展》《综合精神医学》《上海交通大学学报（英文版）》《检验医学发现（英文）》《生医工交叉与探索（英文）》《力学生物学与医学（英文）》《纳米…",
+    "og": "上海交大新闻网·交大要闻",
     "sg": "official"
    }
   },
@@ -6670,40 +6721,6 @@
    }
   },
   {
-   "i": "https://mp.weixin.qq.com/s?__biz=MzI4MDY3MTM2NA==&mid=2247497393&idx=1&sn=f3cddf9362cc12fd9d899702128f3e00&chksm=ebb6535adcc1da4c8eb0c243b14e1d80b45abd7b5ba83570509c1a2b4165b2c05e2f31664efc",
-   "t": "科学探索奖揭晓！我院王贺升教授入选！",
-   "s": "上海交大自动化与感知学院",
-   "si": null,
-   "d": "2026-08-25T10:53:38+08:00",
-   "u": "https://mp.weixin.qq.com/s?__biz=MzI4MDY3MTM2NA==&mid=2247497393&idx=1&sn=f3cddf9362cc12fd9d899702128f3e00&chksm=ebb6535adcc1da4c8eb0c243b14e1d80b45abd7b5ba83570509c1a2b4165b2c05e2f31664efc",
-   "c": "校园动态",
-   "g": "information",
-   "en": "",
-   "ens": "",
-   "dt": {
-    "sg": "wechat",
-    "og": "上海交大自动化与感知学院",
-    "ab": "教师风采"
-   }
-  },
-  {
-   "i": "https://mp.weixin.qq.com/s?__biz=Mzg3NTg3ODAyNw==&mid=2247488967&idx=1&sn=bad9f8725429da754ef355994026f516&chksm=cf3b9623f84c1f35d9db4f7e83d1567ef8f2b13f92d28dffb20ff64789e88508f55cf36ba4f2",
-   "t": "招生简章｜AI经营创新实战精训班第1期",
-   "s": "上海交通大学非学历教育",
-   "si": null,
-   "d": "2026-08-25T09:00:00+08:00",
-   "u": "https://mp.weixin.qq.com/s?__biz=Mzg3NTg3ODAyNw==&mid=2247488967&idx=1&sn=bad9f8725429da754ef355994026f516&chksm=cf3b9623f84c1f35d9db4f7e83d1567ef8f2b13f92d28dffb20ff64789e88508f55cf36ba4f2",
-   "c": "学业教务",
-   "g": "information",
-   "en": "",
-   "ens": "",
-   "dt": {
-    "sg": "wechat",
-    "og": "上海交通大学非学历教育",
-    "ab": "招生宣传"
-   }
-  },
-  {
    "i": "https://news.sjtu.edu.cn/jdyw/20261120/227795.html",
    "t": "中国航天科工集团来校举办校园招聘宣讲会 11月16日下午，中国航天科工集团校园招聘宣讲会在上海交通大学闵行校区学生中心D200多功能厅举行。中国航天科工集团有限公司党组副书记、董事金炜，上海交通大学校党委副书记赵昕出席活动。中国航天科工集团相关部门领导及技术专家，学校相关部门负责人和师生代表参加活动。赵昕代表学校致欢迎辞，对中国航天科工集团一行的到来表示欢迎。他指出，上海交通大学与中国航天科工集团…",
    "s": "上海交大新闻网·交大要闻",
@@ -6966,7 +6983,7 @@
    "source_group": "official",
    "count": 138,
    "status": "no_recent",
-   "last_checked": "2026-11-23T04:32:06+08:00",
+   "last_checked": "2026-11-23T16:26:13+08:00",
    "last_new": "2026-11-20T20:16:01+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://news.sjtu.edu.cn/zhxw/",
@@ -6978,15 +6995,15 @@
    "key": "sjtu_jdyw",
    "name": "上海交大新闻网·交大要闻",
    "source_group": "official",
-   "count": 101,
+   "count": 103,
    "status": "ok",
-   "last_checked": "2026-11-23T04:32:06+08:00",
-   "last_new": "2026-11-23T04:32:06+08:00",
+   "last_checked": "2026-11-23T16:26:13+08:00",
+   "last_new": "2026-11-23T16:26:13+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://news.sjtu.edu.cn/jdyw/",
    "source_id": "sjtu_jdyw",
    "kind": "list",
-   "new": 1
+   "new": 3
   },
   {
    "key": "sjtu_jwc",
@@ -6994,7 +7011,7 @@
    "source_group": "official",
    "count": 38,
    "status": "no_recent",
-   "last_checked": "2026-11-23T04:32:06+08:00",
+   "last_checked": "2026-11-23T16:26:13+08:00",
    "last_new": "2026-11-17T16:40:51+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://jwc.sjtu.edu.cn/",
@@ -7006,7 +7023,7 @@
    "key": "src:上海交通大学非学历教育",
    "name": "上海交通大学非学历教育",
    "source_group": "wechat",
-   "count": 33
+   "count": 32
   },
   {
    "key": "sjtu_tg",
@@ -7014,7 +7031,7 @@
    "source_group": "official",
    "count": 27,
    "status": "no_recent",
-   "last_checked": "2026-11-23T04:32:06+08:00",
+   "last_checked": "2026-11-23T16:26:13+08:00",
    "last_new": "2026-11-20T15:53:39+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://www.sjtu.edu.cn/tg/",
@@ -7026,29 +7043,29 @@
    "key": "sjtu_affairs",
    "name": "上海交大学生事务中心",
    "source_group": "official",
-   "count": 18,
-   "status": "failed",
-   "last_checked": "2026-11-23T04:32:06+08:00",
-   "last_new": "2026-11-22T20:02:09+08:00",
+   "count": 19,
+   "status": "ok",
+   "last_checked": "2026-11-23T16:26:13+08:00",
+   "last_new": "2026-11-23T16:26:13+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://affairs.sjtu.edu.cn/",
    "source_id": "sjtu_affairs",
    "kind": "list",
-   "new": 0
+   "new": 2
   },
   {
    "key": "sjtu_global",
    "name": "上海交大国际合作与交流处",
    "source_group": "official",
    "count": 9,
-   "status": "failed",
-   "last_checked": "2026-11-23T04:32:06+08:00",
-   "last_new": "2026-11-22T20:02:09+08:00",
+   "status": "ok",
+   "last_checked": "2026-11-23T16:26:13+08:00",
+   "last_new": "2026-11-23T16:26:13+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://global.sjtu.edu.cn/announcement",
    "source_id": "sjtu_global",
    "kind": "list",
-   "new": 0
+   "new": 1
   },
   {
    "key": "src:上海交通大学教务处",
@@ -7062,25 +7079,19 @@
    "source_group": "official",
    "count": 5,
    "status": "ok",
-   "last_checked": "2026-11-23T04:32:06+08:00",
-   "last_new": "2026-11-23T04:32:06+08:00",
+   "last_checked": "2026-11-23T16:26:13+08:00",
+   "last_new": "2026-11-23T16:26:13+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://gs.sjtu.edu.cn/announcement/work",
    "source_id": "sjtu_gs",
    "kind": "list",
-   "new": 2
+   "new": 1
   },
   {
    "key": "src:交大思享+",
    "name": "交大思享+",
    "source_group": "wechat",
    "count": 4
-  },
-  {
-   "key": "src:上海交大自动化与感知学院",
-   "name": "上海交大自动化与感知学院",
-   "source_group": "wechat",
-   "count": 2
   },
   {
    "key": "src:上交大皖招",
@@ -7094,13 +7105,19 @@
    "source_group": "official",
    "count": 1,
    "status": "ok",
-   "last_checked": "2026-11-23T04:32:06+08:00",
-   "last_new": "2026-11-23T04:32:06+08:00",
+   "last_checked": "2026-11-23T16:26:13+08:00",
+   "last_new": "2026-11-23T16:26:13+08:00",
    "first_seen": "2026-10-11T22:45:42+08:00",
    "url": "https://admissions.sjtu.edu.cn/",
    "source_id": "sjtu_zsb",
    "kind": "list",
    "new": 9
+  },
+  {
+   "key": "src:上海交大自动化与感知学院",
+   "name": "上海交大自动化与感知学院",
+   "source_group": "wechat",
+   "count": 1
   },
   {
    "key": "src:上海交通大学人文学院",
@@ -7137,22 +7154,22 @@
   {
    "id": "wechat",
    "sources": 10,
-   "count": 51
+   "count": 49
   },
   {
    "id": "official",
    "sources": 8,
-   "count": 337
+   "count": 340
   }
  ],
  "category_totals": [
   {
    "name": "院系资讯",
-   "count": 85
+   "count": 86
   },
   {
    "name": "学业教务",
-   "count": 61
+   "count": 60
   },
   {
    "name": "讲座活动",
@@ -7160,7 +7177,7 @@
   },
   {
    "name": "校园动态",
-   "count": 44
+   "count": 43
   },
   {
    "name": "学习成长",
@@ -7172,7 +7189,7 @@
   },
   {
    "name": "奖助评优",
-   "count": 22
+   "count": 23
   },
   {
    "name": "文体活动",
@@ -7188,7 +7205,7 @@
   },
   {
    "name": "实习就业",
-   "count": 8
+   "count": 9
   },
   {
    "name": "社团公益",
@@ -7202,7 +7219,7 @@
   },
   {
    "intent_group": "activity",
-   "count": 131
+   "count": 132
   }
  ]
 }
