@@ -1,21 +1,21 @@
 {
  "campus": "zju",
  "campus_name": "浙大知道",
- "scraped_at": "2026-11-24T09:27:22+08:00",
- "site_last_sync": "2026-11-24T09:27:22+08:00",
+ "scraped_at": "2026-11-24T18:35:11+08:00",
+ "site_last_sync": "2026-11-24T18:35:11+08:00",
  "interval_minutes": null,
- "total_all": 152,
- "fetched": 152,
+ "total_all": 157,
+ "fetched": 157,
  "truncated": false,
  "import_source": "items-zju.json",
  "append_only": true,
  "last_import": {
-  "at": "2026-11-24T09:27:22+08:00",
-  "added": 9,
+  "at": "2026-11-24T18:35:11+08:00",
+  "added": 13,
   "updated": 0,
-  "items": 152,
+  "items": 157,
   "source": "items-zju.json",
-  "crawl_new": 9
+  "crawl_new": 13
  },
  "wechat_accounts": [
   "浙大体育与艺术",
@@ -28,8 +28,8 @@
    "first_seen": "2026-10-11T19:00:15+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-24T09:26:18+08:00",
-   "last_new": "2026-11-24T09:26:18+08:00",
+   "last_checked": "2026-11-24T18:33:49+08:00",
+   "last_new": "2026-11-24T18:33:49+08:00",
    "name": "浙江大学研究生院",
    "new": 2,
    "source_id": "zju_grs",
@@ -41,12 +41,12 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-24T09:26:18+08:00",
-   "last_new": "2026-11-17T16:40:50+08:00",
+   "last_checked": "2026-11-24T18:33:49+08:00",
+   "last_new": "2026-11-24T18:33:49+08:00",
    "name": "浙江大学图书馆",
-   "new": 0,
+   "new": 1,
    "source_id": "zju_lib",
-   "status": "no_recent",
+   "status": "ok",
    "url": "https://libweb.zju.edu.cn/"
   },
   "zju_news": {
@@ -54,12 +54,12 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-24T09:26:18+08:00",
-   "last_new": "2026-11-23T16:26:12+08:00",
+   "last_checked": "2026-11-24T18:33:49+08:00",
+   "last_new": "2026-11-24T18:33:49+08:00",
    "name": "浙江大学求是新闻网",
-   "new": 0,
+   "new": 3,
    "source_id": "zju_news",
-   "status": "no_recent",
+   "status": "ok",
    "url": "http://www.news.zju.edu.cn/"
   },
   "zju_news_kxtt": {
@@ -67,8 +67,8 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-24T09:26:18+08:00",
-   "last_new": "2026-11-24T09:26:18+08:00",
+   "last_checked": "2026-11-24T18:33:49+08:00",
+   "last_new": "2026-11-24T18:33:49+08:00",
    "name": "浙大求是新闻网·科学头条",
    "new": 6,
    "source_id": "zju_news_kxtt",
@@ -80,7 +80,7 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-24T09:26:18+08:00",
+   "last_checked": "2026-11-24T18:33:49+08:00",
    "last_new": "2026-11-23T16:26:12+08:00",
    "name": "浙大求是新闻网·要闻",
    "new": 0,
@@ -93,8 +93,8 @@
    "first_seen": "2026-10-09T20:40:25+08:00",
    "group": "official",
    "kind": "list",
-   "last_checked": "2026-11-24T09:26:18+08:00",
-   "last_new": "2026-11-24T09:26:18+08:00",
+   "last_checked": "2026-11-24T18:33:49+08:00",
+   "last_new": "2026-11-24T18:33:49+08:00",
    "name": "浙江大学本科招生",
    "new": 1,
    "source_id": "zju_zdzsc",
@@ -108,8 +108,8 @@
    "count": 37,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-24T09:27:49+08:00",
-   "first_seen": "2026-11-24T09:27:49+08:00",
+   "last_checked": "2026-11-24T18:35:39+08:00",
+   "first_seen": "2026-11-24T18:35:39+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -121,8 +121,8 @@
    "count": 1,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-24T09:27:49+08:00",
-   "first_seen": "2026-11-24T09:27:49+08:00",
+   "last_checked": "2026-11-24T18:35:39+08:00",
+   "first_seen": "2026-11-24T18:35:39+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
@@ -134,15 +134,15 @@
    "count": 2,
    "new": 0,
    "status": "ok",
-   "last_checked": "2026-11-24T09:27:49+08:00",
-   "first_seen": "2026-11-24T09:27:49+08:00",
+   "last_checked": "2026-11-24T18:35:39+08:00",
+   "first_seen": "2026-11-24T18:35:39+08:00",
    "url": "https://mp.weixin.qq.com/",
    "source_id": "",
    "kind": "wechat-links"
   }
  },
  "fetch_warnings": [
-  "由 items-zju.json 导入：新增 9 条 / 更新 0 条 / 现有 152 条"
+  "由 items-zju.json 导入：新增 13 条 / 更新 0 条 / 现有 157 条"
  ],
  "items": [
   {
@@ -160,6 +160,74 @@
     "sg": "wechat",
     "og": "浙江大学",
     "ab": "强国担当"
+   }
+  },
+  {
+   "i": "https://libweb.zju.edu.cn/2026/1124/c53489a3230538/page.htm",
+   "t": "​(活动报名)书香浙大·开卷有益报告会 | 叶瑛：第33次南极科考——国家战略和科学问题",
+   "s": "浙江大学图书馆",
+   "si": "zju_lib",
+   "d": "2026-11-24T09:00:00+08:00",
+   "u": "https://libweb.zju.edu.cn/2026/1124/c53489a3230538/page.htm",
+   "c": "讲座活动",
+   "g": "activity",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "“书香浙大”阅读文化节“ 开卷有益 ”报告会将邀请来自各学科的阅读导师分享个人阅读经验，带领读者一起感受多学科、深阅读的魅力，激发同学们的阅读热情，让读者在书页翻动间，遇见更辽阔的自己。 冰雪、风暴、极光、航线…… 那些被寒冷包裹的遥远极地 既有雪龙破浪的壮阔、科考坚守的执着 也会让人好奇身处其中的人 看见了什么、感受着什么…… 想一窥南极的神秘面纱吗？ 想聆听“雪龙号”穿越 咆哮西风带 的惊险故事吗？ 11月27日（周五）14:00 紫金港校区 农医馆 二楼报告厅 我们特邀 叶瑛教授 结合亲身经历与国家极地战略 带我们走进冰雪覆盖的神秘大陆 探秘南大洋的科学奥秘 感受科考队员不畏艰辛的探索精神 线下参与活动并提交300字心得体会 可获得 0.15美育二课分 哦！ 开卷有益报告会·第三十四讲 暨紫金港读书论坛·第四十七讲 01 讲座主题 第33次南极科考 ——国家战略和科学问题 02 活动时间 2026年11月27日（周五）14:00 03 活动地点 紫金港校区农医馆二楼报告厅 04 主讲人简介 叶瑛 ， 浙江大学海洋学院教授，博士生导师，曾担任 中国大洋协会 基础地质责任专家，IODP（国际深海钻探项目）工程发展委员会中国…",
+    "og": "浙江大学图书馆",
+    "sg": "official"
+   }
+  },
+  {
+   "i": "http://www.news.zju.edu.cn/2026/1123/c777a3230343/page.htm",
+   "t": "20岁白血病少年突发脑疝，多学科联手勇闯“手术禁区”",
+   "s": "浙江大学求是新闻网",
+   "si": "zju_news",
+   "d": "2026-11-23T09:00:00+08:00",
+   "u": "http://www.news.zju.edu.cn/2026/1123/c777a3230343/page.htm",
+   "c": "校园动态",
+   "g": "information",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "二十岁，本该是在校园里奔跑追梦的年纪，可向阳（化名）的青春，却被一场急性白血病按下了暂停键。更凶险的是，治疗刚开始不久，他又接连遭遇弥散性血管内凝血、多发脑出血、脑疝等严重并发症，一度命悬一线。 凝血崩溃与脑疝压迫并存，开颅手术几乎成为“禁区”。做，风险极大；不做，生命危在旦夕。面对这样一道艰难的医学难题，浙江大学医学院附属邵逸夫医院（下称：浙大邵逸夫医院）大运河院区血液内科二/细胞治疗中心、神经外科、重症医学科等多学科团队迅速集结，为这位年轻人抢下最关键的一线生机…… 几个月前，向阳开始胸口隐隐刺痛，伴有发热。当地医院胸部CT提示“两肺散在感染”，按肺部感染治疗后症状有所缓解。对一个20岁的年轻人来说，这看起来只是一次常见的肺部感染。 然而，真正的危机早已在血液里潜伏。 一个月后，向阳因晕厥再次就诊。血常规结果异常：白细胞高达57.5×10^9/L，原始细胞占86%。他被紧急转至浙大邵逸夫医院大运河院区血液内科二/细胞治疗中心，经骨髓穿刺等检查，明确诊断为急性髓系白血病（非M3型），伴高等位基因比FLT3-ITD突变。 面对高肿瘤负荷和明显出血倾向，肖浩文主任医师团队迅速制定方案，给予阿扎胞苷联合利沙托克拉及索拉非尼治疗，…",
+    "og": "浙江大学求是新闻网",
+    "sg": "official"
+   }
+  },
+  {
+   "i": "http://www.news.zju.edu.cn/2026/1123/c777a3230275/page.htm",
+   "t": "生命科学学院陈铭团队在Science Advances发表自然语言注释引导的核苷酸生成模型GenNA",
+   "s": "浙江大学求是新闻网",
+   "si": "zju_news",
+   "d": "2026-11-23T09:00:00+08:00",
+   "u": "http://www.news.zju.edu.cn/2026/1123/c777a3230275/page.htm",
+   "c": "院系资讯",
+   "g": "information",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "解析生物大分子序列与生物学功能之间的关系，是基因组学与合成生物学的重要科学问题。近年来，基于Transformer的语言模型被广泛开发并用于生物序列建模，核苷酸基础模型已在核苷酸序列表示与生成方面取得重要进展。然而，现有生成式核苷酸模型主要依赖上游序列前缀或预定义标签进行生成，难以充分利用自然语言描述的功能信息。如何将基因功能的描述作为序列生成的引导条件，成为连接生物序列理解与可控设计的重要方向。 近日，浙江大学生命科学学院陈铭团队在 Science Advances 发表题为“GenNA: Conditional generation of nucleotide sequences guided by natural language annotations”的研究论文。该研究提出了自然语言注释引导的生成式核苷酸基础模型GenNA，将功能描述、物种信息及基因相关元数据融入统一的自回归建模框架，为基于生物学语义的DNA和RNA序列生成提供了新方法。 研究团队基于NCBI RefSeq数据库，构建了覆盖2221个真核物种、总计约4160亿字符的多模态预训练语料，将核苷酸序列、自然语言功能注释与结构标签共同组织为训练样本。Gen…",
+    "og": "浙江大学求是新闻网",
+    "sg": "official"
+   }
+  },
+  {
+   "i": "http://www.news.zju.edu.cn/2026/1123/c777a3230273/page.htm",
+   "t": "生命科学学院余路阳/朱晓龙合作揭示血管生成代谢调控新机制",
+   "s": "浙江大学求是新闻网",
+   "si": "zju_news",
+   "d": "2026-11-23T09:00:00+08:00",
+   "u": "http://www.news.zju.edu.cn/2026/1123/c777a3230273/page.htm",
+   "c": "院系资讯",
+   "g": "information",
+   "en": "",
+   "ens": "",
+   "dt": {
+    "tx": "血管生成是胚胎发育、组织稳态维持和损伤修复的基础过程，但过度或异常血管生成会推动肿瘤进展、致盲性眼病等多种疾病发生。低氧是诱发血管生成的核心刺激：它通过稳定细胞中的低氧诱导因子（HIFs），促进VEGF-A等促血管生成生长因子分泌，并驱动内皮细胞代谢向糖酵解转变。然而，内皮细胞低氧信号的维持及其促糖酵解能力的代谢调控机制尚不清晰。越来越多证据表明，糖代谢产物在人体生理和病理过程中扮演重要角色。在内皮细胞中，葡萄糖是乙酸的主要来源，乙酸再经乙酰辅酶A合成酶2（ACSS2）生成乙酰辅酶A。作为内皮细胞乙酰辅酶A的主要来源，乙酸参与调控血管生成的具体方式仍然未知。 血管内皮细胞代谢途径的传统认知（ Eelen, et al. Physiol Rev ） 近日，浙江大学生命科学学院朱晓龙实验室联合余路阳教授团队在PNAS在线发表题为“ACSS2 modulates endothelial glycolysis in angiogenesis”的研究论文。该研究揭示ACSS2作为关键的代谢调节器，将乙酸利用与低氧信号驱动的糖酵解通量偶联，进而促进生理及病理性血管生成；并提出靶向内皮乙酸代谢可能成为调控病理性血管新生的有效策略，为肿瘤和…",
+    "og": "浙江大学求是新闻网",
+    "sg": "official"
    }
   },
   {
@@ -2780,35 +2848,35 @@
    "key": "zju_news",
    "name": "浙江大学求是新闻网",
    "source_group": "official",
-   "count": 72,
-   "status": "no_recent",
-   "last_checked": "2026-11-24T09:26:18+08:00",
-   "last_new": "2026-11-23T16:26:12+08:00",
+   "count": 75,
+   "status": "ok",
+   "last_checked": "2026-11-24T18:33:49+08:00",
+   "last_new": "2026-11-24T18:33:49+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "http://www.news.zju.edu.cn/",
    "source_id": "zju_news",
    "kind": "list",
-   "new": 0
+   "new": 3
   },
   {
    "key": "src:浙江大学",
    "name": "浙江大学",
    "source_group": "wechat",
-   "count": 36
+   "count": 37
   },
   {
    "key": "zju_lib",
    "name": "浙江大学图书馆",
    "source_group": "official",
-   "count": 19,
-   "status": "no_recent",
-   "last_checked": "2026-11-24T09:26:18+08:00",
-   "last_new": "2026-11-17T16:40:50+08:00",
+   "count": 20,
+   "status": "ok",
+   "last_checked": "2026-11-24T18:33:49+08:00",
+   "last_new": "2026-11-24T18:33:49+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "https://libweb.zju.edu.cn/",
    "source_id": "zju_lib",
    "kind": "list",
-   "new": 0
+   "new": 1
   },
   {
    "key": "zju_news_yw",
@@ -2816,7 +2884,7 @@
    "source_group": "official",
    "count": 8,
    "status": "no_recent",
-   "last_checked": "2026-11-24T09:26:18+08:00",
+   "last_checked": "2026-11-24T18:33:49+08:00",
    "last_new": "2026-11-23T16:26:12+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "http://www.news.zju.edu.cn/24344/list.htm",
@@ -2830,8 +2898,8 @@
    "source_group": "official",
    "count": 8,
    "status": "ok",
-   "last_checked": "2026-11-24T09:26:18+08:00",
-   "last_new": "2026-11-24T09:26:18+08:00",
+   "last_checked": "2026-11-24T18:33:49+08:00",
+   "last_new": "2026-11-24T18:33:49+08:00",
    "first_seen": "2026-10-11T19:00:15+08:00",
    "url": "http://www.grs.zju.edu.cn/",
    "source_id": "zju_grs",
@@ -2844,8 +2912,8 @@
    "source_group": "official",
    "count": 6,
    "status": "ok",
-   "last_checked": "2026-11-24T09:26:18+08:00",
-   "last_new": "2026-11-24T09:26:18+08:00",
+   "last_checked": "2026-11-24T18:33:49+08:00",
+   "last_new": "2026-11-24T18:33:49+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "http://www.news.zju.edu.cn/kxtt/list.htm",
    "source_id": "zju_news_kxtt",
@@ -2870,8 +2938,8 @@
    "source_group": "official",
    "count": 0,
    "status": "ok",
-   "last_checked": "2026-11-24T09:26:18+08:00",
-   "last_new": "2026-11-24T09:26:18+08:00",
+   "last_checked": "2026-11-24T18:33:49+08:00",
+   "last_new": "2026-11-24T18:33:49+08:00",
    "first_seen": "2026-10-09T20:40:25+08:00",
    "url": "https://zdzsc.zju.edu.cn/",
    "source_id": "zju_zdzsc",
@@ -2883,26 +2951,26 @@
   {
    "id": "wechat",
    "sources": 3,
-   "count": 39
+   "count": 40
   },
   {
    "id": "official",
    "sources": 5,
-   "count": 113
+   "count": 117
   }
  ],
  "category_totals": [
   {
    "name": "校园动态",
-   "count": 56
+   "count": 58
   },
   {
    "name": "院系资讯",
-   "count": 35
+   "count": 37
   },
   {
    "name": "讲座活动",
-   "count": 22
+   "count": 23
   },
   {
    "name": "学业教务",
@@ -2936,11 +3004,11 @@
  "intent_totals": [
   {
    "intent_group": "information",
-   "count": 121
+   "count": 125
   },
   {
    "intent_group": "activity",
-   "count": 31
+   "count": 32
   }
  ]
 }
